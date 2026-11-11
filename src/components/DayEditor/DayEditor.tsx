@@ -63,6 +63,17 @@ export const DayEditor: React.FC = () => {
   const [swapPointId, setSwapPointId] = useState<string>('');
   const [swapNote, setSwapNote] = useState<string>('');
 
+  // Dragging state for interactive sticker placement preview
+  const dragRef = useRef<{
+    stickerId: string;
+    pointerId: number;
+    startX: number;
+    startY: number;
+    origX: number;
+    origY: number;
+    isDragging: boolean;
+  } | null>(null);
+
   const dayInfo = selectedDate ? getDayInfo(selectedDate) : null;
 
   useEffect(() => {
@@ -157,17 +168,6 @@ export const DayEditor: React.FC = () => {
     const newStk = await addStickerToDate(selectedDate, stickerId);
     setSelectedStickerIdToEdit(newStk.id);
   };
-
-  // Dragging state for interactive sticker placement preview
-  const dragRef = useRef<{
-    stickerId: string;
-    pointerId: number;
-    startX: number;
-    startY: number;
-    origX: number;
-    origY: number;
-    isDragging: boolean;
-  } | null>(null);
 
   const handleStickerPointerDown = (e: React.PointerEvent, stk: typeof currentStickers[0]) => {
     e.preventDefault();

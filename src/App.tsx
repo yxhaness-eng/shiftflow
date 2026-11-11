@@ -8,6 +8,7 @@ import { StatisticsPage } from './pages/StatisticsPage/StatisticsPage';
 import { SettingsPage } from './pages/SettingsPage/SettingsPage';
 import { InitialSetupModal } from './components/InitialSetup/InitialSetupModal';
 import { usePWAInstall } from './hooks/usePWAInstall';
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 
 const AppShell: React.FC = () => {
   const { activeTab, isLoading } = useApp();
@@ -56,9 +57,11 @@ const AppShell: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <AppProvider>
-      <AppShell />
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <AppShell />
+      </AppProvider>
+    </ErrorBoundary>
   );
 };
 
