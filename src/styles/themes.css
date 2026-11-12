@@ -72,8 +72,8 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
   --cal-cell-bg: #FFF6EA;
-  --cal-cell-bg-other: #4A121A;
-  --cal-cell-other-text: #8B706D;
+  --cal-cell-bg-other: #DAC9BC;
+  --cal-cell-other-text: #6E5652;
   --cal-cell-border: #57232A;
   --cal-cell-text: #32171A;
   --cal-cell-event: #F9E5E8;
@@ -91,148 +91,149 @@
 }
 
 /* ==========================================================================
-   ТЕМА 2. LAVENDER DREAM (Нежность, спокойствие, пастель, лёгкость)
+   ТЕМА 2. VINTAGE CINNAMON (Винтаж, тёплый кофе, корица, уютные страницы)
    ========================================================================== */
+[data-theme='vintage-cinnamon'],
 [data-theme='lavender-dream'],
 [data-theme='lavender-journal'] {
-  --bg-primary: #292039;
-  --bg-secondary: #48345F;
-  --bg-card: #3A2A4E;
-  --bg-card-subtle: #44325C;
-  --bg-hover: #523C6E;
-  --bg-active: #5E447E;
+  --bg-primary: #2A1B14;
+  --bg-secondary: #452C21;
+  --bg-card: #37231A;
+  --bg-card-subtle: #412A1F;
+  --bg-hover: #4F3427;
+  --bg-active: #5C3D2E;
 
-  --text-primary: #F8F3FC;
-  --text-secondary: #B99AD9;
-  --text-muted: #A69AAF;
-  --text-light: #332844;
+  --text-primary: #FFF7ED;
+  --text-secondary: #D48B62;
+  --text-muted: #8E7465;
+  --text-light: #2F1E16;
 
-  --border-color: #66517D;
-  --border-subtle: #4D3C61;
-  --border-focus: #B99AD9;
+  --border-color: #57382A;
+  --border-subtle: #42291E;
+  --border-focus: #D48B62;
 
-  --accent-primary: #B99AD9;
-  --accent-secondary: #9273B8;
-  --accent-lavender: #B99AD9;
-  --accent-lavender-dark: #9273B8;
-  --accent-sage: #9273B8;
-  --accent-rose: #E9DDF5;
-  --accent-rose-dark: #B99AD9;
-  --accent-cream: #F8F3FC;
+  --accent-primary: #D48B62;
+  --accent-secondary: #B56F47;
+  --accent-lavender: #D48B62;
+  --accent-lavender-dark: #B56F47;
+  --accent-sage: #B56F47;
+  --accent-rose: #FDE8D9;
+  --accent-rose-dark: #D48B62;
+  --accent-cream: #FFF7ED;
 
-  --btn-primary-bg: #B99AD9;
-  --btn-primary-text: #292039;
-  --btn-primary-border: #B99AD9;
-  --btn-primary-hover: #C7ADE2;
-  --btn-secondary-bg: #48345F;
-  --btn-secondary-text: #F8F3FC;
-  --btn-secondary-border: #66517D;
-  --btn-secondary-hover: #563E72;
+  --btn-primary-bg: #D48B62;
+  --btn-primary-text: #2A1B14;
+  --btn-primary-border: #D48B62;
+  --btn-primary-hover: #DF9B74;
+  --btn-secondary-bg: #452C21;
+  --btn-secondary-text: #FFF7ED;
+  --btn-secondary-border: #57382A;
+  --btn-secondary-hover: #543628;
 
-  --input-bg: #1F172C;
-  --input-border: #66517D;
-  --input-focus-ring: rgba(185, 154, 217, 0.25);
+  --input-bg: #20140E;
+  --input-border: #57382A;
+  --input-focus-ring: rgba(212, 139, 98, 0.25);
 
-  --badge-swap-bg: #48345F;
-  --badge-swap-border: #9273B8;
-  --badge-swap-text: #F8F3FC;
+  --badge-swap-bg: #452C21;
+  --badge-swap-border: #B56F47;
+  --badge-swap-text: #FFF7ED;
 
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.35);
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.40);
   --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.60);
   --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
 
-  --cal-cell-bg: #F8F3FC;
-  --cal-cell-bg-other: #3B2E50;
-  --cal-cell-other-text: #A69AAF;
-  --cal-cell-border: #66517D;
-  --cal-cell-text: #332844;
-  --cal-cell-event: #E9DDF5;
-  --cal-cell-event-border: #9273B8;
-  --cal-cell-today-bg: #F8F3FC;
-  --cal-cell-today-border: #B99AD9;
-  --cal-cell-today-number-color: #292039;
-  --cal-dayoff-bg: #ECE3F5;
-  --cal-dayoff-text: #453258;
-  --cal-dayoff-border: #CFBFDF;
-  --cal-weekday-color: #F8F3FC;
-  --cal-weekend-color: #B99AD9;
-  --cal-legend-bg: rgba(72, 52, 95, 0.75);
-  --cal-gesture-bg: rgba(72, 52, 95, 0.65);
+  --cal-cell-bg: #FFF7ED;
+  --cal-cell-bg-other: #DAC9BA;
+  --cal-cell-other-text: #765C4F;
+  --cal-cell-border: #57382A;
+  --cal-cell-text: #2F1E16;
+  --cal-cell-event: #FDE8D9;
+  --cal-cell-event-border: #B56F47;
+  --cal-cell-today-bg: #FFF7ED;
+  --cal-cell-today-border: #D48B62;
+  --cal-cell-today-number-color: #2A1B14;
+  --cal-dayoff-bg: #F4E8DC;
+  --cal-dayoff-text: #4F3323;
+  --cal-dayoff-border: #DDC8B6;
+  --cal-weekday-color: #FFF7ED;
+  --cal-weekend-color: #D48B62;
+  --cal-legend-bg: rgba(69, 44, 33, 0.75);
+  --cal-gesture-bg: rgba(69, 44, 33, 0.65);
 }
 
 /* ==========================================================================
-   ТЕМА 3. MATCHA CREAM (Природная эстетика, спокойствие, минимализм, тепло)
+   ТЕМА 3. MATCHA CREAM (Глубокая хвоя, тёмный матча, лесной покой, тепло)
    ========================================================================== */
 [data-theme='matcha-cream'],
 [data-theme='sage-botanical'],
 [data-theme='cozy-journal'],
 [data-theme='cozy-cats'],
 [data-theme='pastel-scrapbook'] {
-  --bg-primary: #25352B;
-  --bg-secondary: #3C5744;
-  --bg-card: #314537;
-  --bg-card-subtle: #395040;
-  --bg-hover: #44614E;
-  --bg-active: #4D6D58;
+  --bg-primary: #18261C;
+  --bg-secondary: #243B2A;
+  --bg-card: #1E3123;
+  --bg-card-subtle: #273E2E;
+  --bg-hover: #314C39;
+  --bg-active: #3A5943;
 
-  --text-primary: #F7F5E9;
-  --text-secondary: #A9B98A;
-  --text-muted: #9DA48F;
-  --text-light: #303B2D;
+  --text-primary: #F6F4E8;
+  --text-secondary: #8FA87D;
+  --text-muted: #7E8E7A;
+  --text-light: #202D21;
 
-  --border-color: #536B54;
-  --border-subtle: #3D503E;
-  --border-focus: #A9B98A;
+  --border-color: #37503B;
+  --border-subtle: #293D2C;
+  --border-focus: #8FA87D;
 
-  --accent-primary: #A9B98A;
-  --accent-secondary: #7E966A;
-  --accent-lavender: #A9B98A;
-  --accent-lavender-dark: #7E966A;
-  --accent-sage: #7E966A;
-  --accent-rose: #E5EBD7;
-  --accent-rose-dark: #A9B98A;
-  --accent-cream: #F7F5E9;
+  --accent-primary: #8FA87D;
+  --accent-secondary: #6A8659;
+  --accent-lavender: #8FA87D;
+  --accent-lavender-dark: #6A8659;
+  --accent-sage: #6A8659;
+  --accent-rose: #E2ECD8;
+  --accent-rose-dark: #8FA87D;
+  --accent-cream: #F6F4E8;
 
-  --btn-primary-bg: #A9B98A;
-  --btn-primary-text: #25352B;
-  --btn-primary-border: #A9B98A;
-  --btn-primary-hover: #B8C79A;
-  --btn-secondary-bg: #3C5744;
-  --btn-secondary-text: #F7F5E9;
-  --btn-secondary-border: #536B54;
-  --btn-secondary-hover: #4A6B53;
+  --btn-primary-bg: #8FA87D;
+  --btn-primary-text: #18261C;
+  --btn-primary-border: #8FA87D;
+  --btn-primary-hover: #9EB58E;
+  --btn-secondary-bg: #243B2A;
+  --btn-secondary-text: #F6F4E8;
+  --btn-secondary-border: #37503B;
+  --btn-secondary-hover: #2F4C36;
 
-  --input-bg: #1D2A22;
-  --input-border: #536B54;
-  --input-focus-ring: rgba(169, 185, 138, 0.25);
+  --input-bg: #121D15;
+  --input-border: #37503B;
+  --input-focus-ring: rgba(143, 168, 125, 0.25);
 
-  --badge-swap-bg: #3C5744;
-  --badge-swap-border: #7E966A;
-  --badge-swap-text: #F7F5E9;
+  --badge-swap-bg: #243B2A;
+  --badge-swap-border: #6A8659;
+  --badge-swap-text: #F6F4E8;
 
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.35);
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.40);
   --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.60);
   --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
 
-  --cal-cell-bg: #F7F5E9;
-  --cal-cell-bg-other: #334739;
-  --cal-cell-other-text: #9DA48F;
-  --cal-cell-border: #536B54;
-  --cal-cell-text: #303B2D;
-  --cal-cell-event: #E5EBD7;
-  --cal-cell-event-border: #7E966A;
-  --cal-cell-today-bg: #F7F5E9;
-  --cal-cell-today-border: #A9B98A;
-  --cal-cell-today-number-color: #25352B;
-  --cal-dayoff-bg: #E4ECE0;
-  --cal-dayoff-text: #324734;
-  --cal-dayoff-border: #C3D5BE;
-  --cal-weekday-color: #F7F5E9;
-  --cal-weekend-color: #A9B98A;
-  --cal-legend-bg: rgba(60, 87, 68, 0.75);
-  --cal-gesture-bg: rgba(60, 87, 68, 0.65);
+  --cal-cell-bg: #F6F4E8;
+  --cal-cell-bg-other: #D0D3BF;
+  --cal-cell-other-text: #5B6856;
+  --cal-cell-border: #37503B;
+  --cal-cell-text: #202D21;
+  --cal-cell-event: #E2ECD8;
+  --cal-cell-event-border: #6A8659;
+  --cal-cell-today-bg: #F6F4E8;
+  --cal-cell-today-border: #8FA87D;
+  --cal-cell-today-number-color: #18261C;
+  --cal-dayoff-bg: #E1E9DA;
+  --cal-dayoff-text: #263827;
+  --cal-dayoff-border: #BAC9B2;
+  --cal-weekday-color: #F6F4E8;
+  --cal-weekend-color: #8FA87D;
+  --cal-legend-bg: rgba(36, 59, 42, 0.75);
+  --cal-gesture-bg: rgba(36, 59, 42, 0.65);
 }
 
 /* ==========================================================================
@@ -240,6 +241,14 @@
    ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 body {

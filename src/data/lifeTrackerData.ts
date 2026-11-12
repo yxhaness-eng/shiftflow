@@ -23,13 +23,10 @@ export interface ActivityPreset {
 
 export const ACTIVITY_PRESETS: ActivityPreset[] = [
   { id: 'date', label: 'Свидание / Вино', emoji: '🍷', iconImage: 'stickers/life/wine.webp' },
-  { id: 'energy', label: 'Огонь / Энергия', emoji: '🔥' },
   { id: 'tenderness', label: 'Нежность / Любовь', emoji: '💖', iconImage: 'stickers/life/love.webp' },
-  { id: 'cozy_evening', label: 'Уютный вечер', emoji: '🧸' },
-  { id: 'super_day', label: 'Супер день', emoji: '🌸' },
-  { id: 'gift', label: 'Подарочек', emoji: '🎁', iconImage: 'stickers/life/gift.webp' },
+  { id: 'super_day', label: 'Супер день', emoji: '🌸', iconImage: 'stickers/life/star.webp' },
   { id: 'treats', label: 'Вкусняшки', emoji: '🍩', iconImage: 'stickers/life/food.webp' },
-  { id: 'period', label: 'Эти дни', emoji: '🩸' },
+  { id: 'gift', label: 'Подарочек', emoji: '🎁', iconImage: 'stickers/life/gift.webp' },
   { id: 'movie', label: 'Кино / Сериал', emoji: '🎬', iconImage: 'stickers/life/movie.webp' },
   { id: 'walk', label: 'Прогулка', emoji: '🪴', iconImage: 'stickers/life/trip.webp' },
   { id: 'cleaning', label: 'Уборка', emoji: '🧹', iconImage: 'stickers/life/broom.webp' },
@@ -40,7 +37,12 @@ export const ACTIVITY_PRESETS: ActivityPreset[] = [
   { id: 'shopping', label: 'Шопинг', emoji: '🛍️', iconImage: 'stickers/life/shopping.webp' },
   { id: 'chat', label: 'Болтовня', emoji: '💬', iconImage: 'stickers/life/chat.webp' },
   { id: 'beauty', label: 'Бьюти / Уход', emoji: '✨', iconImage: 'stickers/life/beauty.webp' },
-  { id: 'special', label: 'Особенный момент', emoji: '⭐', iconImage: 'stickers/life/star.webp' }
+  { id: 'special', label: 'Особенный день', emoji: '⭐', iconImage: 'stickers/life/special.webp' },
+  { id: 'energy', label: 'Огонь / Энергия', emoji: '🔥' },
+  { id: 'cozy_evening', label: 'Уютный вечер', emoji: '🧸' },
+  { id: 'period', label: 'Эти дни', emoji: '🩸' },
+  { id: 'custom_badge_1', label: 'Отметка 1', emoji: '🏷️', iconImage: 'stickers/life/badge_custom_1.webp' },
+  { id: 'custom_badge_2', label: 'Отметка 2', emoji: '🏷️', iconImage: 'stickers/life/badge_custom_2.webp' }
 ];
 
 export interface NoteStyleOption {

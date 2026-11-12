@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Sparkles, BarChart2, Settings } from 'lucide-react';
+import { Calendar, Sparkles, Settings } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const BottomNavigation: React.FC = () => {
@@ -25,16 +25,6 @@ export const BottomNavigation: React.FC = () => {
           <Sparkles size={18} />
         </div>
         <span>Стикеры</span>
-      </button>
-
-      <button
-        className={`bottom-tab ${activeTab === 'stats' ? 'active' : ''}`}
-        onClick={() => setActiveTab('stats')}
-      >
-        <div className="tab-icon-wrap">
-          <BarChart2 size={18} />
-        </div>
-        <span>Статистика</span>
       </button>
 
       <button

@@ -84,6 +84,13 @@ interface AppContextType {
     date: string,
     transform: { x?: number; y?: number; rotation?: number }
   ) => Promise<void>;
+  updateDayMarkerPosition: (
+    date: string,
+    markerId: string,
+    pos: { x: number; y: number }
+  ) => Promise<void>;
+  resetDayMarkerPositions: (date: string) => Promise<void>;
+  setActivityCustomLabel: (activityId: string, customLabel: string) => Promise<void>;
   updateJournalPage: (
     date: string,
     pageData: Partial<JournalPageData>,
@@ -590,6 +597,87 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     [overrides]
   );
 
+  // Update position of a day marker (circular activity badge or note sticker)
+  const updateDayMarkerPosition = useCallback(
+    async (
+      date: string,
+      markerId: string,
+      pos: { x: number; y: number }
+    ) => {
+      const existing = overrides[date] || {
+        date,
+        status: 'work',
+        stickers: [],
+        updatedAt: new Date().toISOString()
+      };
+
+      const clampedX = Math.round(Math.max(-45, Math.min(45, pos.x)));
+      const clampedY = Math.round(Math.max(-45, Math.min(45, pos.y)));
+
+      const currentPositions = existing.markerPositions || {};
+      const updatedPositions = {
+        ...currentPositions,
+        [markerId]: { x: clampedX, y: clampedY }
+      };
+
+      // If markerId is 'note', sync with noteSticker
+      let updatedNoteSticker = existing.noteSticker;
+      if (markerId === 'note' && updatedNoteSticker) {
+        updatedNoteSticker = {
+          ...updatedNoteSticker,
+          x: clampedX,
+          y: clampedY
+        };
+      }
+
+      const updated: DayOverride = {
+        ...existing,
+        markerPositions: updatedPositions,
+        noteSticker: updatedNoteSticker,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
+    },
+    [overrides]
+  );
+
+  // Reset custom marker positions for a date back to default arrangement
+  const resetDayMarkerPositions = useCallback(
+    async (date: string) => {
+      const existing = overrides[date];
+      if (!existing) return;
+
+      const updated: DayOverride = {
+        ...existing,
+        markerPositions: undefined,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
+    },
+    [overrides]
+  );
+
+  // Set user custom label for an activity badge
+  const setActivityCustomLabel = useCallback(
+    async (activityId: string, customLabel: string) => {
+      const currentLabels = settings.activityCustomLabels || {};
+      const updatedLabels = {
+        ...currentLabels,
+        [activityId]: customLabel.trim()
+      };
+      await updateSettings({ activityCustomLabels: updatedLabels });
+    },
+    [settings, updateSettings]
+  );
+
   // Update Journal Page (text, paperType, decorations, noteSticker)
   const updateJournalPage = useCallback(
     async (
@@ -931,6 +1019,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     updateDayNote,
     updateDayLifeDetails,
     updateNoteStickerTransform,
+    updateDayMarkerPosition,
+    resetDayMarkerPositions,
+    setActivityCustomLabel,
     updateJournalPage,
     addJournalDecoration,
     updateJournalDecorationTransform,

@@ -2,8 +2,9 @@
 
 export type ThemeId =
   | 'burgundy-romance'
-  | 'lavender-dream'
+  | 'vintage-cinnamon'
   | 'matcha-cream'
+  | 'lavender-dream'
   | 'wine-velvet'
   | 'cozy-journal'
   | 'sage-botanical'
@@ -94,6 +95,11 @@ export interface JournalPageData {
   updatedAt: string;
 }
 
+export interface MarkerPosition {
+  x: number;              // percentage offset (-45 .. 45)
+  y: number;              // percentage offset (-45 .. 45)
+}
+
 export interface DayOverride {
   date: string;            // YYYY-MM-DD
   pointId?: string;        // Actual point for this day (if work)
@@ -104,6 +110,7 @@ export interface DayOverride {
   tags?: string[];         // Personal event tags: "Романтика", "Отдых", "Встреча", etc.
   intimate?: IntimateEntry;
   activities?: string[];   // Multi-select activity & mood IDs or custom strings
+  markerPositions?: Record<string, MarkerPosition>; // Free placement coordinates for markers (actId or 'note')
   noteSticker?: NoteStickerConfig;
   journalPage?: JournalPageData;
   updatedAt: string;
@@ -150,6 +157,7 @@ export interface AppSettings {
   userNotesEnabled: boolean;
   highlightToday: boolean;
   favoriteStickerIds?: string[];
+  activityCustomLabels?: Record<string, string>; // Custom names given by user to activity stickers
   soundEnabled?: boolean;
   hapticsEnabled?: boolean;
 }
@@ -182,6 +190,7 @@ export interface ResolvedDayInfo {
   tags?: string[];
   intimate?: IntimateEntry;
   activities?: string[];
+  markerPositions?: Record<string, MarkerPosition>;
   noteSticker?: NoteStickerConfig;
   journalPage?: JournalPageData;
 }

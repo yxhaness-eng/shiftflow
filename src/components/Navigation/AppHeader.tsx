@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Sparkles, BarChart2, Settings, Download } from 'lucide-react';
+import { Calendar, Sparkles, Settings, Download } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 interface AppHeaderProps {
@@ -46,14 +46,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onInstallClick, canInstall
         >
           <Sparkles size={16} />
           <span>Стикеры</span>
-        </button>
-
-        <button
-          className={`nav-link ${activeTab === 'stats' ? 'active' : ''}`}
-          onClick={() => setActiveTab('stats')}
-        >
-          <BarChart2 size={16} />
-          <span>Статистика</span>
         </button>
 
         <button

@@ -20,14 +20,13 @@ describe('NoteStickerModal component', () => {
       </AppProvider>
     );
 
-    expect(screen.getByText('Формат:')).toBeDefined();
+    expect(screen.getByText('Выбери вид стикера для окошка:')).toBeDefined();
     expect(screen.getByText('Со скрепкой')).toBeDefined();
-    expect(screen.getByPlaceholderText(/Напиши сюда заметку, мысль или секретик/i)).toBeDefined();
-    expect(screen.getByText(/Приклеить в календарь/i)).toBeDefined();
-    expect(screen.getByText(/Убрать стикер/i)).toBeDefined();
+    expect(screen.getByText('Со скотчем')).toBeDefined();
+    expect(screen.getByText(/Приклеить в окошко/i)).toBeDefined();
   });
 
-  it('allows writing text and clicking glue button', async () => {
+  it('allows writing a note and saving it', async () => {
     const handleClose = vi.fn();
 
     render(
@@ -39,7 +38,7 @@ describe('NoteStickerModal component', () => {
     const textarea = screen.getByPlaceholderText(/Напиши сюда заметку, мысль или секретик/i);
     fireEvent.change(textarea, { target: { value: 'Мой уютный секретик!' } });
 
-    const glueBtn = screen.getByText(/Приклеить в календарь/i);
+    const glueBtn = screen.getByText(/Приклеить в окошко/i);
     fireEvent.click(glueBtn);
 
     await waitFor(() => {

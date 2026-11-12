@@ -1,18 +1,49 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Calendar, Sparkles, Check, X, Heart } from 'lucide-react';
+import { Search, Calendar, Sparkles, Check, X, Heart, Edit2, Tag } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { STICKERS_MANIFEST, STICKER_CATEGORIES } from '../../data/stickersManifest';
+import { ACTIVITY_PRESETS } from '../../data/lifeTrackerData';
 import { StickerManifestItem, StickerCategory } from '../../types';
 import { getTodayString, formatFullDateRU } from '../../utils/dateUtils';
+import { playBubbleTap, triggerHaptic } from '../../services/soundEffects';
 
 export const StickersPage: React.FC = () => {
-  const { addStickerToDate, placedStickers, setSelectedDate, setActiveTab, settings, toggleFavoriteSticker } = useApp();
+  const {
+    addStickerToDate,
+    placedStickers,
+    setSelectedDate,
+    setActiveTab,
+    settings,
+    toggleFavoriteSticker,
+    setActivityCustomLabel
+  } = useApp();
+
   const [selectedCategory, setSelectedCategory] = useState<string>('Все');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSticker, setSelectedSticker] = useState<StickerManifestItem | null>(null);
   const [targetDate, setTargetDate] = useState<string>(getTodayString());
   const [justPlaced, setJustPlaced] = useState(false);
+
+  // Custom labels editing state
+  const [editingActivityId, setEditingActivityId] = useState<string | null>(null);
+  const [editLabelInput, setEditLabelInput] = useState('');
+
   const favoriteIds = settings.favoriteStickerIds || [];
+
+  const handleStartEditLabel = (id: string, currentLabel: string) => {
+    playBubbleTap(settings.soundEnabled !== false);
+    setEditingActivityId(id);
+    setEditLabelInput(settings.activityCustomLabels?.[id] || currentLabel);
+  };
+
+  const handleSaveLabel = async (id: string) => {
+    if (!editLabelInput.trim()) return;
+    playBubbleTap(settings.soundEnabled !== false);
+    triggerHaptic(8, settings.hapticsEnabled !== false);
+    await setActivityCustomLabel(id, editLabelInput.trim());
+    setEditingActivityId(null);
+    setEditLabelInput('');
+  };
 
   const filteredStickers = useMemo(() => {
     return STICKERS_MANIFEST.filter((item) => {
@@ -61,13 +92,76 @@ export const StickersPage: React.FC = () => {
       <div className="stickers-hero-card">
         <div className="hero-content">
           <h2 className="stickers-title">
-            <Sparkles size={20} color="var(--accent-lavender-dark)" />
-            <span>Каталог акварельных стикеров</span>
+            <Sparkles size={20} color="var(--accent-primary)" />
+            <span>Стикеры и отметки календаря</span>
           </h2>
           <p className="stickers-subtitle">
-            52 скрапбук-стикера: сухоцветы, гербарий, винтажные марки, скотчи и настроение для украшения вашего календаря и заметок.
-            Всего наклеено в календаре: <strong>{placedStickers.length}</strong>
+            Круглые значки дня для настроения и дел, плюс 52 скрапбук-стикера. Нажми на карандаш, чтобы переименовать любой кругляш!
           </p>
+        </div>
+      </div>
+
+      {/* SECTION: DAY ACTIVITY CIRCULAR BADGES WITH CUSTOM NAMES */}
+      <div className="card activities-manager-card" style={{ marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+          <h3 className="card-title" style={{ margin: 0 }}>
+            <Tag size={18} color="var(--accent-primary)" />
+            <span>Отметки дня («Кругляхи»)</span>
+          </h3>
+          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+            Всего значков: {ACTIVITY_PRESETS.length}
+          </span>
+        </div>
+
+        <div className="activities-custom-grid">
+          {ACTIVITY_PRESETS.map((act) => {
+            const currentLabel = settings.activityCustomLabels?.[act.id] || act.label;
+            const isEditing = editingActivityId === act.id;
+
+            return (
+              <div key={act.id} className="activity-custom-card">
+                <div className="activity-custom-avatar">
+                  {act.iconImage ? (
+                    <img src={`./${act.iconImage}?v=circle`} alt={currentLabel} />
+                  ) : (
+                    <span>{act.emoji}</span>
+                  )}
+                </div>
+
+                <div className="activity-custom-body">
+                  {isEditing ? (
+                    <div className="activity-inline-edit">
+                      <input
+                        type="text"
+                        value={editLabelInput}
+                        onChange={(e) => setEditLabelInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSaveLabel(act.id)}
+                        autoFocus
+                        className="activity-edit-input"
+                      />
+                      <button className="btn-icon-xs save" onClick={() => handleSaveLabel(act.id)} title="Сохранить">
+                        <Check size={14} />
+                      </button>
+                      <button className="btn-icon-xs cancel" onClick={() => setEditingActivityId(null)} title="Отмена">
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="activity-display-row">
+                      <span className="activity-custom-name">{currentLabel}</span>
+                      <button
+                        className="btn-icon-xs edit"
+                        onClick={() => handleStartEditLabel(act.id, act.label)}
+                        title="Изменить название"
+                      >
+                        <Edit2 size={12} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 

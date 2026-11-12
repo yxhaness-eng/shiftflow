@@ -42,34 +42,30 @@ describe('Day Resolution and DayEditor Render', () => {
       expect(screen.getByText('15 ноября 2026, воскресенье')).toBeDefined();
     });
 
-    // Requirement 1: "Отметки дня (дела и настроение)" and NO mentions of intimate tracking words
-    expect(screen.getByText('Отметки дня (дела и настроение)')).toBeDefined();
+    // Requirement 1: "Отметки дня" and NO mentions of intimate tracking words
+    expect(screen.getAllByText(/Отметки дня/i).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/секас/i)).toBeNull();
     expect(screen.queryByText(/intimate/i)).toBeNull();
 
     // Requirement 2: Unified shortcut card "Заметка и страничка ежедневника"
     expect(screen.getByText('Заметка и страничка ежедневника')).toBeDefined();
     expect(
-      screen.getByText(/Оформить мысли, выбрать стикер со скрепкой или скотчем, добавить сухоцветы/i)
+      screen.getByText(/Оформить мысли, выбрать стикер со скрепкой или скотчем/i)
     ).toBeDefined();
 
-    // Redundant separate NoteSticker shortcut should NOT exist
-    expect(screen.queryByText('Стикер-заметка этого дня')).toBeNull();
-
-    // Clicking unified card opens unified JournalPageModal
+    // Clicking unified card opens JournalPageModal
     const journalCard = screen.getByText('Заметка и страничка ежедневника').closest('.scrapbook-shortcut-card')!;
     fireEvent.click(journalCard);
 
     await waitFor(() => {
-      // Unified format options are shown
       expect(screen.getByText('Со скрепкой')).toBeDefined();
       expect(screen.getByText('Со скотчем')).toBeDefined();
-      expect(screen.getByText('Спиральный блокнот')).toBeDefined();
+      expect(screen.getByText('Блокнот')).toBeDefined();
       expect(screen.getByText('Облачко')).toBeDefined();
       expect(screen.getByText('С бантиком')).toBeDefined();
-      expect(screen.getByText('Винтажный свиток')).toBeDefined();
-      expect(screen.getByText('Лаванда')).toBeDefined();
-      expect(screen.getByText('Шалфей')).toBeDefined();
-      expect(screen.getByText(/Приклеить в календарь/i)).toBeDefined();
+      expect(screen.getByText('Ярлычок')).toBeDefined();
+      expect(screen.getByText('Тёмный крафт')).toBeDefined();
+      expect(screen.getByText(/Приклеить в окошко/i)).toBeDefined();
     });
   });
 });

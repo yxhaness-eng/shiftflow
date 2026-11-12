@@ -219,38 +219,38 @@ export const SettingsPage: React.FC = () => {
             )}
           </div>
 
-          {/* Тема 2. Lavender Dream */}
+          {/* Тема 2. Vintage Cinnamon (Тёплый коричневый, корица, кофе) */}
           <div
-            className={`theme-card ${settings.theme === 'lavender-dream' || settings.theme === 'lavender-journal' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('lavender-dream')}
+            className={`theme-card ${settings.theme === 'vintage-cinnamon' || settings.theme === 'lavender-dream' || settings.theme === 'lavender-journal' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('vintage-cinnamon')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#292039' }} />
-              <span style={{ backgroundColor: '#F8F3FC' }} />
-              <span style={{ backgroundColor: '#B99AD9' }} />
+              <span style={{ backgroundColor: '#2A1B14' }} />
+              <span style={{ backgroundColor: '#FFF7ED' }} />
+              <span style={{ backgroundColor: '#D48B62' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Lavender Dream</div>
-              <div className="theme-desc">Нежность, спокойствие, пастель, лёгкость</div>
+              <div className="theme-name">Vintage Cinnamon</div>
+              <div className="theme-desc">Винтаж, тёплый кофе, корица, уютные страницы</div>
             </div>
-            {(settings.theme === 'lavender-dream' || settings.theme === 'lavender-journal') && (
+            {(settings.theme === 'vintage-cinnamon' || settings.theme === 'lavender-dream' || settings.theme === 'lavender-journal') && (
               <Check size={16} className="theme-check-icon" />
             )}
           </div>
 
-          {/* Тема 3. Matcha Cream */}
+          {/* Тема 3. Dark Matcha Cream (Глубокая хвоя, тёмный матча) */}
           <div
             className={`theme-card ${settings.theme === 'matcha-cream' || settings.theme === 'sage-botanical' || settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' || settings.theme === 'pastel-scrapbook' ? 'selected' : ''}`}
             onClick={() => handleThemeChange('matcha-cream')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#25352B' }} />
-              <span style={{ backgroundColor: '#F7F5E9' }} />
-              <span style={{ backgroundColor: '#A9B98A' }} />
+              <span style={{ backgroundColor: '#18261C' }} />
+              <span style={{ backgroundColor: '#F6F4E8' }} />
+              <span style={{ backgroundColor: '#8FA87D' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Matcha Cream</div>
-              <div className="theme-desc">Природная эстетика, спокойствие, минимализм, тепло</div>
+              <div className="theme-name">Dark Matcha Cream</div>
+              <div className="theme-desc">Глубокая хвоя, тёмный матча, лесной покой, тепло</div>
             </div>
             {(settings.theme === 'matcha-cream' || settings.theme === 'sage-botanical' || settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' || settings.theme === 'pastel-scrapbook') && (
               <Check size={16} className="theme-check-icon" />

@@ -1,22 +1,14 @@
 import React, { useState, useRef } from 'react';
 import {
   X,
-  RotateCcw,
-  RotateCw,
-  ZoomIn,
-  ZoomOut,
-  Trash2,
-  Sparkles,
-  Plus,
   Edit3,
   Tag,
-  Check
+  RotateCcw,
+  Sparkles
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { formatFullDateRU } from '../../utils/dateUtils';
-import { STICKERS_MAP } from '../../data/stickersManifest';
-import { ACTIVITY_MAP, INTIMATE_PRESETS } from '../../data/lifeTrackerData';
-import { StickerPicker } from '../StickerPicker/StickerPicker';
+import { ACTIVITY_MAP } from '../../data/lifeTrackerData';
 import { playStickerPop, playBubbleTap, triggerHaptic } from '../../services/soundEffects';
 
 interface ScrapbookCellZoomProps {
@@ -35,22 +27,21 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
   const {
     settings,
     getDayInfo,
-    addStickerToDate,
-    updateStickerTransform,
-    removeSticker,
-    updateNoteStickerTransform
+    updateDayMarkerPosition,
+    resetDayMarkerPositions
   } = useApp();
 
   const dayInfo = getDayInfo(date);
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // 'note' or stickerId
-  const [isStickerPickerOpen, setIsStickerPickerOpen] = useState(false);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+
+  // Local drag positions for instant smooth drag feedback
+  const [livePositions, setLivePositions] = useState<Record<string, { x: number; y: number }>>({});
 
   const formattedDate = formatFullDateRU(date);
 
   // Dragging state
   const dragRef = useRef<{
-    type: 'sticker' | 'note';
-    id: string;
+    id: string; // 'note' or activityId
     pointerId: number;
     startX: number;
     startY: number;
@@ -59,36 +50,46 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
     isDragging: boolean;
   } | null>(null);
 
-  const currentStickers = dayInfo.stickers;
-  const activeSticker = currentStickers.find((s) => s.id === selectedItemId);
+  const activities = dayInfo.activities || [];
+  const markerPositions = dayInfo.markerPositions || {};
 
-  // Sticker adjustments
-  const handleRotateSticker = (deltaDeg: number) => {
-    if (!activeSticker) return;
-    playBubbleTap(settings.soundEnabled !== false);
-    triggerHaptic(6, settings.hapticsEnabled !== false);
-    const newRot = Math.round((activeSticker.rotation + deltaDeg) * 10) / 10;
-    updateStickerTransform(activeSticker.id, { rotation: newRot });
-  };
+  // Check if note is present
+  const hasNote = Boolean(
+    (dayInfo.noteSticker && (dayInfo.noteSticker.text?.trim() || dayInfo.noteSticker.style)) ||
+    (dayInfo.note && dayInfo.note.trim().length > 0) ||
+    (dayInfo.journalPage && (dayInfo.journalPage.content?.trim() || dayInfo.journalPage.title?.trim()))
+  );
 
-  const handleScaleSticker = (deltaScale: number) => {
-    if (!activeSticker) return;
-    playBubbleTap(settings.soundEnabled !== false);
-    triggerHaptic(6, settings.hapticsEnabled !== false);
-    const newScale = Math.max(0.5, Math.min(1.7, Math.round((activeSticker.scale + deltaScale) * 10) / 10));
-    updateStickerTransform(activeSticker.id, { scale: newScale });
+  // Helper to get marker coordinates (live > saved > default)
+  const getMarkerCoords = (markerId: string, defaultIdx: number = 0) => {
+    if (livePositions[markerId]) {
+      return livePositions[markerId];
+    }
+    if (markerPositions[markerId]) {
+      return markerPositions[markerId];
+    }
+    if (markerId === 'note') {
+      return { x: dayInfo.noteSticker?.x ?? 0, y: dayInfo.noteSticker?.y ?? -8 };
+    }
+    // Default staggered layout for activity badges if user hasn't moved them yet
+    const cols = Math.min(3, Math.max(1, activities.length));
+    const colIdx = defaultIdx % cols;
+    const rowIdx = Math.floor(defaultIdx / cols);
+    const spacingX = cols > 1 ? 55 / (cols - 1) : 0;
+    const defX = cols > 1 ? -28 + colIdx * spacingX : 0;
+    const defY = 16 + rowIdx * 24;
+    return { x: Math.round(defX), y: Math.round(defY) };
   };
 
   const handlePointerDown = (
     e: React.PointerEvent,
-    type: 'sticker' | 'note',
-    id: string,
+    markerId: string,
     initialX: number,
     initialY: number
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    setSelectedItemId(id);
+    setSelectedItemId(markerId);
     playBubbleTap(settings.soundEnabled !== false);
     triggerHaptic(6, settings.hapticsEnabled !== false);
 
@@ -99,8 +100,7 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
     }
 
     dragRef.current = {
-      type,
-      id,
+      id: markerId,
       pointerId: e.pointerId,
       startX: e.clientX,
       startY: e.clientY,
@@ -116,36 +116,47 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
     const deltaX = e.clientX - dragRef.current.startX;
     const deltaY = e.clientY - dragRef.current.startY;
 
-    // Zoomed cell is ~320px, so 3.2px corresponds to 1%
-    const deltaPercentX = deltaX / 3.2;
-    const deltaPercentY = deltaY / 3.2;
+    // Zoomed cell is ~300px, 3px = ~1%
+    const deltaPercentX = deltaX / 3.0;
+    const deltaPercentY = deltaY / 3.0;
 
-    const newX = Math.round(Math.max(-46, Math.min(46, dragRef.current.origX + deltaPercentX)));
-    const newY = Math.round(Math.max(-46, Math.min(46, dragRef.current.origY + deltaPercentY)));
+    const newX = Math.round(Math.max(-42, Math.min(42, dragRef.current.origX + deltaPercentX)));
+    const newY = Math.round(Math.max(-42, Math.min(42, dragRef.current.origY + deltaPercentY)));
 
-    if (dragRef.current.type === 'sticker') {
-      updateStickerTransform(dragRef.current.id, { x: newX, y: newY });
-    } else if (dragRef.current.type === 'note') {
-      updateNoteStickerTransform(date, { x: newX, y: newY });
-    }
+    setLivePositions((prev) => ({
+      ...prev,
+      [dragRef.current!.id]: { x: newX, y: newY }
+    }));
   };
 
-  const handlePointerUp = (e: React.PointerEvent) => {
+  const handlePointerUp = async (e: React.PointerEvent) => {
     if (dragRef.current && dragRef.current.isDragging) {
+      const activeId = dragRef.current.id;
       try {
         (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
       } catch {
         // ignore
       }
+
       playStickerPop(settings.soundEnabled !== false);
       triggerHaptic(10, settings.hapticsEnabled !== false);
+
+      const finalPos = livePositions[activeId];
+      if (finalPos) {
+        await updateDayMarkerPosition(date, activeId, finalPos);
+      }
+
       dragRef.current.isDragging = false;
       dragRef.current = null;
     }
   };
 
-  // Find intimate preset emoji if active
-  const intimatePreset = INTIMATE_PRESETS.find((p) => p.id === dayInfo.intimate?.type);
+  const handleResetPositions = async () => {
+    playBubbleTap(settings.soundEnabled !== false);
+    triggerHaptic(8, settings.hapticsEnabled !== false);
+    setLivePositions({});
+    await resetDayMarkerPositions(date);
+  };
 
   return (
     <div className="scrapbook-zoom-overlay" onClick={onClose}>
@@ -171,7 +182,7 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
             }}
           >
             <Tag size={14} />
-            <span>Отметки дня</span>
+            <span>Отметки дня ({activities.length})</span>
           </button>
 
           <button
@@ -182,19 +193,22 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
             }}
           >
             <Edit3 size={14} />
-            <span>Стикер-заметка</span>
+            <span>{hasNote ? 'Изменить заметку' : '+ Заметка'}</span>
           </button>
 
           <button
-            className="toolbar-pill-btn primary"
-            onClick={() => {
-              playBubbleTap(settings.soundEnabled !== false);
-              setIsStickerPickerOpen(true);
-            }}
+            className="toolbar-pill-btn"
+            onClick={handleResetPositions}
+            title="Сбросить расстановку значков в центр"
           >
-            <Plus size={14} />
-            <span>Добавить наклейку</span>
+            <RotateCcw size={14} />
+            <span>Сбросить</span>
           </button>
+        </div>
+
+        <div className="zoom-hint-banner">
+          <Sparkles size={14} />
+          <span>Перетаскивай кругляхи и стикер заметки пальцем по окошку!</span>
         </div>
 
         {/* Enlarged Day Cell Canvas */}
@@ -228,165 +242,77 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
             )}
           </div>
 
-          {/* Intimate Badge if present */}
-          {dayInfo.intimate?.hadSex && (
-            <div className="enlarged-intimate-badge" title="Отметка интимной жизни">
-              <span className="intimate-badge-icon">💕</span>
-              <span className="intimate-badge-type">
-                {dayInfo.intimate.customType || intimatePreset?.emoji || '🔥'}
-              </span>
-            </div>
-          )}
-
-          {/* Activity Badges Strip */}
-          {dayInfo.activities && dayInfo.activities.length > 0 && (
-            <div className="enlarged-activities-strip">
-              {dayInfo.activities.map((actId) => {
-                const act = ACTIVITY_MAP[actId];
-                return (
-                  <div key={actId} className="enlarged-activity-icon" title={act?.label || actId}>
-                    {act?.iconImage ? (
-                      <img src={`./${act.iconImage}`} alt={act.label} />
-                    ) : (
-                      <span>{act?.emoji || '🏷️'}</span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Paper Note Sticker on Canvas (Draggable!) */}
-          {dayInfo.noteSticker && (
-            <div
-              className={`canvas-note-sticker style-${dayInfo.noteSticker.style} ${
-                selectedItemId === 'note' ? 'selected' : ''
-              }`}
-              style={{
-                transform: `translate(${dayInfo.noteSticker.x || 0}%, ${
-                  dayInfo.noteSticker.y || 0
-                }%) rotate(${dayInfo.noteSticker.rotation || 0}deg)`
-              }}
-              onPointerDown={(e) =>
-                handlePointerDown(
-                  e,
-                  'note',
-                  'note',
-                  dayInfo.noteSticker?.x || 0,
-                  dayInfo.noteSticker?.y || 0
-                )
-              }
-            >
-              <div className={`canvas-note-decor decor-${dayInfo.noteSticker.style}`} />
-              <div className="canvas-note-text">{dayInfo.noteSticker.text}</div>
-            </div>
-          )}
-
-          {/* Placed Stickers (Draggable!) */}
-          {currentStickers.map((stk) => {
-            const item = STICKERS_MAP[stk.stickerId];
-            const isSelected = stk.id === selectedItemId;
+          {/* DRAGGABLE NOTE STICKER */}
+          {hasNote && (() => {
+            const noteCoords = getMarkerCoords('note', 0);
+            const style = dayInfo.noteSticker?.style || 'paper-clip';
+            const textPreview =
+              dayInfo.noteSticker?.text?.trim() ||
+              dayInfo.journalPage?.title?.trim() ||
+              dayInfo.journalPage?.content?.trim() ||
+              dayInfo.note?.trim() ||
+              'Заметка';
 
             return (
               <div
-                key={stk.id}
-                className={`canvas-placed-sticker ${isSelected ? 'selected' : ''}`}
+                className={`canvas-note-sticker style-${style} ${selectedItemId === 'note' ? 'selected' : ''}`}
                 style={{
-                  transform: `translate(${stk.x}%, ${stk.y}%) scale(${stk.scale}) rotate(${stk.rotation}deg)`
+                  transform: `translate(${noteCoords.x}%, ${noteCoords.y}%) rotate(${dayInfo.noteSticker?.rotation || 0}deg)`
                 }}
-                onPointerDown={(e) => handlePointerDown(e, 'sticker', stk.id, stk.x, stk.y)}
+                onPointerDown={(e) => handlePointerDown(e, 'note', noteCoords.x, noteCoords.y)}
+                title="Стикер-заметка (перетаскивай)"
               >
-                <img
-                  src={item?.imagePath ? `./${item.imagePath}?v=cutout2` : ''}
-                  alt={item?.name || 'Стикер'}
-                  draggable={false}
-                />
+                <div className={`canvas-note-decor decor-${style}`} />
+                <div className="canvas-note-text">{textPreview}</div>
+              </div>
+            );
+          })()}
+
+          {/* DRAGGABLE CIRCULAR ACTIVITY BADGES ("КРУГЛЯХИ") */}
+          {activities.map((actId, idx) => {
+            const act = ACTIVITY_MAP[actId];
+            const coords = getMarkerCoords(actId, idx);
+            const isSelected = selectedItemId === actId;
+            const customLabel = settings.activityCustomLabels?.[actId] || act?.label || actId;
+
+            return (
+              <div
+                key={actId}
+                className={`canvas-activity-badge ${isSelected ? 'selected' : ''}`}
+                style={{
+                  transform: `translate(${coords.x}%, ${coords.y}%)`
+                }}
+                onPointerDown={(e) => handlePointerDown(e, actId, coords.x, coords.y)}
+                title={`${customLabel} (перетаскивай)`}
+              >
+                {act?.iconImage ? (
+                  <img
+                    src={`./${act.iconImage}?v=circle`}
+                    alt={customLabel}
+                    className="canvas-activity-img"
+                  />
+                ) : (
+                  <span className="canvas-activity-emoji">{act?.emoji || '🏷️'}</span>
+                )}
               </div>
             );
           })}
 
-          <div className="canvas-drag-hint">
-            <Sparkles size={12} />
-            <span>Перетаскивайте стикеры и заметку пальцем или мышкой</span>
-          </div>
-        </div>
-
-        {/* Selected Sticker Controls */}
-        {activeSticker && (
-          <div className="sticker-transform-bar">
-            <span className="transform-bar-label">Выбран стикер:</span>
-            <div className="transform-bar-actions">
+          {activities.length === 0 && !hasNote && (
+            <div className="canvas-empty-state">
+              <p>В этом окошке пока нет отметок</p>
               <button
-                className="btn-icon-sm"
-                onClick={() => handleRotateSticker(-15)}
-                title="Повернуть влево"
-              >
-                <RotateCcw size={14} />
-              </button>
-              <button
-                className="btn-icon-sm"
-                onClick={() => handleRotateSticker(15)}
-                title="Повернуть вправо"
-              >
-                <RotateCw size={14} />
-              </button>
-              <button
-                className="btn-icon-sm"
-                onClick={() => handleScaleSticker(-0.15)}
-                title="Уменьшить"
-              >
-                <ZoomOut size={14} />
-              </button>
-              <button
-                className="btn-icon-sm"
-                onClick={() => handleScaleSticker(0.15)}
-                title="Увеличить"
-              >
-                <ZoomIn size={14} />
-              </button>
-              <button
-                className="btn-icon-sm danger"
+                className="btn btn-outline btn-sm"
                 onClick={() => {
-                  playStickerPop(settings.soundEnabled !== false);
-                  removeSticker(activeSticker.id);
-                  setSelectedItemId(null);
+                  playBubbleTap(settings.soundEnabled !== false);
+                  onOpenLifeTracker();
                 }}
-                title="Удалить"
               >
-                <Trash2 size={14} />
+                + Добавить отметку дня
               </button>
             </div>
-          </div>
-        )}
-
-        {/* Footer Done Button */}
-        <div className="scrapbook-zoom-footer">
-          <button
-            className="btn-done-zoom"
-            onClick={() => {
-              playBubbleTap(settings.soundEnabled !== false);
-              onClose();
-            }}
-          >
-            <Check size={16} />
-            <span>Готово</span>
-          </button>
+          )}
         </div>
-
-        {/* Sticker Picker Modal */}
-        {isStickerPickerOpen && (
-          <StickerPicker
-            isOpen={isStickerPickerOpen}
-            targetDateTitle={formattedDate}
-            onSelectSticker={async (stickerId: string) => {
-              playStickerPop(settings.soundEnabled !== false);
-              const newStk = await addStickerToDate(date, stickerId);
-              setSelectedItemId(newStk.id);
-              setIsStickerPickerOpen(false);
-            }}
-            onClose={() => setIsStickerPickerOpen(false)}
-          />
-        )}
       </div>
     </div>
   );

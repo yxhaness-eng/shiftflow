@@ -165,6 +165,7 @@ export function resolveDayInfo(
     tags,
     intimate,
     activities,
+    markerPositions: override?.markerPositions,
     noteSticker,
     journalPage: override?.journalPage
   };

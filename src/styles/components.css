@@ -3579,9 +3579,318 @@ input:checked + .slider-round:before {
   transition: all 0.15s ease;
 }
 
-.btn-save-journal:hover {
-  background: #68855F;
+/* ==========================================================================
+   DAY ACTIVITIES CUSTOM MANAGER & CIRCULAR BADGES STYLING
+   ========================================================================== */
+.activities-custom-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
 }
+
+.activity-custom-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  transition: all 0.15s ease;
+}
+
+.activity-custom-card:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.activity-custom-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cal-cell-bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+.activity-custom-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.activity-custom-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-display-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.activity-custom-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-icon-xs {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.btn-icon-xs:hover {
+  color: var(--accent-primary);
+}
+
+.btn-icon-xs.save {
+  color: #7B9971;
+}
+
+.btn-icon-xs.cancel {
+  color: #D98282;
+}
+
+.activity-inline-edit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.activity-edit-input {
+  width: 100%;
+  min-width: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-primary);
+  color: var(--text-primary);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  outline: none;
+}
+
+/* Canvas Draggable Activity Badge in ScrapbookCellZoom */
+.canvas-activity-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  z-index: 5;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.22));
+  transition: box-shadow 0.15s ease;
+}
+
+.canvas-activity-badge:active {
+  cursor: grabbing;
+  z-index: 10;
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.35));
+}
+
+.canvas-activity-badge.selected {
+  outline: 2px dashed var(--accent-primary);
+  outline-offset: 3px;
+}
+
+.canvas-activity-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.canvas-activity-emoji {
+  font-size: 1.5rem;
+  pointer-events: none;
+}
+
+.zoom-hint-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 6px 12px;
+  margin-bottom: 12px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+/* Note Sticker Style Picker in JournalPageModal */
+.note-style-picker-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.note-style-picker-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.note-style-picker-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.note-style-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.note-style-btn:hover {
+  border-color: var(--accent-primary);
+}
+
+.note-style-btn.active {
+  background: var(--accent-primary);
+  color: var(--text-light);
+  border-color: var(--accent-primary);
+  font-weight: 700;
+}
+
+/* Authentic Paper Texture in Note Modal */
+.note-paper-authentic {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+  border: 1px solid #D6C2A9;
+  border-radius: 16px;
+  padding: 24px 20px 20px 20px;
+  position: relative;
+  min-height: 280px;
+}
+
+.sheet-clip-svg {
+  width: 22px;
+  height: 44px;
+  position: absolute;
+  top: -12px;
+  left: 28px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+}
+
+.journal-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.btn-trash-note {
+  color: #D98282;
+  border-color: #57232A;
+}
+
+.btn-save-note {
+  font-weight: 700;
+}
+
+/* DayEditor Activities Grid */
+.editor-activities-block {
+  margin: 12px 0;
+}
+
+.editor-subhead {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.editor-activities-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.editor-activity-badge-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 6px 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editor-activity-badge-btn img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.editor-activity-badge-btn span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.editor-activity-badge-btn.active {
+  background: var(--bg-secondary);
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.editor-activity-badge-btn.active img {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 1px;
+}
+
 
 
 

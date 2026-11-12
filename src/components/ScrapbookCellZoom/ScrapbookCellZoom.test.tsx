@@ -29,10 +29,9 @@ describe('ScrapbookCellZoom component', () => {
 
     expect(screen.getByText(/Оформление окошка/i)).toBeDefined();
     expect(screen.getByText(/15 ноября 2026/i)).toBeDefined();
-    expect(screen.getByText('Отметки дня')).toBeDefined();
-    expect(screen.getByText('Стикер-заметка')).toBeDefined();
-    expect(screen.getByText('Добавить наклейку')).toBeDefined();
-    expect(screen.getByText(/Перетаскивайте стикеры и заметку/i)).toBeDefined();
-    expect(screen.getByText('Готово')).toBeDefined();
+    expect(screen.getByText(/Отметки дня/i)).toBeDefined();
+    expect(screen.getByText(/Заметка/i)).toBeDefined();
+    expect(screen.getByText(/Сбросить/i)).toBeDefined();
+    expect(screen.getByText(/Перетаскивай кругляхи и стикер заметки/i)).toBeDefined();
   });
 });
