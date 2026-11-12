@@ -200,59 +200,59 @@ export const SettingsPage: React.FC = () => {
         </h3>
 
         <div className="themes-grid">
-          {/* Theme 1: Wine Velvet (Фото 4 - Основная тема) */}
+          {/* Тема 1. Burgundy Romance */}
           <div
-            className={`theme-card ${settings.theme === 'wine-velvet' || settings.theme === 'rose-vintage' || settings.theme === 'royal-bordeaux' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('wine-velvet')}
+            className={`theme-card ${settings.theme === 'burgundy-romance' || settings.theme === 'wine-velvet' || settings.theme === 'rose-vintage' || settings.theme === 'royal-bordeaux' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('burgundy-romance')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#1C060B' }} />
-              <span style={{ backgroundColor: '#FAF5EE' }} />
-              <span style={{ backgroundColor: '#DE4364' }} />
+              <span style={{ backgroundColor: '#39070D' }} />
+              <span style={{ backgroundColor: '#FFF6EA' }} />
+              <span style={{ backgroundColor: '#D99AA4' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Винный бархат</div>
-              <div className="theme-desc">Тёмный винный велюр, страницы айвори и румянец роз</div>
+              <div className="theme-name">Burgundy Romance</div>
+              <div className="theme-desc">Винтаж, уют, романтика, эстетика тёмного вина</div>
             </div>
-            {(settings.theme === 'wine-velvet' || settings.theme === 'rose-vintage' || settings.theme === 'royal-bordeaux') && (
+            {(settings.theme === 'burgundy-romance' || settings.theme === 'wine-velvet' || settings.theme === 'rose-vintage' || settings.theme === 'royal-bordeaux') && (
               <Check size={16} className="theme-check-icon" />
             )}
           </div>
 
-          {/* Theme 2: Cozy Journal (Тёплый крафт) */}
+          {/* Тема 2. Lavender Dream */}
           <div
-            className={`theme-card ${settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' || settings.theme === 'pastel-scrapbook' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('cozy-journal')}
+            className={`theme-card ${settings.theme === 'lavender-dream' || settings.theme === 'lavender-journal' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('lavender-dream')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#F7F2E8' }} />
-              <span style={{ backgroundColor: '#FFFFFF' }} />
-              <span style={{ backgroundColor: '#B26E30' }} />
+              <span style={{ backgroundColor: '#292039' }} />
+              <span style={{ backgroundColor: '#F8F3FC' }} />
+              <span style={{ backgroundColor: '#B99AD9' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Тёплый крафт</div>
-              <div className="theme-desc">Молочная бумага, эспрессо-чернила и карамельная кожа</div>
+              <div className="theme-name">Lavender Dream</div>
+              <div className="theme-desc">Нежность, спокойствие, пастель, лёгкость</div>
             </div>
-            {(settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' || settings.theme === 'pastel-scrapbook') && (
+            {(settings.theme === 'lavender-dream' || settings.theme === 'lavender-journal') && (
               <Check size={16} className="theme-check-icon" />
             )}
           </div>
 
-          {/* Theme 3: Sage Botanical (Шалфей и лаванда) */}
+          {/* Тема 3. Matcha Cream */}
           <div
-            className={`theme-card ${settings.theme === 'sage-botanical' || settings.theme === 'lavender-journal' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('sage-botanical')}
+            className={`theme-card ${settings.theme === 'matcha-cream' || settings.theme === 'sage-botanical' || settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' || settings.theme === 'pastel-scrapbook' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('matcha-cream')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#EFF4ED' }} />
-              <span style={{ backgroundColor: '#FFFFFF' }} />
-              <span style={{ backgroundColor: '#4A7342' }} />
+              <span style={{ backgroundColor: '#25352B' }} />
+              <span style={{ backgroundColor: '#F7F5E9' }} />
+              <span style={{ backgroundColor: '#A9B98A' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Шалфей и лаванда</div>
-              <div className="theme-desc">Матча, лесные чернила и сушёная лаванда гербария</div>
+              <div className="theme-name">Matcha Cream</div>
+              <div className="theme-desc">Природная эстетика, спокойствие, минимализм, тепло</div>
             </div>
-            {(settings.theme === 'sage-botanical' || settings.theme === 'lavender-journal') && (
+            {(settings.theme === 'matcha-cream' || settings.theme === 'sage-botanical' || settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' || settings.theme === 'pastel-scrapbook') && (
               <Check size={16} className="theme-check-icon" />
             )}
           </div>

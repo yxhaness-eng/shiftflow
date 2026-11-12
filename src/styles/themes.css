@@ -1,75 +1,80 @@
 /* ==========================================================================
-   ShiftFlow Theme System (Unslopped & Refined)
-   Curated 3 Master Palettes:
-   1. Wine Velvet (Винный бархат & Крем) — Dark Romantic Stationery (Default)
-   2. Cozy Journal (Тёплый крафт & Эспрессо) — Warm Daylight Scrapbook
-   3. Sage Botanical (Шалфей & Лаванда) — Fresh Pressed Botanicals
+   ShiftFlow Theme System
+   Система из трёх полноценных цветовых тем оформления:
+   1. Burgundy Romance (Винтаж, уют, романтика, эстетика тёмного вина)
+   2. Lavender Dream (Нежность, спокойствие, пастель, лёгкость)
+   3. Matcha Cream (Природная эстетика, спокойствие, минимализм, тепло)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Marck+Script&family=Comfortaa:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap');
 
 /* ==========================================================================
-   THEME 1: WINE VELVET (Винный бархат & Крем)
-   Dark Romantic Stationery — Deep Wine Velvet, Warm Ivory, Rose Accent
+   ТЕМА 1. BURGUNDY ROMANCE (Винтаж, уют, романтика, эстетика тёмного вина)
+   Основной фон: #39070D, Вторичный/шапка: #64131E, Ячейки: #FFF6EA,
+   Выделенная ячейка: #F9E5E8, Акцент: #D99AA4 / #B86B78,
+   Текст на светлом: #32171A, Светлый текст: #FFF6EA, Границы: #57232A
    ========================================================================== */
 :root,
+[data-theme='burgundy-romance'],
 [data-theme='wine-velvet'],
 [data-theme='rose-vintage'],
 [data-theme='royal-bordeaux'] {
   /* Surfaces & Backgrounds */
-  --bg-primary: #1C060B;
-  --bg-secondary: #260910;
-  --bg-card: #280B12;
-  --bg-card-subtle: #331018;
-  --bg-hover: #3C131D;
-  --bg-active: #4A1724;
+  --bg-primary: #39070D;
+  --bg-secondary: #64131E;
+  --bg-card: #4B0D17;
+  --bg-card-subtle: #58121D;
+  --bg-hover: #5F1521;
+  --bg-active: #6E1A27;
 
-  /* Typography on dark surfaces: Warm Ivory & Soft Mauve */
-  --text-primary: #FAF5EB;
-  --text-secondary: #DFCAC8;
-  --text-muted: #9E8086;
-  --text-light: #1C060B;
+  /* Typography */
+  --text-primary: #FFF6EA;
+  --text-secondary: #D99AA4;
+  --text-muted: #8B706D;
+  --text-light: #32171A;
 
-  /* Quiet hairline borders */
-  --border-color: #431620;
-  --border-subtle: #331018;
-  --border-focus: #DE4364;
+  /* Hairlines & Borders */
+  --border-color: #57232A;
+  --border-subtle: #451A20;
+  --border-focus: #D99AA4;
 
-  /* Accent colors */
-  --accent-lavender: #E8B4C0;
-  --accent-lavender-dark: #DE4364;
-  --accent-sage: #C5D6C0;
-  --accent-sage-dark: #6C8260;
-  --accent-rose: #FCEBED;
-  --accent-rose-dark: #DE4364;
-  --accent-blue: #C9D9E8;
-  --accent-blue-dark: #58799E;
-  --accent-cream: #FAF5EE;
-  --accent-gold: #D4AF37;
+  /* Accents */
+  --accent-primary: #D99AA4;
+  --accent-secondary: #B86B78;
+  --accent-lavender: #D99AA4;
+  --accent-lavender-dark: #B86B78;
+  --accent-sage: #B86B78;
+  --accent-sage-dark: #964A57;
+  --accent-rose: #F9E5E8;
+  --accent-rose-dark: #D99AA4;
+  --accent-blue: #E8CCD1;
+  --accent-blue-dark: #B86B78;
+  --accent-cream: #FFF6EA;
+  --accent-gold: #D99AA4;
 
   /* Buttons */
-  --btn-primary-bg: #DE4364;
-  --btn-primary-text: #FFFFFF;
-  --btn-primary-border: #DE4364;
-  --btn-primary-hover: #EB5374;
-  --btn-secondary-bg: rgba(67, 22, 32, 0.72);
-  --btn-secondary-text: #FAF5EB;
-  --btn-secondary-border: rgba(250, 245, 235, 0.22);
-  --btn-secondary-hover: #551925;
+  --btn-primary-bg: #D99AA4;
+  --btn-primary-text: #32171A;
+  --btn-primary-border: #D99AA4;
+  --btn-primary-hover: #E3ACB5;
+  --btn-secondary-bg: #64131E;
+  --btn-secondary-text: #FFF6EA;
+  --btn-secondary-border: #57232A;
+  --btn-secondary-hover: #751724;
 
-  /* Inputs & Controls */
-  --input-bg: rgba(20, 4, 8, 0.70);
-  --input-border: #431620;
-  --input-focus-ring: rgba(222, 67, 100, 0.25);
+  /* Inputs & Form Controls */
+  --input-bg: #2B050A;
+  --input-border: #57232A;
+  --input-focus-ring: rgba(217, 154, 164, 0.25);
 
-  --badge-swap-bg: #431620;
-  --badge-swap-border: #DE4364;
-  --badge-swap-text: #FAF5EB;
+  --badge-swap-bg: #64131E;
+  --badge-swap-border: #B86B78;
+  --badge-swap-text: #FFF6EA;
 
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.35);
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.40);
   --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.60);
-  --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.32);
+  --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -80,187 +85,197 @@
 
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-  /* Calendar Grid (Фото 4 matching) */
-  --cal-cell-bg: #FAF5EE;
-  --cal-cell-bg-other: #35141C;
-  --cal-cell-other-text: #8E6D74;
-  --cal-cell-border: #431620;
-  --cal-cell-text: #341219;
-  --cal-cell-event: #FCEBED;
-  --cal-cell-event-border: #DE4364;
-  --cal-cell-today-bg: #FAF5EE;
-  --cal-cell-today-border: #DE4364;
-  --cal-cell-today-number-color: #FFFFFF;
-  --cal-dayoff-bg: #F4EAE6;
-  --cal-dayoff-text: #6E3844;
-  --cal-dayoff-border: #E5D2D6;
-  --cal-weekday-color: #FAF5EB;
-  --cal-weekend-color: #E87A90;
-  --cal-legend-bg: rgba(40, 11, 18, 0.72);
-  --cal-gesture-bg: rgba(67, 22, 32, 0.65);
+  /* Calendar Grid */
+  --cal-cell-bg: #FFF6EA;
+  --cal-cell-bg-other: #4A121A;
+  --cal-cell-other-text: #8B706D;
+  --cal-cell-border: #57232A;
+  --cal-cell-text: #32171A;
+  --cal-cell-event: #F9E5E8;
+  --cal-cell-event-border: #B86B78;
+  --cal-cell-today-bg: #FFF6EA;
+  --cal-cell-today-border: #B86B78;
+  --cal-cell-today-number-color: #FFF6EA;
+  --cal-dayoff-bg: #F4E2E4;
+  --cal-dayoff-text: #592028;
+  --cal-dayoff-border: #DEC3C7;
+  --cal-weekday-color: #FFF6EA;
+  --cal-weekend-color: #D99AA4;
+  --cal-legend-bg: rgba(100, 19, 30, 0.75);
+  --cal-gesture-bg: rgba(100, 19, 30, 0.65);
 }
 
 /* ==========================================================================
-   THEME 2: COZY JOURNAL (Тёплый крафт & Эспрессо)
-   Warm Daylight Scrapbook — French Milk Paper, Linen Cards, Dark Espresso
+   ТЕМА 2. LAVENDER DREAM (Нежность, спокойствие, пастель, лёгкость)
+   Основной фон: #292039, Вторичный/шапка: #48345F, Ячейки: #F8F3FC,
+   Выделенная ячейка: #E9DDF5, Акцент: #B99AD9 / #9273B8,
+   Текст на светлом: #332844, Светлый текст: #F8F3FC, Границы: #66517D
    ========================================================================== */
+[data-theme='lavender-dream'],
+[data-theme='lavender-journal'] {
+  /* Surfaces & Backgrounds */
+  --bg-primary: #292039;
+  --bg-secondary: #48345F;
+  --bg-card: #38294E;
+  --bg-card-subtle: #43315C;
+  --bg-hover: #4F3A6B;
+  --bg-active: #5A4379;
+
+  /* Typography */
+  --text-primary: #F8F3FC;
+  --text-secondary: #B99AD9;
+  --text-muted: #A69AAF;
+  --text-light: #332844;
+
+  /* Hairlines & Borders */
+  --border-color: #66517D;
+  --border-subtle: #4D3C61;
+  --border-focus: #B99AD9;
+
+  /* Accents */
+  --accent-primary: #B99AD9;
+  --accent-secondary: #9273B8;
+  --accent-lavender: #B99AD9;
+  --accent-lavender-dark: #9273B8;
+  --accent-sage: #9273B8;
+  --accent-sage-dark: #745499;
+  --accent-rose: #E9DDF5;
+  --accent-rose-dark: #B99AD9;
+  --accent-blue: #D6CAE9;
+  --accent-blue-dark: #9273B8;
+  --accent-cream: #F8F3FC;
+  --accent-gold: #B99AD9;
+
+  /* Buttons */
+  --btn-primary-bg: #B99AD9;
+  --btn-primary-text: #332844;
+  --btn-primary-border: #B99AD9;
+  --btn-primary-hover: #C7ADE2;
+  --btn-secondary-bg: #48345F;
+  --btn-secondary-text: #F8F3FC;
+  --btn-secondary-border: #66517D;
+  --btn-secondary-hover: #543E6E;
+
+  /* Inputs & Form Controls */
+  --input-bg: #1F172C;
+  --input-border: #66517D;
+  --input-focus-ring: rgba(185, 154, 217, 0.25);
+
+  --badge-swap-bg: #48345F;
+  --badge-swap-border: #9273B8;
+  --badge-swap-text: #F8F3FC;
+
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.40);
+  --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.60);
+  --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
+
+  /* Calendar Grid */
+  --cal-cell-bg: #F8F3FC;
+  --cal-cell-bg-other: #3B2E50;
+  --cal-cell-other-text: #A69AAF;
+  --cal-cell-border: #66517D;
+  --cal-cell-text: #332844;
+  --cal-cell-event: #E9DDF5;
+  --cal-cell-event-border: #9273B8;
+  --cal-cell-today-bg: #F8F3FC;
+  --cal-cell-today-border: #9273B8;
+  --cal-cell-today-number-color: #F8F3FC;
+  --cal-dayoff-bg: #ECE3F5;
+  --cal-dayoff-text: #453258;
+  --cal-dayoff-border: #CFBFDF;
+  --cal-weekday-color: #F8F3FC;
+  --cal-weekend-color: #B99AD9;
+  --cal-legend-bg: rgba(72, 52, 95, 0.75);
+  --cal-gesture-bg: rgba(72, 52, 95, 0.65);
+}
+
+/* ==========================================================================
+   ТЕМА 3. MATCHA CREAM (Природная эстетика, спокойствие, минимализм, тепло)
+   Основной фон: #25352B, Вторичный/шапка: #3C5744, Ячейки: #F7F5E9,
+   Выделенная ячейка: #E5EBD7, Акцент: #A9B98A / #7E966A,
+   Текст на светлом: #303B2D, Светлый текст: #F7F5E9, Границы: #536B54
+   ========================================================================== */
+[data-theme='matcha-cream'],
+[data-theme='sage-botanical'],
 [data-theme='cozy-journal'],
 [data-theme='cozy-cats'],
 [data-theme='pastel-scrapbook'] {
   /* Surfaces & Backgrounds */
-  --bg-primary: #F7F2E8;
-  --bg-secondary: #EFE7DA;
-  --bg-card: #FFFFFF;
-  --bg-card-subtle: #FAF6EF;
-  --bg-hover: #ECE2D2;
-  --bg-active: #E4D7C4;
+  --bg-primary: #25352B;
+  --bg-secondary: #3C5744;
+  --bg-card: #2E4235;
+  --bg-card-subtle: #364E3E;
+  --bg-hover: #405B48;
+  --bg-active: #4B6B55;
 
-  /* Typography: Deep Espresso & Warm Walnut */
-  --text-primary: #34271F;
-  --text-secondary: #6B5A4E;
-  --text-muted: #99887B;
-  --text-light: #FAF5EE;
+  /* Typography */
+  --text-primary: #F7F5E9;
+  --text-secondary: #A9B98A;
+  --text-muted: #9DA48F;
+  --text-light: #303B2D;
 
-  /* Quiet hairline borders */
-  --border-color: #E4DAD0;
-  --border-subtle: #EFE8DF;
-  --border-focus: #B26E30;
-
-  /* Accents */
-  --accent-lavender: #D3C4E3;
-  --accent-lavender-dark: #7A5B9C;
-  --accent-sage: #CEDEC9;
-  --accent-sage-dark: #587752;
-  --accent-rose: #EBCFD2;
-  --accent-rose-dark: #AF6670;
-  --accent-blue: #CDDCEB;
-  --accent-blue-dark: #55779E;
-  --accent-cream: #FAF2E8;
-  --accent-gold: #B26E30;
-
-  /* Buttons */
-  --btn-primary-bg: #B26E30;
-  --btn-primary-text: #FFFFFF;
-  --btn-primary-border: #B26E30;
-  --btn-primary-hover: #C27A38;
-  --btn-secondary-bg: #EFE7DA;
-  --btn-secondary-text: #34271F;
-  --btn-secondary-border: #E0D4C5;
-  --btn-secondary-hover: #E6DBCB;
-
-  /* Inputs & Controls */
-  --input-bg: #FFFFFF;
-  --input-border: #E4DAD0;
-  --input-focus-ring: rgba(178, 110, 48, 0.20);
-
-  --badge-swap-bg: #FFF3E6;
-  --badge-swap-border: #E0B480;
-  --badge-swap-text: #8C5220;
-
-  --shadow-soft: 0 1px 3px rgba(52, 39, 31, 0.05);
-  --shadow-card: 0 2px 8px rgba(52, 39, 31, 0.07);
-  --shadow-floating: 0 8px 24px rgba(52, 39, 31, 0.12);
-  --shadow-sticker: 0 2px 6px rgba(52, 39, 31, 0.12);
-
-  /* Calendar Grid */
-  --cal-cell-bg: #FFFFFF;
-  --cal-cell-bg-other: #EFE8DC;
-  --cal-cell-other-text: #99887B;
-  --cal-cell-border: #E4DAD0;
-  --cal-cell-text: #34271F;
-  --cal-cell-event: #FEF7ED;
-  --cal-cell-event-border: #B26E30;
-  --cal-cell-today-bg: #FFFFFF;
-  --cal-cell-today-border: #B26E30;
-  --cal-cell-today-number-color: #FFFFFF;
-  --cal-dayoff-bg: #F9F2EB;
-  --cal-dayoff-text: #785A48;
-  --cal-dayoff-border: #E8DCD2;
-  --cal-weekday-color: #34271F;
-  --cal-weekend-color: #B26E30;
-  --cal-legend-bg: rgba(255, 255, 255, 0.88);
-  --cal-gesture-bg: rgba(239, 231, 218, 0.88);
-}
-
-/* ==========================================================================
-   THEME 3: SAGE BOTANICAL (Шалфей & Лаванда)
-   Fresh Pressed Botanicals — Soft Matcha Paper, Forest Ink & Lavender
-   ========================================================================== */
-[data-theme='sage-botanical'],
-[data-theme='lavender-journal'] {
-  /* Surfaces & Backgrounds */
-  --bg-primary: #EFF4ED;
-  --bg-secondary: #E3EDE0;
-  --bg-card: #FFFFFF;
-  --bg-card-subtle: #F5FAF3;
-  --bg-hover: #DCE8D8;
-  --bg-active: #D0E0CC;
-
-  /* Typography: Deep Pine Forest & Herbal Slate */
-  --text-primary: #1F2E1E;
-  --text-secondary: #4E614C;
-  --text-muted: #7B8F79;
-  --text-light: #F4F8F3;
-
-  /* Quiet hairline borders */
-  --border-color: #D3DFD1;
-  --border-subtle: #E2ECE0;
-  --border-focus: #4A7342;
+  /* Hairlines & Borders */
+  --border-color: #536B54;
+  --border-subtle: #3D503E;
+  --border-focus: #A9B98A;
 
   /* Accents */
-  --accent-lavender: #D5C7E8;
-  --accent-lavender-dark: #755994;
-  --accent-sage: #B8D6B2;
-  --accent-sage-dark: #4A7342;
-  --accent-rose: #ECCFD6;
-  --accent-rose-dark: #A85B6C;
-  --accent-blue: #C8D9E8;
-  --accent-blue-dark: #4D7398;
-  --accent-cream: #EFF4ED;
-  --accent-gold: #A38B42;
+  --accent-primary: #A9B98A;
+  --accent-secondary: #7E966A;
+  --accent-lavender: #A9B98A;
+  --accent-lavender-dark: #7E966A;
+  --accent-sage: #7E966A;
+  --accent-sage-dark: #5F7350;
+  --accent-rose: #E5EBD7;
+  --accent-rose-dark: #A9B98A;
+  --accent-blue: #C8D6BC;
+  --accent-blue-dark: #7E966A;
+  --accent-cream: #F7F5E9;
+  --accent-gold: #A9B98A;
 
   /* Buttons */
-  --btn-primary-bg: #4A7342;
-  --btn-primary-text: #FFFFFF;
-  --btn-primary-border: #4A7342;
-  --btn-primary-hover: #56854D;
-  --btn-secondary-bg: #E3EDE0;
-  --btn-secondary-text: #1F2E1E;
-  --btn-secondary-border: #D0DEC9;
-  --btn-secondary-hover: #D7E5D3;
+  --btn-primary-bg: #A9B98A;
+  --btn-primary-text: #303B2D;
+  --btn-primary-border: #A9B98A;
+  --btn-primary-hover: #B7C69A;
+  --btn-secondary-bg: #3C5744;
+  --btn-secondary-text: #F7F5E9;
+  --btn-secondary-border: #536B54;
+  --btn-secondary-hover: #486751;
 
-  /* Inputs & Controls */
-  --input-bg: #FFFFFF;
-  --input-border: #D3DFD1;
-  --input-focus-ring: rgba(74, 115, 66, 0.20);
+  /* Inputs & Form Controls */
+  --input-bg: #1D2A22;
+  --input-border: #536B54;
+  --input-focus-ring: rgba(169, 185, 138, 0.25);
 
-  --badge-swap-bg: #EDF7EA;
-  --badge-swap-border: #8CBF84;
-  --badge-swap-text: #2C5724;
+  --badge-swap-bg: #3C5744;
+  --badge-swap-border: #7E966A;
+  --badge-swap-text: #F7F5E9;
 
-  --shadow-soft: 0 1px 3px rgba(31, 46, 30, 0.05);
-  --shadow-card: 0 2px 8px rgba(31, 46, 30, 0.07);
-  --shadow-floating: 0 8px 24px rgba(31, 46, 30, 0.12);
-  --shadow-sticker: 0 2px 6px rgba(31, 46, 30, 0.12);
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.40);
+  --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.60);
+  --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
 
   /* Calendar Grid */
-  --cal-cell-bg: #FFFFFF;
-  --cal-cell-bg-other: #E2ECE0;
-  --cal-cell-other-text: #7B8F79;
-  --cal-cell-border: #D3DFD1;
-  --cal-cell-text: #1F2E1E;
-  --cal-cell-event: #F3F0F8;
-  --cal-cell-event-border: #755994;
-  --cal-cell-today-bg: #FFFFFF;
-  --cal-cell-today-border: #4A7342;
-  --cal-cell-today-number-color: #FFFFFF;
-  --cal-dayoff-bg: #EBF2E8;
-  --cal-dayoff-text: #3D573B;
-  --cal-dayoff-border: #D7E3D4;
-  --cal-weekday-color: #1F2E1E;
-  --cal-weekend-color: #755994;
-  --cal-legend-bg: rgba(255, 255, 255, 0.88);
-  --cal-gesture-bg: rgba(227, 237, 224, 0.88);
+  --cal-cell-bg: #F7F5E9;
+  --cal-cell-bg-other: #334739;
+  --cal-cell-other-text: #9DA48F;
+  --cal-cell-border: #536B54;
+  --cal-cell-text: #303B2D;
+  --cal-cell-event: #E5EBD7;
+  --cal-cell-event-border: #7E966A;
+  --cal-cell-today-bg: #F7F5E9;
+  --cal-cell-today-border: #7E966A;
+  --cal-cell-today-number-color: #F7F5E9;
+  --cal-dayoff-bg: #E4ECE0;
+  --cal-dayoff-text: #324734;
+  --cal-dayoff-border: #C3D5BE;
+  --cal-weekday-color: #F7F5E9;
+  --cal-weekend-color: #A9B98A;
+  --cal-legend-bg: rgba(60, 87, 68, 0.75);
+  --cal-gesture-bg: rgba(60, 87, 68, 0.65);
 }
 
 /* ==========================================================================
@@ -277,19 +292,20 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* App Header & Brand */
 .app-header {
-  background-color: var(--bg-card);
+  background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .brand-badge {
@@ -348,7 +364,7 @@ body {
 
 .desktop-nav .nav-link.active {
   background-color: var(--btn-secondary-bg);
-  border-color: var(--border-subtle);
+  border-color: var(--border-color);
   color: var(--text-primary);
 }
 
@@ -358,13 +374,14 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--bg-card);
+  background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: space-around;
   padding: 6px 8px calc(6px + var(--safe-bottom));
   z-index: 50;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .bottom-nav-item {
@@ -395,7 +412,7 @@ body {
 }
 
 .bottom-nav-item.active svg {
-  color: var(--accent-rose-dark);
+  color: var(--accent-primary);
 }
 
 /* Cards */
@@ -406,6 +423,7 @@ body {
   padding: 18px 20px;
   box-shadow: var(--shadow-soft);
   margin-bottom: 16px;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .card-title {
@@ -495,7 +513,7 @@ select {
   font-family: inherit;
   font-size: 0.92rem;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.25s ease;
 }
 
 input[type="text"]:focus,
@@ -580,7 +598,7 @@ select:focus {
 
 .calendar-day-cell.other-month .day-number {
   color: var(--cal-cell-other-text);
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* Cell with Event / Note */
@@ -660,7 +678,7 @@ select:focus {
   background: var(--bg-hover);
 }
 
-/* Quick Gesture Hints Bar (Фото 4 matching) */
+/* Quick Gesture Hints Bar */
 .quick-gestures-hint-bar {
   display: flex;
   align-items: center;

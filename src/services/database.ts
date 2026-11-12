@@ -74,7 +74,7 @@ export const DEFAULT_SCHEDULE_CONFIG: ScheduleConfig = {
 };
 
 export const DEFAULT_SETTINGS: AppSettings = {
-  theme: 'wine-velvet',
+  theme: 'burgundy-romance',
   initialSetupDone: false,
   userNotesEnabled: true,
   highlightToday: true,

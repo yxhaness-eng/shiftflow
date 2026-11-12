@@ -138,7 +138,7 @@ const AppContext = createContext<AppContextType | null>(null);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [settings, setSettingsState] = useState<AppSettings>({
-    theme: 'wine-velvet',
+    theme: 'burgundy-romance',
     initialSetupDone: false,
     userNotesEnabled: true,
     highlightToday: true,

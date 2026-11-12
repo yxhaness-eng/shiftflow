@@ -1,14 +1,17 @@
 // ShiftFlow Data Models & Types
 
 export type ThemeId =
+  | 'burgundy-romance'
+  | 'lavender-dream'
+  | 'matcha-cream'
   | 'wine-velvet'
-  | 'rose-vintage'
-  | 'royal-bordeaux'
   | 'cozy-journal'
+  | 'sage-botanical'
   | 'cozy-cats'
   | 'lavender-journal'
   | 'pastel-scrapbook'
-  | 'sage-botanical';
+  | 'rose-vintage'
+  | 'royal-bordeaux';
 
 export interface WorkPoint {
   id: string;

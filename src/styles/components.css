@@ -2085,9 +2085,9 @@ input:checked + .slider-round:before {
 }
 
 .life-tracker-modal {
-  background: #2E0B12; /* Rich dark burgundy from screenshot 1 */
-  color: #FAF5EB;
-  border: 1px solid #571C24;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
   border-radius: 24px;
   width: 100%;
   max-width: 440px;
@@ -2097,6 +2097,7 @@ input:checked + .slider-round:before {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
   position: relative;
   animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .life-tracker-header {
@@ -2109,20 +2110,20 @@ input:checked + .slider-round:before {
 .life-tracker-date {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #FAF5EB;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .life-tracker-subtitle {
   font-size: 0.85rem;
-  color: #C49FA3;
+  color: var(--text-secondary);
   margin: 2px 0 0;
 }
 
 .life-tracker-close-btn {
-  background: #47151D;
-  border: 1px solid #5C1D24;
-  color: #FAF5EB;
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -2134,7 +2135,7 @@ input:checked + .slider-round:before {
 }
 
 .life-tracker-close-btn:hover {
-  background: #611D27;
+  background: var(--bg-hover);
 }
 
 /* Card "Интим был" (legacy) */
@@ -2257,70 +2258,23 @@ input:checked + .slider-round:before {
 
 .custom-input-box input {
   flex: 1;
-  background: #3E1218;
-  border: 1px solid #6E222D;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
   border-radius: 10px;
   padding: 8px 12px;
-  color: #FAF5EB;
+  color: var(--text-primary);
   font-size: 0.85rem;
 }
 
 .custom-input-save-btn {
-  background: #E85A75;
-  color: #FFFFFF;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   border: none;
   border-radius: 10px;
   padding: 0 14px;
   font-weight: 600;
   font-size: 0.82rem;
   cursor: pointer;
-}
-
-/* 3x3 Sex Types Grid */
-.sex-types-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.sex-type-btn {
-  background: #3B1117;
-  border: 1px solid #571C24;
-  border-radius: 14px;
-  padding: 8px 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #F8E7E9;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-size: 0.8rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.sex-type-btn:hover {
-  background: #4E1821;
-}
-
-.sex-type-btn.active {
-  background: #661D27;
-  border-color: #E85A75;
-  box-shadow: 0 0 0 1.5px #E85A75;
-  color: #FFFFFF;
-  font-weight: 600;
-}
-
-.sex-type-emoji {
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-.sex-type-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Multi-select Activities Chips */
@@ -2332,28 +2286,28 @@ input:checked + .slider-round:before {
 }
 
 .activity-chip-btn {
-  background: #3B1117;
-  border: 1px solid #571C24;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 6px 12px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #F8E7E9;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.15s ease;
   font-size: 0.8rem;
 }
 
 .activity-chip-btn:hover {
-  background: #4E1821;
+  background: var(--bg-hover);
 }
 
 .activity-chip-btn.active {
-  background: #661D27;
-  border-color: #E87A90;
-  box-shadow: 0 0 0 1.5px #E87A90;
-  color: #FFFFFF;
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-border);
+  color: var(--btn-primary-text);
+  box-shadow: 0 0 0 1px var(--btn-primary-border);
   font-weight: 600;
 }
 
@@ -3141,15 +3095,15 @@ input:checked + .slider-round:before {
 }
 
 .topbar-actions .btn-outline {
-  border-color: #6E222D;
-  color: #F8E7E9;
-  background: #3B1117;
+  border-color: var(--border-color);
+  color: var(--text-primary);
+  background: var(--btn-secondary-bg);
 }
 
 .topbar-actions .btn-icon {
-  background: #3B1117;
-  border: 1px solid #571C24;
-  color: #F8E7E9;
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 /* Paper Style Selector Row */
@@ -3157,8 +3111,8 @@ input:checked + .slider-round:before {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #3A1218;
-  border: 1px solid #571C24;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   padding: 6px 10px;
   overflow-x: auto;
@@ -3167,7 +3121,7 @@ input:checked + .slider-round:before {
 .paper-row-label {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #C49FA3;
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 
@@ -3178,12 +3132,12 @@ input:checked + .slider-round:before {
 }
 
 .paper-choice-pill {
-  background: #47151D;
-  border: 1px solid #5C1D24;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 4px 8px;
   font-size: 0.75rem;
-  color: #F8E7E9;
+  color: var(--text-primary);
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -3484,8 +3438,8 @@ input:checked + .slider-round:before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #3B1117;
-  border: 1px solid #571C24;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 6px 12px;
 }
@@ -3493,7 +3447,7 @@ input:checked + .slider-round:before {
 .decor-controls-label {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #C49FA3;
+  color: var(--text-secondary);
 }
 
 .decor-controls-buttons {
@@ -3502,15 +3456,15 @@ input:checked + .slider-round:before {
 }
 
 .decor-controls-buttons .btn-icon-sm {
-  background: #47151D;
-  border: 1px solid #5C1D24;
-  color: #FAF5EB;
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 /* Sticker / Decorator Tray */
 .journal-stickers-tray {
-  background: #381016;
-  border: 1px solid #571C24;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 10px;
   display: flex;
@@ -3525,22 +3479,22 @@ input:checked + .slider-round:before {
 }
 
 .tray-cat-pill {
-  background: #47151D;
-  border: 1px solid #5C1D24;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 4px 10px;
   font-size: 0.75rem;
-  color: #F8E7E9;
+  color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
 }
 
 .tray-cat-pill.active {
-  background: #661D27;
-  border-color: #E87A90;
-  color: #FFFFFF;
-  box-shadow: 0 0 0 1px #E87A90;
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-border);
+  color: var(--btn-primary-text);
+  box-shadow: 0 0 0 1px var(--btn-primary-border);
   font-weight: 700;
 }
 
@@ -3552,8 +3506,8 @@ input:checked + .slider-round:before {
 }
 
 .tray-sticker-item-btn {
-  background: #44141B;
-  border: 1px solid #5C1D24;
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 6px;
   display: flex;
@@ -3567,7 +3521,7 @@ input:checked + .slider-round:before {
 }
 
 .tray-sticker-item-btn:hover {
-  background: #5A1923;
+  background: var(--bg-hover);
   transform: translateY(-2px);
 }
 
