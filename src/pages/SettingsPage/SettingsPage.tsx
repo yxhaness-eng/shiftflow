@@ -200,10 +200,61 @@ export const SettingsPage: React.FC = () => {
         </h3>
 
         <div className="themes-grid">
-          {/* Theme 1: Cozy Cats */}
+          {/* Theme 1: Wine Velvet (Фото 4 - Основная тема) */}
           <div
-            className={`theme-card ${settings.theme === 'cozy-cats' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('cozy-cats')}
+            className={`theme-card ${settings.theme === 'wine-velvet' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('wine-velvet')}
+          >
+            <div className="theme-preview-dots">
+              <span style={{ backgroundColor: '#23080E' }} />
+              <span style={{ backgroundColor: '#FFFDF9' }} />
+              <span style={{ backgroundColor: '#DE4364' }} />
+            </div>
+            <div className="theme-info">
+              <div className="theme-name">Wine Velvet</div>
+              <div className="theme-desc">Тёмный винный велюр, кремовые страницы и розовый румянец</div>
+            </div>
+            {settings.theme === 'wine-velvet' && <Check size={16} className="theme-check-icon" />}
+          </div>
+
+          {/* Theme 2: Rose Vintage */}
+          <div
+            className={`theme-card ${settings.theme === 'rose-vintage' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('rose-vintage')}
+          >
+            <div className="theme-preview-dots">
+              <span style={{ backgroundColor: '#2F141B' }} />
+              <span style={{ backgroundColor: '#FFF8F6' }} />
+              <span style={{ backgroundColor: '#C84B68' }} />
+            </div>
+            <div className="theme-info">
+              <div className="theme-name">Rose Vintage</div>
+              <div className="theme-desc">Благородный розовый шёлк, приглушённый бордо и сургуч</div>
+            </div>
+            {settings.theme === 'rose-vintage' && <Check size={16} className="theme-check-icon" />}
+          </div>
+
+          {/* Theme 3: Royal Bordeaux */}
+          <div
+            className={`theme-card ${settings.theme === 'royal-bordeaux' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('royal-bordeaux')}
+          >
+            <div className="theme-preview-dots">
+              <span style={{ backgroundColor: '#1C0812' }} />
+              <span style={{ backgroundColor: '#FAF6EE' }} />
+              <span style={{ backgroundColor: '#B83E9C' }} />
+            </div>
+            <div className="theme-info">
+              <div className="theme-name">Royal Bordeaux</div>
+              <div className="theme-desc">Глубокая спелая слива, шампань и золотистый контур</div>
+            </div>
+            {settings.theme === 'royal-bordeaux' && <Check size={16} className="theme-check-icon" />}
+          </div>
+
+          {/* Theme 4: Cozy Journal */}
+          <div
+            className={`theme-card ${settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('cozy-journal')}
           >
             <div className="theme-preview-dots">
               <span style={{ backgroundColor: '#FAF5EB' }} />
@@ -211,13 +262,15 @@ export const SettingsPage: React.FC = () => {
               <span style={{ backgroundColor: '#D4DFCC' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Cozy Cats</div>
-              <div className="theme-desc">Молочные тона, тёплый акварельный уют</div>
+              <div className="theme-name">Cozy Journal</div>
+              <div className="theme-desc">Молочные тона, тёплый акварельный уют и пергамент</div>
             </div>
-            {settings.theme === 'cozy-cats' && <Check size={16} className="theme-check-icon" />}
+            {(settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats') && (
+              <Check size={16} className="theme-check-icon" />
+            )}
           </div>
 
-          {/* Theme 2: Lavender Journal */}
+          {/* Theme 5: Lavender Journal */}
           <div
             className={`theme-card ${settings.theme === 'lavender-journal' ? 'selected' : ''}`}
             onClick={() => handleThemeChange('lavender-journal')}
@@ -234,7 +287,7 @@ export const SettingsPage: React.FC = () => {
             {settings.theme === 'lavender-journal' && <Check size={16} className="theme-check-icon" />}
           </div>
 
-          {/* Theme 3: Pastel Scrapbook */}
+          {/* Theme 6: Pastel Scrapbook */}
           <div
             className={`theme-card ${settings.theme === 'pastel-scrapbook' ? 'selected' : ''}`}
             onClick={() => handleThemeChange('pastel-scrapbook')}

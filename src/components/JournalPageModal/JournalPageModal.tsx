@@ -16,7 +16,7 @@ import {
   JOURNAL_DECOR_MAP,
   JOURNAL_PAPER_OPTIONS
 } from '../../data/journalDecorData';
-import { STICKERS_MANIFEST, STICKERS_MAP } from '../../data/stickersManifest';
+import { STICKERS_MAP } from '../../data/stickersManifest';
 import { JournalPaperType } from '../../types';
 import { playPaperRustle, playStickerPop, playBubbleTap, triggerHaptic } from '../../services/soundEffects';
 
@@ -43,8 +43,10 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
   const [content, setContent] = useState<string>(existingJournal?.content || dayInfo.note || '');
   const [selectedDecorId, setSelectedDecorId] = useState<string | null>(null);
 
-  const [activeDecorTab, setActiveDecorTab] = useState<'Гербарий' | 'Сухоцветы' | 'Винтаж' | 'Скотч' | 'Котики'>('Сухоцветы');
+  const [activeDecorTab, setActiveDecorTab] = useState<'Гербарий' | 'Сухоцветы' | 'Винтаж' | 'Уют' | 'Скотч'>('Сухоцветы');
   const [isDecorTrayOpen, setIsDecorTrayOpen] = useState(true);
+
+  const sheetRef = useRef<HTMLDivElement>(null);
 
   const formattedDate = formatFullDateRU(date);
 
@@ -61,6 +63,28 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
 
   const decorations = existingJournal?.decorations || [];
   const activeDecor = decorations.find((d) => d.id === selectedDecorId);
+
+  // Helper to normalize coordinates to [5, 95] with backward compatibility for old (0,0) or negative coords
+  const getDecorCoords = (d: { x?: number; y?: number }) => {
+    let x = d.x ?? 50;
+    let y = d.y ?? 45;
+
+    // Backward compatibility: old format was centered at 0 in range [-46, 46]
+    if (x < 0) {
+      x = Math.max(5, Math.min(95, Math.round(x + 50)));
+    } else if (x === 0 && y === 0) {
+      x = 50;
+      y = 45;
+    }
+    if (y < 0) {
+      y = Math.max(5, Math.min(95, Math.round(y + 50)));
+    }
+
+    return {
+      x: Math.max(5, Math.min(95, x)),
+      y: Math.max(5, Math.min(95, y))
+    };
+  };
 
   // Save journal page
   const handleSave = async () => {
@@ -79,7 +103,9 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
   const handleAddDecor = async (stickerId: string) => {
     playStickerPop(settings.soundEnabled !== false);
     triggerHaptic(8, settings.hapticsEnabled !== false);
-    await addJournalDecoration(date, stickerId);
+    const randomOffsetX = Math.round(50 + (Math.random() * 24 - 12));
+    const randomOffsetY = Math.round(45 + (Math.random() * 24 - 12));
+    await addJournalDecoration(date, stickerId, { x: randomOffsetX, y: randomOffsetY });
   };
 
   // Clear journal page
@@ -139,17 +165,16 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!dragRef.current || !dragRef.current.isDragging) return;
+    if (!dragRef.current || !dragRef.current.isDragging || !sheetRef.current) return;
 
-    const deltaX = e.clientX - dragRef.current.startX;
-    const deltaY = e.clientY - dragRef.current.startY;
+    const rect = sheetRef.current.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
 
-    // Relative to page container
-    const deltaPercentX = deltaX / 3.4;
-    const deltaPercentY = deltaY / 4.4;
+    const deltaX = ((e.clientX - dragRef.current.startX) / rect.width) * 100;
+    const deltaY = ((e.clientY - dragRef.current.startY) / rect.height) * 100;
 
-    const newX = Math.round(Math.max(-46, Math.min(46, dragRef.current.origX + deltaPercentX)));
-    const newY = Math.round(Math.max(-46, Math.min(46, dragRef.current.origY + deltaPercentY)));
+    const newX = Math.round(Math.max(5, Math.min(95, dragRef.current.origX + deltaX)));
+    const newY = Math.round(Math.max(5, Math.min(95, dragRef.current.origY + deltaY)));
 
     updateJournalDecorationTransform(date, dragRef.current.id, { x: newX, y: newY });
   };
@@ -230,6 +255,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
 
         {/* The Authentic Journal Scrapbook Page */}
         <div
+          ref={sheetRef}
           className={`journal-scrapbook-sheet paper-theme-${paperType}`}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
@@ -266,24 +292,33 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
               <textarea
                 className="journal-ruled-textarea"
                 rows={9}
-                placeholder="Напиши сюда мысли, воспоминания, планы или секретики этого дня... Добавь сухоцветы, марки или котиков, чтобы оформить страничку!"
+                placeholder="Напиши сюда мысли, воспоминания, планы или секретики этого дня... Добавь сухоцветы, марки или скотч, чтобы оформить страничку!"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
             </div>
+          </div>
 
-            {/* Draggable Placed Decorations directly on the Page */}
+          {/* Draggable Placed Decorations Layer directly on the Page */}
+          <div className="journal-decor-layer">
             {decorations.map((d) => {
               const imgSrc = resolveStickerImage(d.stickerId);
               const isSelected = d.id === selectedDecorId;
+              const { x: posX, y: posY } = getDecorCoords(d);
               return (
                 <div
                   key={d.id}
                   className={`journal-page-placed-decor ${isSelected ? 'selected' : ''}`}
                   style={{
-                    transform: `translate(${d.x}%, ${d.y}%) scale(${d.scale}) rotate(${d.rotation}deg)`
+                    left: `${posX}%`,
+                    top: `${posY}%`,
+                    transform: `translate(-50%, -50%) rotate(${d.rotation || 0}deg) scale(${d.scale || 1})`,
+                    pointerEvents: 'auto'
                   }}
-                  onPointerDown={(e) => handlePointerDown(e, d.id, d.x, d.y)}
+                  onPointerDown={(e) => handlePointerDown(e, d.id, posX, posY)}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={handlePointerUp}
+                  onPointerCancel={handlePointerUp}
                 >
                   <img src={`./${imgSrc}`} alt="Декор" draggable={false} />
                 </div>
@@ -328,7 +363,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
           <div className="journal-stickers-tray">
             {/* Category Tabs */}
             <div className="tray-categories-row">
-              {(['Сухоцветы', 'Гербарий', 'Винтаж', 'Скотч', 'Котики'] as const).map((cat) => (
+              {(['Сухоцветы', 'Гербарий', 'Винтаж', 'Уют', 'Скотч'] as const).map((cat) => (
                 <button
                   key={cat}
                   className={`tray-cat-pill ${activeDecorTab === cat ? 'active' : ''}`}
@@ -344,28 +379,17 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
 
             {/* Sticker Items Strip */}
             <div className="tray-stickers-strip">
-              {activeDecorTab === 'Котики'
-                ? STICKERS_MANIFEST.slice(0, 16).map((item) => (
-                    <button
-                      key={item.id}
-                      className="tray-sticker-item-btn"
-                      onClick={() => handleAddDecor(item.id)}
-                      title={`Приклеить: ${item.name}`}
-                    >
-                      <img src={`./${item.imagePath}`} alt={item.name} />
-                    </button>
-                  ))
-                : JOURNAL_DECOR_ITEMS.filter((item) => item.category === activeDecorTab).map((item) => (
-                    <button
-                      key={item.id}
-                      className="tray-sticker-item-btn"
-                      onClick={() => handleAddDecor(item.id)}
-                      title={`Приклеить: ${item.name}`}
-                    >
-                      <img src={`./${item.imagePath}`} alt={item.name} />
-                      <span className="tray-item-name">{item.name}</span>
-                    </button>
-                  ))}
+              {JOURNAL_DECOR_ITEMS.filter((item) => item.category === activeDecorTab).map((item) => (
+                <button
+                  key={item.id}
+                  className="tray-sticker-item-btn"
+                  onClick={() => handleAddDecor(item.id)}
+                  title={`Приклеить: ${item.name}`}
+                >
+                  <img src={`./${item.imagePath}`} alt={item.name} />
+                  <span className="tray-item-name">{item.name}</span>
+                </button>
+              ))}
             </div>
           </div>
         )}

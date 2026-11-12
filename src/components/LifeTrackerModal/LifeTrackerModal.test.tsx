@@ -26,7 +26,7 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 describe('LifeTrackerModal component', () => {
-  it('renders modal with date header, intimate card and activity chips', async () => {
+  it('renders modal with date header, activity chips and does not contain intimate sections', async () => {
     const handleClose = vi.fn();
     const handleOpenNote = vi.fn();
     const handleOpenZoom = vi.fn();
@@ -46,50 +46,21 @@ describe('LifeTrackerModal component', () => {
     expect(screen.getByText(/15 ноября 2026/i)).toBeDefined();
     expect(screen.getByText(/Настрой отметки этого окошка/i)).toBeDefined();
 
-    // Check "Отметка «Секас был»"
-    expect(screen.getByText(/Отметка «Секас был»/i)).toBeDefined();
+    // Verify intimate tracking is completely removed ("Убираем секас Вообще")
+    expect(screen.queryByText(/секас/i)).toBeNull();
+    expect(screen.queryByText(/КАКОЙ БЫЛ/i)).toBeNull();
 
-    // Check intimate types
-    expect(screen.getByText('Страстный')).toBeDefined();
-    expect(screen.getByText('Нежный')).toBeDefined();
-    expect(screen.getByText('Быстрый')).toBeDefined();
-
-    // Check activities
-    expect(screen.getByText('Свидание')).toBeDefined();
-    expect(screen.getByText('Вкусняшки')).toBeDefined();
-    expect(screen.getByText('Супер день')).toBeDefined();
+    // Check enriched activities matching Photo 4
+    expect(screen.getByText(/Свидание \/ Вино/i)).toBeDefined();
+    expect(screen.getByText(/Огонь \/ Энергия/i)).toBeDefined();
+    expect(screen.getByText(/Нежность \/ Любовь/i)).toBeDefined();
+    expect(screen.getByText(/Уютный вечер/i)).toBeDefined();
+    expect(screen.getByText(/Супер день/i)).toBeDefined();
+    expect(screen.getByText(/Вкусняшки/i)).toBeDefined();
+    expect(screen.getByText(/Кино \/ Сериал/i)).toBeDefined();
 
     // Check bottom actions
-    expect(screen.getByText(/Изменить стикер-заметку этого дня/i)).toBeDefined();
-  });
-
-  it('toggles intimate state and selects a type', async () => {
-    render(
-      <AppProvider>
-        <LifeTrackerModal
-          date="2026-11-16"
-          onClose={vi.fn()}
-          onOpenNoteSticker={vi.fn()}
-          onOpenZoomCanvas={vi.fn()}
-        />
-      </AppProvider>
-    );
-
-    // Click "Отметка «Секас был»" card
-    const sexCard = screen.getByText(/Отметка «Секас был»/i);
-    fireEvent.click(sexCard);
-
-    await waitFor(() => {
-      expect(screen.getByText(/Был 💕/i)).toBeDefined();
-    });
-
-    // Now selecting "Романтич..."
-    const romanticBtn = screen.getByText('Романтич...');
-    fireEvent.click(romanticBtn);
-
-    await waitFor(() => {
-      expect(romanticBtn.closest('button')?.classList.contains('active')).toBe(true);
-    });
+    expect(screen.getByText(/Оформить стикер-заметку этого дня/i)).toBeDefined();
   });
 
   it('allows multi-selecting multiple activities', async () => {
@@ -115,6 +86,33 @@ describe('LifeTrackerModal component', () => {
     fireEvent.click(movieBtn);
     await waitFor(() => {
       expect(movieBtn.classList.contains('active')).toBe(true);
+    });
+  });
+
+  it('allows adding a custom activity tag', async () => {
+    render(
+      <AppProvider>
+        <LifeTrackerModal
+          date="2026-11-18"
+          onClose={vi.fn()}
+          onOpenNoteSticker={vi.fn()}
+          onOpenZoomCanvas={vi.fn()}
+        />
+      </AppProvider>
+    );
+
+    const addCustomBtn = screen.getByText('+ Своя метка');
+    fireEvent.click(addCustomBtn);
+
+    const input = screen.getByPlaceholderText(/Например: Поездка к маме/i);
+    fireEvent.change(input, { target: { value: 'Концерт рок-группы' } });
+
+    const saveBtn = screen.getByText('Добавить');
+    fireEvent.click(saveBtn);
+
+    await waitFor(() => {
+      expect(screen.queryByPlaceholderText(/Например: Поездка к маме/i)).toBeNull();
+      expect(screen.getByText('Концерт рок-группы')).toBeDefined();
     });
   });
 });

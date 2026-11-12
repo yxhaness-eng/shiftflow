@@ -1,6 +1,13 @@
 // ShiftFlow Data Models & Types
 
-export type ThemeId = 'cozy-cats' | 'lavender-journal' | 'pastel-scrapbook';
+export type ThemeId =
+  | 'wine-velvet'
+  | 'rose-vintage'
+  | 'royal-bordeaux'
+  | 'cozy-journal'
+  | 'cozy-cats'
+  | 'lavender-journal'
+  | 'pastel-scrapbook';
 
 export interface WorkPoint {
   id: string;
@@ -63,15 +70,16 @@ export type JournalPaperType =
   | 'kraft'
   | 'lavender'
   | 'sage_herbal'
-  | 'vintage';
+  | 'vintage'
+  | 'dark-coffee';
 
 export interface JournalPageDecoration {
   id: string;
   stickerId: string;
-  x: number;              // percentage -45 .. 45
-  y: number;              // percentage -45 .. 45
+  x: number;              // percentage 5 .. 95
+  y: number;              // percentage 5 .. 95
   scale: number;          // 0.5 .. 1.8
-  rotation: number;       // degrees -45 .. 45
+  rotation: number;       // degrees -180 .. 180
 }
 
 export interface JournalPageData {
@@ -109,14 +117,11 @@ export interface PlacedSticker {
 }
 
 export type StickerCategory =
-  | 'Повседневная жизнь'
-  | 'Хобби'
-  | 'Отдых'
-  | 'Настроение'
-  | 'Погода'
-  | 'Природа'
-  | 'Романтика'
-  | 'Другое';
+  | 'Гербарий и сухоцветы'
+  | 'Уютный скрапбук'
+  | 'Винтаж'
+  | 'Васи-скотч и ленты'
+  | 'Жизнь и настроение';
 
 export interface StickerManifestItem {
   id: string;

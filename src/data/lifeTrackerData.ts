@@ -1,4 +1,4 @@
-// Preset data for Life, Mood, Intimate Tracking and Scrapbook Note Stickers
+// Preset data for Life, Mood, Daily Tracking and Scrapbook Note Stickers
 import { NoteStickerStyle } from '../types';
 
 export interface IntimatePreset {
@@ -8,17 +8,11 @@ export interface IntimatePreset {
   emoji: string;
 }
 
-export const INTIMATE_PRESETS: IntimatePreset[] = [
-  { id: 'passionate', label: 'Страстный', shortLabel: 'Страстный', emoji: '🔥' },
-  { id: 'tender', label: 'Нежный', shortLabel: 'Нежный', emoji: '🥰' },
-  { id: 'quick', label: 'Быстрый', shortLabel: 'Быстрый', emoji: '⚡' },
-  { id: 'romantic', label: 'Романтичный', shortLabel: 'Романтич...', emoji: '🍷' },
-  { id: 'experimental', label: 'Экспериментальный', shortLabel: 'Эксперим...', emoji: '🎲' },
-  { id: 'morning', label: 'Утренний', shortLabel: 'Утренний', emoji: '🌞' },
-  { id: 'long', label: 'Долгий', shortLabel: 'Долгий', emoji: '🌙' },
-  { id: 'playful', label: 'Игривый', shortLabel: 'Игривый', emoji: '😈' },
-  { id: 'cozy', label: 'Уютный', shortLabel: 'Уютный', emoji: '🧸' }
-];
+/**
+ * @deprecated Intimate tracking is deprecated/removed per user request ("Убираем секас Вообще").
+ * Kept as empty array for backwards compatibility.
+ */
+export const INTIMATE_PRESETS: IntimatePreset[] = [];
 
 export interface ActivityPreset {
   id: string;
@@ -28,21 +22,25 @@ export interface ActivityPreset {
 }
 
 export const ACTIVITY_PRESETS: ActivityPreset[] = [
-  { id: 'date', label: 'Свидание', emoji: '🥂', iconImage: 'stickers/life/wine.webp' },
+  { id: 'date', label: 'Свидание / Вино', emoji: '🍷', iconImage: 'stickers/life/wine.webp' },
+  { id: 'energy', label: 'Огонь / Энергия', emoji: '🔥' },
+  { id: 'tenderness', label: 'Нежность / Любовь', emoji: '💖', iconImage: 'stickers/life/love.webp' },
+  { id: 'cozy_evening', label: 'Уютный вечер', emoji: '🧸' },
+  { id: 'super_day', label: 'Супер день', emoji: '🌸' },
+  { id: 'gift', label: 'Подарочек', emoji: '🎁', iconImage: 'stickers/life/gift.webp' },
   { id: 'treats', label: 'Вкусняшки', emoji: '🍩', iconImage: 'stickers/life/food.webp' },
-  { id: 'super_day', label: 'Супер день', emoji: '🌸', iconImage: 'stickers/life/star.webp' },
   { id: 'period', label: 'Эти дни', emoji: '🩸' },
   { id: 'movie', label: 'Кино / Сериал', emoji: '🎬', iconImage: 'stickers/life/movie.webp' },
   { id: 'walk', label: 'Прогулка', emoji: '🪴', iconImage: 'stickers/life/trip.webp' },
-  { id: 'gift', label: 'Подарочек', emoji: '🎁', iconImage: 'stickers/life/gift.webp' },
   { id: 'cleaning', label: 'Уборка', emoji: '🧹', iconImage: 'stickers/life/broom.webp' },
   { id: 'cooking', label: 'Готовка', emoji: '🍳', iconImage: 'stickers/life/cooking.webp' },
   { id: 'laundry', label: 'Стирка', emoji: '🧺', iconImage: 'stickers/life/laundry.webp' },
-  { id: 'sleep', label: 'Сон и отдых', emoji: '🐱', iconImage: 'stickers/life/sleep.webp' },
+  { id: 'sleep', label: 'Сон и отдых', emoji: '😴', iconImage: 'stickers/life/sleep.webp' },
   { id: 'workout', label: 'Тренировка', emoji: '🏋️‍♀️', iconImage: 'stickers/life/workout.webp' },
   { id: 'shopping', label: 'Шопинг', emoji: '🛍️', iconImage: 'stickers/life/shopping.webp' },
   { id: 'chat', label: 'Болтовня', emoji: '💬', iconImage: 'stickers/life/chat.webp' },
-  { id: 'beauty', label: 'Бьюти / Уход', emoji: '✨', iconImage: 'stickers/life/beauty.webp' }
+  { id: 'beauty', label: 'Бьюти / Уход', emoji: '✨', iconImage: 'stickers/life/beauty.webp' },
+  { id: 'special', label: 'Особенный момент', emoji: '⭐', iconImage: 'stickers/life/star.webp' }
 ];
 
 export interface NoteStyleOption {

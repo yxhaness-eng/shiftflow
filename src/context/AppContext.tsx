@@ -85,7 +85,11 @@ interface AppContextType {
     transform: { x?: number; y?: number; rotation?: number }
   ) => Promise<void>;
   updateJournalPage: (date: string, pageData: Partial<JournalPageData>) => Promise<void>;
-  addJournalDecoration: (date: string, stickerId: string) => Promise<void>;
+  addJournalDecoration: (
+    date: string,
+    stickerId: string,
+    initialCoords?: { x?: number; y?: number }
+  ) => Promise<void>;
   updateJournalDecorationTransform: (
     date: string,
     decorId: string,
@@ -130,7 +134,7 @@ const AppContext = createContext<AppContextType | null>(null);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [settings, setSettingsState] = useState<AppSettings>({
-    theme: 'cozy-cats',
+    theme: 'wine-velvet',
     initialSetupDone: false,
     userNotesEnabled: true,
     highlightToday: true,
@@ -628,7 +632,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Add decoration to journal page
   const addJournalDecoration = useCallback(
-    async (date: string, stickerId: string) => {
+    async (
+      date: string,
+      stickerId: string,
+      initialCoords?: { x?: number; y?: number }
+    ) => {
       const existing = overrides[date];
       const currentJournal: JournalPageData = existing?.journalPage || {
         paperType: 'lined',
@@ -641,8 +649,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const newDecor: JournalPageDecoration = {
         id: `decor_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
         stickerId,
-        x: Math.round(Math.random() * 30 - 15),
-        y: Math.round(Math.random() * 30 - 15),
+        x: initialCoords?.x ?? Math.round(50 + (Math.random() * 24 - 12)),
+        y: initialCoords?.y ?? Math.round(45 + (Math.random() * 24 - 12)),
         scale: 1,
         rotation: Math.round(Math.random() * 16 - 8)
       };

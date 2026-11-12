@@ -14,13 +14,17 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onInstallClick, canInstall
     <header className="app-header">
       <div className="brand-badge" onClick={() => setActiveTab('calendar')} style={{ cursor: 'pointer' }}>
         <img
-          src="./icons/icon-192x192.png"
-          alt="ShiftFlow Logo"
-          className="brand-icon"
+          src="./icons/wax-seal.svg"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = './icons/icon-192x192.png';
+          }}
+          alt="ShiftFlow Vintage Wax Seal Badge"
+          className="brand-icon brand-wax-seal"
         />
         <div>
           <h1 className="brand-title">
             <span>ShiftFlow</span>
+            <span className="brand-gem" aria-hidden="true">✦</span>
           </h1>
           <div className="brand-subtitle">календарь смен & жизни</div>
         </div>

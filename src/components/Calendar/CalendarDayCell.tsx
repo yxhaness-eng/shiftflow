@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { RefreshCw } from 'lucide-react';
-import { ResolvedDayInfo } from '../../types';
+import { ResolvedDayInfo, NoteStickerStyle } from '../../types';
 import { StickerElement } from '../Sticker/StickerElement';
-import { ACTIVITY_MAP, INTIMATE_PRESETS } from '../../data/lifeTrackerData';
+import { ACTIVITY_MAP } from '../../data/lifeTrackerData';
 
 interface CalendarDayCellProps {
   dayInfo: ResolvedDayInfo;
@@ -25,7 +25,6 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
     originalPoint,
     stickers,
     note,
-    intimate,
     activities,
     noteSticker
   } = dayInfo;
@@ -58,14 +57,48 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
     onClick();
   };
 
-  // Find intimate preset emoji if active
-  const intimatePreset = intimate?.hadSex
-    ? INTIMATE_PRESETS.find((p) => p.id === intimate.type)
-    : null;
+  // Determine if a note / noteSticker / journalPage is present
+  const hasNote = Boolean(
+    (noteSticker && (noteSticker.text?.trim() || noteSticker.style)) ||
+    (note && note.trim().length > 0) ||
+    (dayInfo.journalPage && (dayInfo.journalPage.content?.trim() || dayInfo.journalPage.title?.trim() || dayInfo.journalPage.paperType))
+  );
+
+  const noteText =
+    noteSticker?.text?.trim() ||
+    dayInfo.journalPage?.title?.trim() ||
+    dayInfo.journalPage?.content?.trim() ||
+    note?.trim() ||
+    '';
+
+  const noteStyle: NoteStickerStyle =
+    noteSticker?.style ||
+    (dayInfo.journalPage?.paperType === 'kraft' || dayInfo.journalPage?.paperType === 'vintage'
+      ? 'dark-craft'
+      : 'paper-clip');
+
+  const noteRotation =
+    noteSticker?.rotation !== undefined
+      ? noteSticker.rotation
+      : dayNumber % 2 === 0
+      ? 1.5
+      : -1.8;
+
+  const noteTooltip =
+    noteSticker?.text ||
+    dayInfo.journalPage?.title ||
+    dayInfo.journalPage?.content ||
+    note ||
+    'Стикер-заметка';
+
+  const hasEvent = Boolean(
+    hasNote ||
+    (activities && activities.length > 0)
+  );
 
   return (
     <div
-      className={`calendar-cell ${!isCurrentMonth ? 'other-month' : ''} ${isToday ? 'is-today' : ''}`}
+      className={`calendar-cell ${!isCurrentMonth ? 'other-month' : ''} ${isToday ? 'is-today' : ''} ${hasEvent ? 'has-event' : ''}`}
       onClick={handleClick}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
@@ -78,58 +111,83 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
         }
       }}
     >
-      {/* Cell Header: Day Number and indicators */}
+      {/* Cell Header: Day Number */}
       <div className="cell-header">
         <span className={`day-number ${isToday ? 'today-badge' : ''}`}>
           {dayNumber}
         </span>
-
-        {/* Indicators on top right: Intimate badge & note icon */}
-        <div className="cell-header-badges">
-          {intimate?.hadSex && (
-            <span
-              className="cell-intimate-mini-badge"
-              title={`Секас был: ${intimate.customType || intimatePreset?.label || '💕'}`}
-            >
-              💕{intimate.customType ? '✨' : intimatePreset?.emoji || ''}
-            </span>
-          )}
-
-          {dayInfo.journalPage?.content && (
-            <span
-              className="cell-note-mini-pin journal-pin"
-              title={`Страничка ежедневника: ${dayInfo.journalPage.title || dayInfo.journalPage.content}`}
-            >
-              📖
-            </span>
-          )}
-
-          {noteSticker?.text && (
-            <span
-              className={`cell-note-mini-pin pin-${noteSticker.style}`}
-              title={`Стикер-заметка: ${noteSticker.text}`}
-            >
-              📝
-            </span>
-          )}
-
-          {!noteSticker?.text && note && note.trim().length > 0 && (
-            <span className="cell-note-mini-pin" title="Есть заметка">
-              📄
-            </span>
-          )}
-        </div>
       </div>
 
-      {/* Center Area: Activity Badges & Mini Note & Stickers */}
+      {/* Center Area: Mini Note Sticker, Activity Badges & Placed Stickers */}
       <div className="cell-stickers-container">
-        {/* If note sticker exists, render miniature memo paper */}
-        {noteSticker?.text && (
+        {/* Authentic Mini Paper Sticker with Paper Clip / Washi Tape (Photo 4) */}
+        {hasNote && (
           <div
-            className={`cell-mini-note-card style-${noteSticker.style}`}
-            title={noteSticker.text}
+            className={`cell-mini-note-card style-${noteStyle}`}
+            style={{
+              '--mini-note-rot': `${noteRotation}deg`
+            } as React.CSSProperties}
+            title={noteTooltip}
           >
-            <span className="mini-note-text">{noteSticker.text}</span>
+            {/* Paper clip decor (Photo 4, cells 3, 24) */}
+            {noteStyle === 'paper-clip' && (
+              <div className="mini-note-clip-decor" aria-hidden="true">
+                <svg viewBox="0 0 14 26" fill="none" className="mini-clip-svg">
+                  <path
+                    d="M3.5 2.5v16a4 4 0 0 0 8 0v-13a2.5 2.5 0 0 0-5 0v12.5"
+                    stroke="#4E7C4B"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            )}
+
+            {/* Washi tape decor (Photo 4, cell 14) */}
+            {noteStyle === 'washi-tape' && (
+              <>
+                <div className="mini-note-washi washi-top-left" aria-hidden="true" />
+                <div className="mini-note-washi washi-top-right" aria-hidden="true" />
+              </>
+            )}
+
+            {/* Dark craft washi strip (Photo 4, cell 14) */}
+            {noteStyle === 'dark-craft' && (
+              <div className="mini-note-washi washi-craft-strip" aria-hidden="true" />
+            )}
+
+            {/* Spiral pad holes */}
+            {noteStyle === 'spiral-pad' && (
+              <div className="mini-note-spirals" aria-hidden="true">
+                <span className="mini-spiral-hole" />
+                <span className="mini-spiral-hole" />
+                <span className="mini-spiral-hole" />
+                <span className="mini-spiral-hole" />
+              </div>
+            )}
+
+            {/* Ribbon card bow */}
+            {noteStyle === 'ribbon-card' && (
+              <div className="mini-note-ribbon" aria-hidden="true">
+                🎀
+              </div>
+            )}
+
+            {/* Tag hole */}
+            {noteStyle === 'tag' && (
+              <div className="mini-note-tag-hole" aria-hidden="true" />
+            )}
+
+            {/* Note text preview */}
+            {noteText ? (
+              <span className="mini-note-text">{noteText}</span>
+            ) : (
+              <div className="mini-note-ruled-lines" aria-hidden="true">
+                <span className="mini-rule-line" />
+                <span className="mini-rule-line" />
+              </div>
+            )}
           </div>
         )}
 
@@ -141,7 +199,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
               return (
                 <div key={actId} className="cell-activity-mini-icon" title={act?.label || actId}>
                   {act?.iconImage ? (
-                    <img src={`./${act.iconImage}`} alt={act.label} />
+                    <img src={`./${act.iconImage}`} alt={act?.label || actId} />
                   ) : (
                     <span>{act?.emoji || '🏷️'}</span>
                   )}

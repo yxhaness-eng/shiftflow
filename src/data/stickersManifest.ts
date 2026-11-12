@@ -1,794 +1,387 @@
-// Auto-generated sticker manifest
+// Aesthetic Scrapbook & Life Stickers Manifest
 import { StickerManifestItem, StickerCategory } from '../types';
 
 export const STICKER_CATEGORIES: StickerCategory[] = [
-  'Повседневная жизнь',
-  'Хобби',
-  'Отдых',
-  'Настроение',
-  'Погода',
-  'Природа',
-  'Романтика',
-  'Другое'
+  'Гербарий и сухоцветы',
+  'Уютный скрапбук',
+  'Винтаж',
+  'Васи-скотч и ленты',
+  'Жизнь и настроение'
 ];
 
 export const STICKERS_MANIFEST: StickerManifestItem[] = [
+  // 1. Гербарий и сухоцветы (Botanicals & Dried Flowers)
   {
-    "id": "cat_art_01",
-    "name": "Котик с палитрой",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_01.webp",
-    "description": "Творческое вдохновение и живопись"
+    id: 'botanical_sage_herb',
+    name: 'Шалфейная веточка',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_sage_herb.webp',
+    description: 'Ароматный шалфей для гербария'
   },
   {
-    "id": "cat_art_02",
-    "name": "Котик-художник",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_02.webp",
-    "description": "Творческое вдохновение и живопись"
+    id: 'botanical_terracotta_leaves',
+    name: 'Терракотовые листья',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_terracotta_leaves.webp',
+    description: 'Осенние тёплые терракотовые листочки'
   },
   {
-    "id": "cat_art_03",
-    "name": "Котик рисует акварелью",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_03.webp",
-    "description": "Творческое вдохновение и живопись"
+    id: 'botanical_green_daisy',
+    name: 'Полевые ромашки',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_green_daisy.webp',
+    description: 'Нежные акварельные полевые ромашки'
   },
   {
-    "id": "cat_art_04",
-    "name": "Котик за мольбертом",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_04.webp",
-    "description": "Творческое вдохновение и живопись"
+    id: 'botanical_warm_twigs',
+    name: 'Тёплые веточки',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_warm_twigs.webp',
+    description: 'Уютные высушенные веточки'
   },
   {
-    "id": "cat_art_05",
-    "name": "Маленький этюд",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_05.webp",
-    "description": "Творческое вдохновение и живопись"
+    id: 'botanical_dusty_wildflower',
+    name: 'Пыльный колосок',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_dusty_wildflower.webp',
+    description: 'Ботанический пыльно-розовый сухоцвет'
   },
   {
-    "id": "cat_art_06",
-    "name": "Котик с фотоаппаратом",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_06.webp",
-    "description": "Фотографии, музыка и любимые занятия"
+    id: 'botanical_blush_branch',
+    name: 'Нежная ветвь',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_blush_branch.webp',
+    description: 'Изящная пастельная акварельная веточка'
   },
   {
-    "id": "cat_art_07",
-    "name": "Уютный снимок",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_07.webp",
-    "description": "Фотографии, музыка и любимые занятия"
+    id: 'botanical_taupe_dill',
+    name: 'Соцветие укропа',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_taupe_dill.webp',
+    description: 'Высушенное зонтичное соцветие'
   },
   {
-    "id": "cat_art_08",
-    "name": "Котик слушает музыку",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_08.webp",
-    "description": "Фотографии, музыка и любимые занятия"
+    id: 'botanical_olive_berries',
+    name: 'Оливковые ягоды',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_olive_berries.webp',
+    description: 'Оливковая ветвь с сочными ягодами'
   },
   {
-    "id": "cat_art_09",
-    "name": "Котик в наушниках",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_09.webp",
-    "description": "Фотографии, музыка и любимые занятия"
+    id: 'botanical_forest_eucalyptus',
+    name: 'Лесной эвкалипт',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/botanical_forest_eucalyptus.webp',
+    description: 'Акварельный лесной эвкалипт'
   },
   {
-    "id": "cat_art_10",
-    "name": "Мелодия дня",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_art_10.webp",
-    "description": "Фотографии, музыка и любимые занятия"
+    id: 'flower_lavender_stem',
+    name: 'Сушёная лаванда',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_lavender_stem.webp',
+    description: 'Ароматная веточка сушёной лаванды'
   },
   {
-    "id": "cat_art_11",
-    "name": "Котик с книгой",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_art_11.webp",
-    "description": "Спокойный отдых и расслабление"
+    id: 'flower_peony_blush',
+    name: 'Чайная роза',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_peony_blush.webp',
+    description: 'Прессованный бутон чайной розы'
   },
   {
-    "id": "cat_art_12",
-    "name": "Чтение в кресле",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_art_12.webp",
-    "description": "Спокойный отдых и расслабление"
+    id: 'flower_white_peony',
+    name: 'Белый пион',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_white_peony.webp',
+    description: 'Воздушный прессованный белый пион'
   },
   {
-    "id": "cat_art_13",
-    "name": "Спящий комочек",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_art_13.webp",
-    "description": "Спокойный отдых и расслабление"
+    id: 'flower_purple_hydrangea',
+    name: 'Сиреневая гортензия',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_purple_hydrangea.webp',
+    description: 'Нежное соцветие сушёной сиреневой гортензии'
   },
   {
-    "id": "cat_art_14",
-    "name": "Сладкий сон",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_art_14.webp",
-    "description": "Спокойный отдых и расслабление"
+    id: 'flower_daisy_chamomile',
+    name: 'Прессованная ромашка',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_daisy_chamomile.webp',
+    description: 'Аптечная ромашка для травяного гербария'
   },
   {
-    "id": "cat_art_15",
-    "name": "Время дремоты",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_art_15.webp",
-    "description": "Спокойный отдых и расслабление"
+    id: 'flower_pink_hydrangea',
+    name: 'Розовая гортензия',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_pink_hydrangea.webp',
+    description: 'Нежный розовый сухоцвет гортензии'
   },
   {
-    "id": "cat_art_16",
-    "name": "Котик пьёт чай",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_art_16.webp",
-    "description": "Домашний уют и вкусные моменты"
+    id: 'flower_eucalyptus_branch',
+    name: 'Листья эвкалипта',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_eucalyptus_branch.webp',
+    description: 'Сушёная ветка эвкалипта'
   },
   {
-    "id": "cat_art_17",
-    "name": "Чашечка какао",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_art_17.webp",
-    "description": "Домашний уют и вкусные моменты"
+    id: 'flower_cosmos_pink',
+    name: 'Розовая космея',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_cosmos_pink.webp',
+    description: 'Прессованный цветок розовой космеи'
   },
   {
-    "id": "cat_art_18",
-    "name": "Котик на кухне",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_art_18.webp",
-    "description": "Домашний уют и вкусные моменты"
+    id: 'flower_anemone_violet',
+    name: 'Фиолетовый анемон',
+    category: 'Гербарий и сухоцветы',
+    imagePath: 'stickers/journal/flower_anemone_violet.webp',
+    description: 'Изящный фиолетовый анемон'
   },
+
+  // 2. Уютный скрапбук (Cozy Scrapbook)
   {
-    "id": "cat_art_19",
-    "name": "Выпечка с любовью",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_art_19.webp",
-    "description": "Домашний уют и вкусные моменты"
+    id: 'cozy_teddy_bear',
+    name: 'Мишка Тедди',
+    category: 'Уютный скрапбук',
+    imagePath: 'stickers/journal/cozy_teddy_bear.webp',
+    description: 'Винтажный плюшевый мишка для душевного тепла'
   },
   {
-    "id": "cat_art_20",
-    "name": "Ароматный кофе",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_art_20.webp",
-    "description": "Домашний уют и вкусные моменты"
+    id: 'cozy_camera',
+    name: 'Винтажная камера',
+    category: 'Уютный скрапбук',
+    imagePath: 'stickers/journal/cozy_camera.webp',
+    description: 'Ретро-фотоаппарат для памятных моментов'
   },
   {
-    "id": "cat_art_21",
-    "name": "Котик с комнатным цветком",
-    "category": "Природа",
-    "imagePath": "stickers/cat_art_21.webp",
-    "description": "Цветы, растения и природная гармония"
+    id: 'cozy_books_stack',
+    name: 'Стопка книг',
+    category: 'Уютный скрапбук',
+    imagePath: 'stickers/journal/cozy_books_stack.webp',
+    description: 'Уютная стопка книг для вечернего чтения'
   },
   {
-    "id": "cat_art_22",
-    "name": "Котик в саду",
-    "category": "Природа",
-    "imagePath": "stickers/cat_art_22.webp",
-    "description": "Цветы, растения и природная гармония"
+    id: 'cozy_tea_bag',
+    name: 'Пакетик чая',
+    category: 'Уютный скрапбук',
+    imagePath: 'stickers/journal/cozy_tea_bag.webp',
+    description: 'Травяной чай для спокойного вечера'
   },
   {
-    "id": "cat_art_23",
-    "name": "Весенний росток",
-    "category": "Природа",
-    "imagePath": "stickers/cat_art_23.webp",
-    "description": "Цветы, растения и природная гармония"
+    id: 'cozy_pinecone',
+    name: 'Лесная шишка',
+    category: 'Уютный скрапбук',
+    imagePath: 'stickers/journal/cozy_pinecone.webp',
+    description: 'Природная сосновая шишка для осенней странички'
   },
+
+  // 3. Винтаж (Vintage)
   {
-    "id": "cat_art_24",
-    "name": "Цветочная корзинка",
-    "category": "Природа",
-    "imagePath": "stickers/cat_art_24.webp",
-    "description": "Цветы, растения и природная гармония"
+    id: 'vintage_postage_stamp',
+    name: 'Почтовая марка',
+    category: 'Винтаж',
+    imagePath: 'stickers/journal/vintage_postage_stamp.webp',
+    description: 'Коллекционная винтажная почтовая марка'
   },
   {
-    "id": "cat_art_25",
-    "name": "Зелёный уголок",
-    "category": "Природа",
-    "imagePath": "stickers/cat_art_25.webp",
-    "description": "Цветы, растения и природная гармония"
+    id: 'vintage_wax_seal',
+    name: 'Сургучная печать',
+    category: 'Винтаж',
+    imagePath: 'stickers/journal/vintage_wax_seal.webp',
+    description: 'Благородная бордовая сургучная печать'
   },
   {
-    "id": "cat_art_26",
-    "name": "Котик под зонтиком",
-    "category": "Погода",
-    "imagePath": "stickers/cat_art_26.webp",
-    "description": "Погода за окном и настроение"
+    id: 'vintage_travel_ticket',
+    name: 'Билетик Admit One',
+    category: 'Винтаж',
+    imagePath: 'stickers/journal/vintage_travel_ticket.webp',
+    description: 'Винтажный входной билетик для путешествий'
   },
   {
-    "id": "cat_art_27",
-    "name": "Дождливый день",
-    "category": "Погода",
-    "imagePath": "stickers/cat_art_27.webp",
-    "description": "Погода за окном и настроение"
+    id: 'vintage_olive_butterfly',
+    name: 'Оливковая бабочка',
+    category: 'Винтаж',
+    imagePath: 'stickers/journal/vintage_olive_butterfly.webp',
+    description: 'Шелковая ботаническая бабочка'
   },
   {
-    "id": "cat_art_28",
-    "name": "Котик у окна",
-    "category": "Погода",
-    "imagePath": "stickers/cat_art_28.webp",
-    "description": "Погода за окном и настроение"
+    id: 'vintage_postcard',
+    name: 'Старинная открытка',
+    category: 'Винтаж',
+    imagePath: 'stickers/journal/vintage_postcard.webp',
+    description: 'Антикварная открытка с каллиграфией'
   },
   {
-    "id": "cat_art_29",
-    "name": "Тёплое солнышко",
-    "category": "Погода",
-    "imagePath": "stickers/cat_art_29.webp",
-    "description": "Погода за окном и настроение"
+    id: 'vintage_lantern',
+    name: 'Старинный фонарь',
+    category: 'Винтаж',
+    imagePath: 'stickers/journal/vintage_lantern.webp',
+    description: 'Винтажный фонарь с тёплым светом'
   },
+
+  // 4. Васи-скотч и ленты (Washi & Ribbons)
   {
-    "id": "cat_art_30",
-    "name": "Пушистые облака",
-    "category": "Погода",
-    "imagePath": "stickers/cat_art_30.webp",
-    "description": "Погода за окном и настроение"
+    id: 'washi_stripes',
+    name: 'Скотч в полоску',
+    category: 'Васи-скотч и ленты',
+    imagePath: 'stickers/journal/washi_stripes.webp',
+    description: 'Винтажная декоративная клейкая лента в полоску'
   },
   {
-    "id": "cat_cozy_01",
-    "name": "Кошачий уют #1",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_cozy_01.webp",
-    "description": "Гармония и нежность"
+    id: 'washi_polka',
+    name: 'Скотч в горошек',
+    category: 'Васи-скотч и ленты',
+    imagePath: 'stickers/journal/washi_polka.webp',
+    description: 'Декоративный васи-скотч в крапинку'
   },
   {
-    "id": "cat_cozy_02",
-    "name": "Кошачий уют #2",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_cozy_02.webp",
-    "description": "Гармония и нежность"
+    id: 'washi_hearts',
+    name: 'Скотч с сердечками',
+    category: 'Васи-скотч и ленты',
+    imagePath: 'stickers/journal/washi_hearts.webp',
+    description: 'Уютная клейкая лента с сердечками'
   },
   {
-    "id": "cat_cozy_03",
-    "name": "Кошачий уют #3",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_cozy_03.webp",
-    "description": "Гармония и нежность"
+    id: 'washi_flower_tape',
+    name: 'Скотч с цветком',
+    category: 'Васи-скотч и ленты',
+    imagePath: 'stickers/notes/lined-tape.webp',
+    description: 'Полоска скотча с засушенным лепестком'
   },
   {
-    "id": "cat_cozy_04",
-    "name": "Кошачий уют #4",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_cozy_04.webp",
-    "description": "Гармония и нежность"
+    id: 'paper_clip_grid',
+    name: 'Скрепка на листке',
+    category: 'Васи-скотч и ленты',
+    imagePath: 'stickers/notes/grid-clip.webp',
+    description: 'Металлическая канцелярская скрепка на заметке'
   },
   {
-    "id": "cat_cozy_05",
-    "name": "Кошачий уют #5",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_cozy_05.webp",
-    "description": "Гармония и нежность"
+    id: 'ribbon_bow_card',
+    name: 'Лента с бантиком',
+    category: 'Васи-скотч и ленты',
+    imagePath: 'stickers/notes/ribbon-card.webp',
+    description: 'Элегантный шелковый бант на открытке'
   },
   {
-    "id": "cat_cozy_06",
-    "name": "Осенний ветерок",
-    "category": "Погода",
-    "imagePath": "stickers/cat_cozy_06.webp",
-    "description": "Атмосфера дня и природы"
+    id: 'binder_clip_craft',
+    name: 'Бумажный зажим',
+    category: 'Васи-скотч и ленты',
+    imagePath: 'stickers/notes/binder-grid.webp',
+    description: 'Металлический зажим для листов бумаги'
   },
+
+  // 5. Жизнь и настроение (Life & Mood)
   {
-    "id": "cat_cozy_07",
-    "name": "Звёздная ночь",
-    "category": "Погода",
-    "imagePath": "stickers/cat_cozy_07.webp",
-    "description": "Атмосфера дня и природы"
+    id: 'life_wine',
+    name: 'Бокалы вина',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/wine.webp',
+    description: 'Бокалы вина для свидания или душевного вечера'
   },
   {
-    "id": "cat_cozy_08",
-    "name": "Утренний рассвет",
-    "category": "Погода",
-    "imagePath": "stickers/cat_cozy_08.webp",
-    "description": "Атмосфера дня и природы"
+    id: 'life_food',
+    name: 'Кофе и сладости',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/food.webp',
+    description: 'Чашечка горячего кофе и вкусный десерт'
   },
   {
-    "id": "cat_cozy_09",
-    "name": "Тихий дождик",
-    "category": "Погода",
-    "imagePath": "stickers/cat_cozy_09.webp",
-    "description": "Атмосфера дня и природы"
+    id: 'life_movie',
+    name: 'Кино и сериал',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/movie.webp',
+    description: 'Уютный вечер за просмотром любимого фильма'
   },
   {
-    "id": "cat_cozy_10",
-    "name": "Снежинки кружатся",
-    "category": "Погода",
-    "imagePath": "stickers/cat_cozy_10.webp",
-    "description": "Атмосфера дня и природы"
+    id: 'life_trip',
+    name: 'Путешествие',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/trip.webp',
+    description: 'Поездка, прогулка на природе или путешествие'
   },
   {
-    "id": "cat_cozy_11",
-    "name": "Утренний ритуал #1",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_cozy_11.webp",
-    "description": "Приятные моменты дня"
+    id: 'life_gift',
+    name: 'Подарочек',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/gift.webp',
+    description: 'Приятный подарок, сюрприз и праздничное настроение'
   },
   {
-    "id": "cat_cozy_12",
-    "name": "Утренний ритуал #2",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_cozy_12.webp",
-    "description": "Приятные моменты дня"
+    id: 'life_star',
+    name: 'Супер-день',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/star.webp',
+    description: 'Золотая звёздочка — великолепный продуктивный день'
   },
   {
-    "id": "cat_cozy_13",
-    "name": "Утренний ритуал #3",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_cozy_13.webp",
-    "description": "Приятные моменты дня"
+    id: 'life_love',
+    name: 'Сердце любви',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/love.webp',
+    description: 'Любовь, романтика и самые нежные чувства'
   },
   {
-    "id": "cat_cozy_14",
-    "name": "Утренний ритуал #4",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_cozy_14.webp",
-    "description": "Приятные моменты дня"
+    id: 'life_beauty',
+    name: 'Бьюти и забота',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/beauty.webp',
+    description: 'Уход за собой, спа, масочки и расслабление'
   },
   {
-    "id": "cat_cozy_15",
-    "name": "Утренний ритуал #5",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_cozy_15.webp",
-    "description": "Приятные моменты дня"
+    id: 'life_cooking',
+    name: 'Домашняя кухня',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/cooking.webp',
+    description: 'Приготовление вкусных блюд и домашняя выпечка'
   },
   {
-    "id": "cat_cozy_16",
-    "name": "Природный мотив #1",
-    "category": "Природа",
-    "imagePath": "stickers/cat_cozy_16.webp",
-    "description": "Листики, цветы и веточки"
+    id: 'life_shopping',
+    name: 'Шопинг',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/shopping.webp',
+    description: 'Покупки для настроения, подарки и обновы'
   },
   {
-    "id": "cat_cozy_17",
-    "name": "Природный мотив #2",
-    "category": "Природа",
-    "imagePath": "stickers/cat_cozy_17.webp",
-    "description": "Листики, цветы и веточки"
+    id: 'life_sleep',
+    name: 'Сладкий сон',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/sleep.webp',
+    description: 'Полноценный сон, отдых и восстановление энергии'
   },
   {
-    "id": "cat_cozy_18",
-    "name": "Природный мотив #3",
-    "category": "Природа",
-    "imagePath": "stickers/cat_cozy_18.webp",
-    "description": "Листики, цветы и веточки"
+    id: 'life_chat',
+    name: 'Тёплые беседы',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/chat.webp',
+    description: 'Душевные разговоры, звонки и встречи с друзьями'
   },
   {
-    "id": "cat_cozy_19",
-    "name": "Природный мотив #4",
-    "category": "Природа",
-    "imagePath": "stickers/cat_cozy_19.webp",
-    "description": "Листики, цветы и веточки"
+    id: 'life_workout',
+    name: 'Тренировка',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/workout.webp',
+    description: 'Спорт, растяжка, йога и бодрость духа'
   },
   {
-    "id": "cat_cozy_20",
-    "name": "Природный мотив #5",
-    "category": "Природа",
-    "imagePath": "stickers/cat_cozy_20.webp",
-    "description": "Листики, цветы и веточки"
+    id: 'life_broom',
+    name: 'Уборка и порядок',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/broom.webp',
+    description: 'Наведение чистоты, уюта и расхламление'
   },
   {
-    "id": "cat_cozy_21",
-    "name": "Тёплое чувство #1",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_cozy_21.webp",
-    "description": "Любовь и нежные моменты"
+    id: 'life_laundry',
+    name: 'Свежесть и стирка',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/laundry.webp',
+    description: 'Домашний уют, чистота и свежее белье'
   },
   {
-    "id": "cat_cozy_22",
-    "name": "Тёплое чувство #2",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_cozy_22.webp",
-    "description": "Любовь и нежные моменты"
-  },
-  {
-    "id": "cat_cozy_23",
-    "name": "Тёплое чувство #3",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_cozy_23.webp",
-    "description": "Любовь и нежные моменты"
-  },
-  {
-    "id": "cat_cozy_24",
-    "name": "Тёплое чувство #4",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_cozy_24.webp",
-    "description": "Любовь и нежные моменты"
-  },
-  {
-    "id": "cat_cozy_25",
-    "name": "Тёплое чувство #5",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_cozy_25.webp",
-    "description": "Любовь и нежные моменты"
-  },
-  {
-    "id": "cat_cozy_26",
-    "name": "Уютный штрих #1",
-    "category": "Другое",
-    "imagePath": "stickers/cat_cozy_26.webp",
-    "description": "Элемент для оформления ежедневника"
-  },
-  {
-    "id": "cat_cozy_27",
-    "name": "Уютный штрих #2",
-    "category": "Другое",
-    "imagePath": "stickers/cat_cozy_27.webp",
-    "description": "Элемент для оформления ежедневника"
-  },
-  {
-    "id": "cat_cozy_28",
-    "name": "Уютный штрих #3",
-    "category": "Другое",
-    "imagePath": "stickers/cat_cozy_28.webp",
-    "description": "Элемент для оформления ежедневника"
-  },
-  {
-    "id": "cat_cozy_29",
-    "name": "Уютный штрих #4",
-    "category": "Другое",
-    "imagePath": "stickers/cat_cozy_29.webp",
-    "description": "Элемент для оформления ежедневника"
-  },
-  {
-    "id": "cat_cozy_30",
-    "name": "Уютный штрих #5",
-    "category": "Другое",
-    "imagePath": "stickers/cat_cozy_30.webp",
-    "description": "Элемент для оформления ежедневника"
-  },
-  {
-    "id": "cat_daily_01",
-    "name": "Кошачьи дела #1",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_daily_01.webp",
-    "description": "Ежедневные заботы и дела"
-  },
-  {
-    "id": "cat_daily_02",
-    "name": "Кошачьи дела #2",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_daily_02.webp",
-    "description": "Ежедневные заботы и дела"
-  },
-  {
-    "id": "cat_daily_03",
-    "name": "Кошачьи дела #3",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_daily_03.webp",
-    "description": "Ежедневные заботы и дела"
-  },
-  {
-    "id": "cat_daily_04",
-    "name": "Кошачьи дела #4",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_daily_04.webp",
-    "description": "Ежедневные заботы и дела"
-  },
-  {
-    "id": "cat_daily_05",
-    "name": "Кошачьи дела #5",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_daily_05.webp",
-    "description": "Ежедневные заботы и дела"
-  },
-  {
-    "id": "cat_daily_06",
-    "name": "Кошачьи дела #6",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/cat_daily_06.webp",
-    "description": "Ежедневные заботы и дела"
-  },
-  {
-    "id": "cat_daily_07",
-    "name": "Радостный мур",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_daily_07.webp",
-    "description": "Эмоции и внутреннее состояние"
-  },
-  {
-    "id": "cat_daily_08",
-    "name": "Любопытный носик",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_daily_08.webp",
-    "description": "Эмоции и внутреннее состояние"
-  },
-  {
-    "id": "cat_daily_09",
-    "name": "Мечтательный взгляд",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_daily_09.webp",
-    "description": "Эмоции и внутреннее состояние"
-  },
-  {
-    "id": "cat_daily_10",
-    "name": "Спокойствие",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_daily_10.webp",
-    "description": "Эмоции и внутреннее состояние"
-  },
-  {
-    "id": "cat_daily_11",
-    "name": "Игривый котик",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_daily_11.webp",
-    "description": "Эмоции и внутреннее состояние"
-  },
-  {
-    "id": "cat_daily_12",
-    "name": "Уютное мурчание",
-    "category": "Настроение",
-    "imagePath": "stickers/cat_daily_12.webp",
-    "description": "Эмоции и внутреннее состояние"
-  },
-  {
-    "id": "cat_daily_13",
-    "name": "Котик с сердечком",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_daily_13.webp",
-    "description": "Любовь, забота и тёплые встречи"
-  },
-  {
-    "id": "cat_daily_14",
-    "name": "Влюблённые котики",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_daily_14.webp",
-    "description": "Любовь, забота и тёплые встречи"
-  },
-  {
-    "id": "cat_daily_15",
-    "name": "Нежные объятия",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_daily_15.webp",
-    "description": "Любовь, забота и тёплые встречи"
-  },
-  {
-    "id": "cat_daily_16",
-    "name": "Письмо с любовью",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_daily_16.webp",
-    "description": "Любовь, забота и тёплые встречи"
-  },
-  {
-    "id": "cat_daily_17",
-    "name": "Тёплый вечер",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_daily_17.webp",
-    "description": "Любовь, забота и тёплые встречи"
-  },
-  {
-    "id": "cat_daily_18",
-    "name": "Романтический закат",
-    "category": "Романтика",
-    "imagePath": "stickers/cat_daily_18.webp",
-    "description": "Любовь, забота и тёплые встречи"
-  },
-  {
-    "id": "cat_daily_19",
-    "name": "Уютный отдых #1",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_daily_19.webp",
-    "description": "Восстановление сил и релакс"
-  },
-  {
-    "id": "cat_daily_20",
-    "name": "Уютный отдых #2",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_daily_20.webp",
-    "description": "Восстановление сил и релакс"
-  },
-  {
-    "id": "cat_daily_21",
-    "name": "Уютный отдых #3",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_daily_21.webp",
-    "description": "Восстановление сил и релакс"
-  },
-  {
-    "id": "cat_daily_22",
-    "name": "Уютный отдых #4",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_daily_22.webp",
-    "description": "Восстановление сил и релакс"
-  },
-  {
-    "id": "cat_daily_23",
-    "name": "Уютный отдых #5",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_daily_23.webp",
-    "description": "Восстановление сил и релакс"
-  },
-  {
-    "id": "cat_daily_24",
-    "name": "Уютный отдых #6",
-    "category": "Отдых",
-    "imagePath": "stickers/cat_daily_24.webp",
-    "description": "Восстановление сил и релакс"
-  },
-  {
-    "id": "cat_daily_25",
-    "name": "Любимое увлечение #1",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_daily_25.webp",
-    "description": "Хобби и рукоделие"
-  },
-  {
-    "id": "cat_daily_26",
-    "name": "Любимое увлечение #2",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_daily_26.webp",
-    "description": "Хобби и рукоделие"
-  },
-  {
-    "id": "cat_daily_27",
-    "name": "Любимое увлечение #3",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_daily_27.webp",
-    "description": "Хобби и рукоделие"
-  },
-  {
-    "id": "cat_daily_28",
-    "name": "Любимое увлечение #4",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_daily_28.webp",
-    "description": "Хобби и рукоделие"
-  },
-  {
-    "id": "cat_daily_29",
-    "name": "Любимое увлечение #5",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_daily_29.webp",
-    "description": "Хобби и рукоделие"
-  },
-  {
-    "id": "cat_daily_30",
-    "name": "Любимое увлечение #6",
-    "category": "Хобби",
-    "imagePath": "stickers/cat_daily_30.webp",
-    "description": "Хобби и рукоделие"
-  },
-  {
-    "id": "cat_daily_31",
-    "name": "Декоративный элемент #1",
-    "category": "Другое",
-    "imagePath": "stickers/cat_daily_31.webp",
-    "description": "Милая деталь для скрапбука"
-  },
-  {
-    "id": "cat_daily_32",
-    "name": "Декоративный элемент #2",
-    "category": "Другое",
-    "imagePath": "stickers/cat_daily_32.webp",
-    "description": "Милая деталь для скрапбука"
-  },
-  {
-    "id": "cat_daily_33",
-    "name": "Декоративный элемент #3",
-    "category": "Другое",
-    "imagePath": "stickers/cat_daily_33.webp",
-    "description": "Милая деталь для скрапбука"
-  },
-  {
-    "id": "cat_daily_34",
-    "name": "Декоративный элемент #4",
-    "category": "Другое",
-    "imagePath": "stickers/cat_daily_34.webp",
-    "description": "Милая деталь для скрапбука"
-  },
-  {
-    "id": "cat_daily_35",
-    "name": "Декоративный элемент #5",
-    "category": "Другое",
-    "imagePath": "stickers/cat_daily_35.webp",
-    "description": "Милая деталь для скрапбука"
-  },
-  {
-    "id": "life_love",
-    "name": "Сердечко любви",
-    "category": "Романтика",
-    "imagePath": "stickers/life/love.webp",
-    "description": "Любовь, нежность и романтика"
-  },
-  {
-    "id": "life_wine",
-    "name": "Бокалы вина",
-    "category": "Романтика",
-    "imagePath": "stickers/life/wine.webp",
-    "description": "Свидание, вечер вдвоем, бокал вина"
-  },
-  {
-    "id": "life_chat",
-    "name": "Диалог и общение",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/life/chat.webp",
-    "description": "Душевные разговоры и переписка"
-  },
-  {
-    "id": "life_broom",
-    "name": "Уборка",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/life/broom.webp",
-    "description": "Генеральная или лёгкая уборка дома"
-  },
-  {
-    "id": "life_laundry",
-    "name": "Стирка",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/life/laundry.webp",
-    "description": "Стирка и свежее белье"
-  },
-  {
-    "id": "life_cooking",
-    "name": "Готовка",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/life/cooking.webp",
-    "description": "Приготовление вкусной еды и ужина"
-  },
-  {
-    "id": "life_movie",
-    "name": "Кино и сериалы",
-    "category": "Отдых",
-    "imagePath": "stickers/life/movie.webp",
-    "description": "Просмотр фильма, сериала или мультика"
-  },
-  {
-    "id": "life_sleep",
-    "name": "Сон котика",
-    "category": "Отдых",
-    "imagePath": "stickers/life/sleep.webp",
-    "description": "Сладкий сон, релакс и дневной отдых"
-  },
-  {
-    "id": "life_workout",
-    "name": "Тренировка",
-    "category": "Хобби",
-    "imagePath": "stickers/life/workout.webp",
-    "description": "Спорт, растяжка или тренировка в зале"
-  },
-  {
-    "id": "life_food",
-    "name": "Вкусняшки",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/life/food.webp",
-    "description": "Пицца, бургер или любимый читмил"
-  },
-  {
-    "id": "life_shopping",
-    "name": "Шопинг",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/life/shopping.webp",
-    "description": "Покупки, доставка и приятный шопинг"
-  },
-  {
-    "id": "life_gift",
-    "name": "Подарочек",
-    "category": "Романтика",
-    "imagePath": "stickers/life/gift.webp",
-    "description": "Подарок, сюрприз или внимание"
-  },
-  {
-    "id": "life_trip",
-    "name": "Прогулка",
-    "category": "Отдых",
-    "imagePath": "stickers/life/trip.webp",
-    "description": "Пешая прогулка, парк или поездка"
-  },
-  {
-    "id": "life_beauty",
-    "name": "Бьюти и уход",
-    "category": "Повседневная жизнь",
-    "imagePath": "stickers/life/beauty.webp",
-    "description": "Масочки, косметика, спа и сияние"
-  },
-  {
-    "id": "life_intimate",
-    "name": "Отметка 18+",
-    "category": "Романтика",
-    "imagePath": "stickers/life/intimate.webp",
-    "description": "Особенная личная отметка"
-  },
-  {
-    "id": "life_star",
-    "name": "Супер день",
-    "category": "Настроение",
-    "imagePath": "stickers/life/star.webp",
-    "description": "Отличный яркий день, когда всё получилось"
+    id: 'life_intimate',
+    name: 'Особый момент',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/intimate.webp',
+    description: 'Романтический и страстный вечер для двоих'
   }
 ];
 

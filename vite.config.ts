@@ -14,8 +14,8 @@ export default defineConfig({
         name: 'ShiftFlow — Календарь смен и жизни',
         short_name: 'ShiftFlow',
         description: 'Уютный персональный календарь рабочих смен, заметок и стикеров',
-        theme_color: '#FAF5EB',
-        background_color: '#FAF5EB',
+        theme_color: '#23080E',
+        background_color: '#23080E',
         display: 'standalone',
         orientation: 'portrait',
         icons: [
