@@ -1,6 +1,5 @@
 /* ==========================================================================
-   ShiftFlow Theme System
-   Система из трёх полноценных цветовых тем оформления:
+   ShiftFlow Theme System (Master 3 Themes + Complete Component Layouts)
    1. Burgundy Romance (Винтаж, уют, романтика, эстетика тёмного вина)
    2. Lavender Dream (Нежность, спокойствие, пастель, лёгкость)
    3. Matcha Cream (Природная эстетика, спокойствие, минимализм, тепло)
@@ -10,16 +9,12 @@
 
 /* ==========================================================================
    ТЕМА 1. BURGUNDY ROMANCE (Винтаж, уют, романтика, эстетика тёмного вина)
-   Основной фон: #39070D, Вторичный/шапка: #64131E, Ячейки: #FFF6EA,
-   Выделенная ячейка: #F9E5E8, Акцент: #D99AA4 / #B86B78,
-   Текст на светлом: #32171A, Светлый текст: #FFF6EA, Границы: #57232A
    ========================================================================== */
 :root,
 [data-theme='burgundy-romance'],
 [data-theme='wine-velvet'],
 [data-theme='rose-vintage'],
 [data-theme='royal-bordeaux'] {
-  /* Surfaces & Backgrounds */
   --bg-primary: #39070D;
   --bg-secondary: #64131E;
   --bg-card: #4B0D17;
@@ -27,32 +22,24 @@
   --bg-hover: #5F1521;
   --bg-active: #6E1A27;
 
-  /* Typography */
   --text-primary: #FFF6EA;
   --text-secondary: #D99AA4;
   --text-muted: #8B706D;
   --text-light: #32171A;
 
-  /* Hairlines & Borders */
   --border-color: #57232A;
   --border-subtle: #451A20;
   --border-focus: #D99AA4;
 
-  /* Accents */
   --accent-primary: #D99AA4;
   --accent-secondary: #B86B78;
   --accent-lavender: #D99AA4;
   --accent-lavender-dark: #B86B78;
   --accent-sage: #B86B78;
-  --accent-sage-dark: #964A57;
   --accent-rose: #F9E5E8;
   --accent-rose-dark: #D99AA4;
-  --accent-blue: #E8CCD1;
-  --accent-blue-dark: #B86B78;
   --accent-cream: #FFF6EA;
-  --accent-gold: #D99AA4;
 
-  /* Buttons */
   --btn-primary-bg: #D99AA4;
   --btn-primary-text: #32171A;
   --btn-primary-border: #D99AA4;
@@ -62,7 +49,6 @@
   --btn-secondary-border: #57232A;
   --btn-secondary-hover: #751724;
 
-  /* Inputs & Form Controls */
   --input-bg: #2B050A;
   --input-border: #57232A;
   --input-focus-ring: rgba(217, 154, 164, 0.25);
@@ -85,7 +71,6 @@
 
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-  /* Calendar Grid */
   --cal-cell-bg: #FFF6EA;
   --cal-cell-bg-other: #4A121A;
   --cal-cell-other-text: #8B706D;
@@ -107,56 +92,43 @@
 
 /* ==========================================================================
    ТЕМА 2. LAVENDER DREAM (Нежность, спокойствие, пастель, лёгкость)
-   Основной фон: #292039, Вторичный/шапка: #48345F, Ячейки: #F8F3FC,
-   Выделенная ячейка: #E9DDF5, Акцент: #B99AD9 / #9273B8,
-   Текст на светлом: #332844, Светлый текст: #F8F3FC, Границы: #66517D
    ========================================================================== */
 [data-theme='lavender-dream'],
 [data-theme='lavender-journal'] {
-  /* Surfaces & Backgrounds */
   --bg-primary: #292039;
   --bg-secondary: #48345F;
-  --bg-card: #38294E;
-  --bg-card-subtle: #43315C;
-  --bg-hover: #4F3A6B;
-  --bg-active: #5A4379;
+  --bg-card: #3A2A4E;
+  --bg-card-subtle: #44325C;
+  --bg-hover: #523C6E;
+  --bg-active: #5E447E;
 
-  /* Typography */
   --text-primary: #F8F3FC;
   --text-secondary: #B99AD9;
   --text-muted: #A69AAF;
   --text-light: #332844;
 
-  /* Hairlines & Borders */
   --border-color: #66517D;
   --border-subtle: #4D3C61;
   --border-focus: #B99AD9;
 
-  /* Accents */
   --accent-primary: #B99AD9;
   --accent-secondary: #9273B8;
   --accent-lavender: #B99AD9;
   --accent-lavender-dark: #9273B8;
   --accent-sage: #9273B8;
-  --accent-sage-dark: #745499;
   --accent-rose: #E9DDF5;
   --accent-rose-dark: #B99AD9;
-  --accent-blue: #D6CAE9;
-  --accent-blue-dark: #9273B8;
   --accent-cream: #F8F3FC;
-  --accent-gold: #B99AD9;
 
-  /* Buttons */
   --btn-primary-bg: #B99AD9;
-  --btn-primary-text: #332844;
+  --btn-primary-text: #292039;
   --btn-primary-border: #B99AD9;
   --btn-primary-hover: #C7ADE2;
   --btn-secondary-bg: #48345F;
   --btn-secondary-text: #F8F3FC;
   --btn-secondary-border: #66517D;
-  --btn-secondary-hover: #543E6E;
+  --btn-secondary-hover: #563E72;
 
-  /* Inputs & Form Controls */
   --input-bg: #1F172C;
   --input-border: #66517D;
   --input-focus-ring: rgba(185, 154, 217, 0.25);
@@ -170,7 +142,6 @@
   --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.60);
   --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
 
-  /* Calendar Grid */
   --cal-cell-bg: #F8F3FC;
   --cal-cell-bg-other: #3B2E50;
   --cal-cell-other-text: #A69AAF;
@@ -179,8 +150,8 @@
   --cal-cell-event: #E9DDF5;
   --cal-cell-event-border: #9273B8;
   --cal-cell-today-bg: #F8F3FC;
-  --cal-cell-today-border: #9273B8;
-  --cal-cell-today-number-color: #F8F3FC;
+  --cal-cell-today-border: #B99AD9;
+  --cal-cell-today-number-color: #292039;
   --cal-dayoff-bg: #ECE3F5;
   --cal-dayoff-text: #453258;
   --cal-dayoff-border: #CFBFDF;
@@ -192,59 +163,46 @@
 
 /* ==========================================================================
    ТЕМА 3. MATCHA CREAM (Природная эстетика, спокойствие, минимализм, тепло)
-   Основной фон: #25352B, Вторичный/шапка: #3C5744, Ячейки: #F7F5E9,
-   Выделенная ячейка: #E5EBD7, Акцент: #A9B98A / #7E966A,
-   Текст на светлом: #303B2D, Светлый текст: #F7F5E9, Границы: #536B54
    ========================================================================== */
 [data-theme='matcha-cream'],
 [data-theme='sage-botanical'],
 [data-theme='cozy-journal'],
 [data-theme='cozy-cats'],
 [data-theme='pastel-scrapbook'] {
-  /* Surfaces & Backgrounds */
   --bg-primary: #25352B;
   --bg-secondary: #3C5744;
-  --bg-card: #2E4235;
-  --bg-card-subtle: #364E3E;
-  --bg-hover: #405B48;
-  --bg-active: #4B6B55;
+  --bg-card: #314537;
+  --bg-card-subtle: #395040;
+  --bg-hover: #44614E;
+  --bg-active: #4D6D58;
 
-  /* Typography */
   --text-primary: #F7F5E9;
   --text-secondary: #A9B98A;
   --text-muted: #9DA48F;
   --text-light: #303B2D;
 
-  /* Hairlines & Borders */
   --border-color: #536B54;
   --border-subtle: #3D503E;
   --border-focus: #A9B98A;
 
-  /* Accents */
   --accent-primary: #A9B98A;
   --accent-secondary: #7E966A;
   --accent-lavender: #A9B98A;
   --accent-lavender-dark: #7E966A;
   --accent-sage: #7E966A;
-  --accent-sage-dark: #5F7350;
   --accent-rose: #E5EBD7;
   --accent-rose-dark: #A9B98A;
-  --accent-blue: #C8D6BC;
-  --accent-blue-dark: #7E966A;
   --accent-cream: #F7F5E9;
-  --accent-gold: #A9B98A;
 
-  /* Buttons */
   --btn-primary-bg: #A9B98A;
-  --btn-primary-text: #303B2D;
+  --btn-primary-text: #25352B;
   --btn-primary-border: #A9B98A;
-  --btn-primary-hover: #B7C69A;
+  --btn-primary-hover: #B8C79A;
   --btn-secondary-bg: #3C5744;
   --btn-secondary-text: #F7F5E9;
   --btn-secondary-border: #536B54;
-  --btn-secondary-hover: #486751;
+  --btn-secondary-hover: #4A6B53;
 
-  /* Inputs & Form Controls */
   --input-bg: #1D2A22;
   --input-border: #536B54;
   --input-focus-ring: rgba(169, 185, 138, 0.25);
@@ -258,7 +216,6 @@
   --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.60);
   --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
 
-  /* Calendar Grid */
   --cal-cell-bg: #F7F5E9;
   --cal-cell-bg-other: #334739;
   --cal-cell-other-text: #9DA48F;
@@ -267,8 +224,8 @@
   --cal-cell-event: #E5EBD7;
   --cal-cell-event-border: #7E966A;
   --cal-cell-today-bg: #F7F5E9;
-  --cal-cell-today-border: #7E966A;
-  --cal-cell-today-number-color: #F7F5E9;
+  --cal-cell-today-border: #A9B98A;
+  --cal-cell-today-number-color: #25352B;
   --cal-dayoff-bg: #E4ECE0;
   --cal-dayoff-text: #324734;
   --cal-dayoff-border: #C3D5BE;
@@ -279,8 +236,7 @@
 }
 
 /* ==========================================================================
-   GLOBAL UNSLOPPED STYLES
-   4px Spacing, Calm Surfaces, Tactile Contrast
+   GLOBAL APP STYLES & LAYOUT
    ========================================================================== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -295,36 +251,60 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    padding-bottom: calc(76px + var(--safe-bottom));
+  }
 }
 
 /* App Header & Brand */
 .app-header {
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
-  padding: 12px 16px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: background-color 0.25s ease, border-color 0.25s ease;
+  z-index: 40;
 }
 
 .brand-badge {
   display: flex;
   align-items: center;
   gap: 12px;
+  user-select: none;
 }
 
 .brand-icon {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-sm);
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.25));
 }
 
 .brand-title span {
   font-family: 'Comfortaa', cursive, sans-serif;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: var(--text-primary);
   letter-spacing: -0.2px;
 }
@@ -335,18 +315,18 @@ body {
   letter-spacing: 0.3px;
 }
 
-/* Desktop Navigation */
+/* Desktop Navigation (Header) */
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .desktop-nav .nav-link {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  padding: 8px 16px;
   border-radius: var(--radius-sm);
   background: transparent;
   border: 1px solid transparent;
@@ -368,7 +348,13 @@ body {
   color: var(--text-primary);
 }
 
-/* Bottom Navigation (Mobile) */
+/* Bottom Navigation (Mobile Only) */
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none !important;
+  }
+}
+
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -379,49 +365,60 @@ body {
   display: flex;
   justify-content: space-around;
   padding: 6px 8px calc(6px + var(--safe-bottom));
-  z-index: 50;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+  z-index: 90;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
   transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
+.bottom-tab,
 .bottom-nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 4px;
   padding: 6px 12px;
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
-  background: transparent;
-  border: none;
+  background: transparent !important;
+  border: none !important;
+  outline: none;
   font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
-  min-width: 60px;
+  min-width: 64px;
 }
 
+.bottom-tab:hover,
 .bottom-nav-item:hover {
   color: var(--text-primary);
 }
 
+.bottom-tab.active,
 .bottom-nav-item.active {
   color: var(--text-primary);
-  background-color: var(--bg-hover);
+  background-color: var(--bg-hover) !important;
 }
 
+.bottom-tab.active svg,
 .bottom-nav-item.active svg {
   color: var(--accent-primary);
 }
 
-/* Cards */
+.tab-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cards & Surfaces */
 .card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 18px 20px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-card);
   margin-bottom: 16px;
   transition: background-color 0.25s ease, border-color 0.25s ease;
 }
@@ -437,7 +434,9 @@ body {
   letter-spacing: -0.2px;
 }
 
-/* Buttons */
+/* ==========================================================================
+   BUTTONS (Unified & Never White/Unstyled)
+   ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -452,6 +451,7 @@ body {
   border: 1px solid transparent;
   font-family: inherit;
   text-decoration: none;
+  user-select: none;
 }
 
 .btn-primary {
@@ -464,6 +464,16 @@ body {
   background-color: var(--btn-primary-hover);
 }
 
+.btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border-color: var(--btn-secondary-border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--btn-secondary-hover);
+}
+
 .btn-outline {
   background-color: var(--btn-secondary-bg);
   color: var(--btn-secondary-text);
@@ -471,7 +481,19 @@ body {
 }
 
 .btn-outline:hover {
-  background-color: var(--btn-secondary-hover);
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background-color: rgba(220, 53, 69, 0.18);
+  color: #F87171;
+  border: 1px solid rgba(220, 53, 69, 0.4);
+}
+
+.btn-danger:hover {
+  background-color: #EF4444;
+  color: #FFFFFF;
 }
 
 .btn-sm {
@@ -480,9 +502,28 @@ body {
   border-radius: var(--radius-xs);
 }
 
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-icon:hover {
+  background: var(--bg-hover);
+}
+
 .btn-icon-sm {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -525,15 +566,90 @@ select:focus {
 }
 
 /* ==========================================================================
+   MODAL WINDOWS (Properly Centered Dialogs, Never Stuck at Bottom)
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(10, 2, 5, 0.78);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+.modal-sheet {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 20px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--text-primary);
+  position: relative;
+}
+
+.modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-secondary);
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.modal-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: var(--bg-secondary);
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ==========================================================================
    CALENDAR SPECIFIC COMPONENT MAPPINGS
    ========================================================================== */
 .calendar-view-container {
   max-width: 920px;
   margin: 0 auto;
-  padding: 16px;
 }
 
-/* Calendar Weekdays Row */
 .calendar-weekdays-row {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -555,7 +671,6 @@ select:focus {
   color: var(--cal-weekend-color);
 }
 
-/* Calendar Grid */
 .calendar-month-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -567,7 +682,6 @@ select:focus {
   box-shadow: var(--shadow-card);
 }
 
-/* Day Cell */
 .calendar-day-cell {
   background-color: var(--cal-cell-bg);
   color: var(--cal-cell-text);
@@ -601,14 +715,12 @@ select:focus {
   opacity: 0.8;
 }
 
-/* Cell with Event / Note */
 .calendar-day-cell.has-note,
 .calendar-day-cell.has-activities,
 .calendar-day-cell.has-stickers {
   background-color: var(--cal-cell-event);
 }
 
-/* Today Cell */
 .calendar-day-cell.is-today {
   background-color: var(--cal-cell-today-bg) !important;
   box-shadow: inset 0 0 0 2px var(--cal-cell-today-border);
@@ -627,7 +739,6 @@ select:focus {
   font-size: 0.78rem;
 }
 
-/* Calendar Month Header Controls */
 .month-header-card {
   display: flex;
   align-items: center;
@@ -678,7 +789,6 @@ select:focus {
   background: var(--bg-hover);
 }
 
-/* Quick Gesture Hints Bar */
 .quick-gestures-hint-bar {
   display: flex;
   align-items: center;
@@ -703,7 +813,6 @@ select:focus {
   color: var(--text-primary);
 }
 
-/* Legend Points */
 .cycle-legend-bar {
   display: flex;
   flex-wrap: wrap;
@@ -716,7 +825,6 @@ select:focus {
   margin-top: 14px;
 }
 
-/* Mini Sticker Badge in Calendar Cell */
 .cell-mini-note-card {
   width: 26px;
   height: 26px;
@@ -740,7 +848,6 @@ select:focus {
   z-index: 5;
 }
 
-/* Mini note variant styles */
 .cell-mini-note-card.style-paper-clip {
   background: #FAF8F2;
   border-color: #D9CEBF;
