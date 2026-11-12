@@ -64,13 +64,6 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
     (dayInfo.journalPage && (dayInfo.journalPage.content?.trim() || dayInfo.journalPage.title?.trim() || dayInfo.journalPage.paperType))
   );
 
-  const noteText =
-    noteSticker?.text?.trim() ||
-    dayInfo.journalPage?.title?.trim() ||
-    dayInfo.journalPage?.content?.trim() ||
-    note?.trim() ||
-    '';
-
   const noteStyle: NoteStickerStyle =
     noteSticker?.style ||
     (dayInfo.journalPage?.paperType === 'kraft' || dayInfo.journalPage?.paperType === 'vintage'
@@ -85,10 +78,10 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
       : -1.8;
 
   const noteTooltip =
-    noteSticker?.text ||
-    dayInfo.journalPage?.title ||
-    dayInfo.journalPage?.content ||
-    note ||
+    noteSticker?.text?.trim() ||
+    dayInfo.journalPage?.title?.trim() ||
+    dayInfo.journalPage?.content?.trim() ||
+    note?.trim() ||
     'Стикер-заметка';
 
   const hasEvent = Boolean(
@@ -120,7 +113,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
 
       {/* Center Area: Mini Note Sticker, Activity Badges & Placed Stickers */}
       <div className="cell-stickers-container">
-        {/* Authentic Mini Paper Sticker with Paper Clip / Washi Tape (Photo 4) */}
+        {/* Authentic Mini Paper Sticker with Paper Clip / Washi Tape (Photo 4) - no raw text preview */}
         {hasNote && (
           <div
             className={`cell-mini-note-card style-${noteStyle}`}
@@ -128,6 +121,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
               '--mini-note-rot': `${noteRotation}deg`
             } as React.CSSProperties}
             title={noteTooltip}
+            data-testid="cell-mini-note-sticker"
           >
             {/* Paper clip decor (Photo 4, cells 3, 24) */}
             {noteStyle === 'paper-clip' && (
@@ -179,15 +173,12 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
               <div className="mini-note-tag-hole" aria-hidden="true" />
             )}
 
-            {/* Note text preview */}
-            {noteText ? (
-              <span className="mini-note-text">{noteText}</span>
-            ) : (
-              <div className="mini-note-ruled-lines" aria-hidden="true">
-                <span className="mini-rule-line" />
-                <span className="mini-rule-line" />
-              </div>
-            )}
+            {/* Realistic ruled lines placeholder - note text is shown via title tooltip */}
+            <div className="mini-note-ruled-lines" aria-hidden="true">
+              <span className="mini-rule-line" />
+              <span className="mini-rule-line" />
+              <span className="mini-rule-line" />
+            </div>
           </div>
         )}
 

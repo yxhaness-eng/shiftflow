@@ -11,7 +11,7 @@ afterEach(() => {
 });
 
 describe('NoteStickerModal component', () => {
-  it('renders note style selector and lined textarea', () => {
+  it('renders unified paper and note sticker format selector and lined textarea', () => {
     const handleClose = vi.fn();
 
     render(
@@ -20,9 +20,10 @@ describe('NoteStickerModal component', () => {
       </AppProvider>
     );
 
-    expect(screen.getByText(/Выбери вид стикера для окошка:/i)).toBeDefined();
+    expect(screen.getByText('Формат:')).toBeDefined();
+    expect(screen.getByText('Со скрепкой')).toBeDefined();
     expect(screen.getByPlaceholderText(/Напиши сюда заметку, мысль или секретик/i)).toBeDefined();
-    expect(screen.getByText(/Приклеить в окошко/i)).toBeDefined();
+    expect(screen.getByText(/Приклеить в календарь/i)).toBeDefined();
     expect(screen.getByText(/Убрать стикер/i)).toBeDefined();
   });
 
@@ -38,7 +39,7 @@ describe('NoteStickerModal component', () => {
     const textarea = screen.getByPlaceholderText(/Напиши сюда заметку, мысль или секретик/i);
     fireEvent.change(textarea, { target: { value: 'Мой уютный секретик!' } });
 
-    const glueBtn = screen.getByText(/Приклеить в окошко/i);
+    const glueBtn = screen.getByText(/Приклеить в календарь/i);
     fireEvent.click(glueBtn);
 
     await waitFor(() => {

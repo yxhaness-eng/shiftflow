@@ -13,12 +13,106 @@ import { useApp } from '../../context/AppContext';
 import { formatFullDateRU } from '../../utils/dateUtils';
 import {
   JOURNAL_DECOR_ITEMS,
-  JOURNAL_DECOR_MAP,
-  JOURNAL_PAPER_OPTIONS
+  JOURNAL_DECOR_MAP
 } from '../../data/journalDecorData';
 import { STICKERS_MAP } from '../../data/stickersManifest';
-import { JournalPaperType } from '../../types';
+import { JournalPaperType, NoteStickerStyle, NoteStickerConfig } from '../../types';
 import { playPaperRustle, playStickerPop, playBubbleTap, triggerHaptic } from '../../services/soundEffects';
+
+export type UnifiedFormatId =
+  | 'paper-clip'
+  | 'washi-tape'
+  | 'spiral-pad'
+  | 'cloud'
+  | 'ribbon-card'
+  | 'vintage'
+  | 'lavender'
+  | 'sage_herbal';
+
+export interface UnifiedFormatOption {
+  id: UnifiedFormatId;
+  name: string;
+  icon: string;
+  desc: string;
+  paperType: JournalPaperType;
+  stickerStyle: NoteStickerStyle;
+  previewBg: string;
+}
+
+export const UNIFIED_FORMAT_OPTIONS: UnifiedFormatOption[] = [
+  {
+    id: 'paper-clip',
+    name: 'Со скрепкой',
+    icon: '📎',
+    desc: 'Светлый разлинованный листочек с металлической скрепкой',
+    paperType: 'lined',
+    stickerStyle: 'paper-clip',
+    previewBg: '#FFFDF9'
+  },
+  {
+    id: 'washi-tape',
+    name: 'Со скотчем',
+    icon: '🏷️',
+    desc: 'Крафтовый стикер с декоративным скотчем по углам',
+    paperType: 'kraft',
+    stickerStyle: 'washi-tape',
+    previewBg: '#DCC3A3'
+  },
+  {
+    id: 'spiral-pad',
+    name: 'Спиральный блокнот',
+    icon: '📓',
+    desc: 'Страничка из спирального блокнота',
+    paperType: 'grid',
+    stickerStyle: 'spiral-pad',
+    previewBg: '#FDFBF7'
+  },
+  {
+    id: 'cloud',
+    name: 'Облачко',
+    icon: '☁️',
+    desc: 'Нежное облачко для мыслей и секретиков',
+    paperType: 'lined',
+    stickerStyle: 'cloud',
+    previewBg: '#F3F6FD'
+  },
+  {
+    id: 'ribbon-card',
+    name: 'С бантиком',
+    icon: '🎀',
+    desc: 'Элегантная карточка с аккуратным бантиком',
+    paperType: 'lined',
+    stickerStyle: 'ribbon-card',
+    previewBg: '#FAF2F4'
+  },
+  {
+    id: 'vintage',
+    name: 'Винтажный свиток',
+    icon: '📜',
+    desc: 'Состаренный винтажный пергамент',
+    paperType: 'vintage',
+    stickerStyle: 'dark-craft',
+    previewBg: '#F4ECD8'
+  },
+  {
+    id: 'lavender',
+    name: 'Лаванда',
+    icon: '💜',
+    desc: 'Нежнейшая пастельная лавандовая бумага',
+    paperType: 'lavender',
+    stickerStyle: 'paper-clip',
+    previewBg: '#ECE6F4'
+  },
+  {
+    id: 'sage_herbal',
+    name: 'Шалфей',
+    icon: '🌿',
+    desc: 'Спокойный ботанический шалфейный лист',
+    paperType: 'sage_herbal',
+    stickerStyle: 'paper-clip',
+    previewBg: '#E7EFE3'
+  }
+];
 
 interface JournalPageModalProps {
   date: string;
@@ -30,6 +124,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
     settings,
     getDayInfo,
     updateJournalPage,
+    updateDayLifeDetails,
     addJournalDecoration,
     updateJournalDecorationTransform,
     removeJournalDecoration
@@ -37,10 +132,33 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
 
   const dayInfo = getDayInfo(date);
   const existingJournal = dayInfo.journalPage;
+  const existingNoteSticker = dayInfo.noteSticker;
 
-  const [paperType, setPaperType] = useState<JournalPaperType>(existingJournal?.paperType || 'lined');
+  // Determine initial format from existing day data
+  const getInitialFormat = (): UnifiedFormatId => {
+    const existingStickerStyle = existingNoteSticker?.style;
+    const existingPaperType = existingJournal?.paperType;
+
+    if (existingStickerStyle === 'washi-tape') return 'washi-tape';
+    if (existingStickerStyle === 'spiral-pad') return 'spiral-pad';
+    if (existingStickerStyle === 'cloud') return 'cloud';
+    if (existingStickerStyle === 'ribbon-card') return 'ribbon-card';
+    if (existingStickerStyle === 'dark-craft') return 'vintage';
+
+    if (existingPaperType === 'kraft') return 'washi-tape';
+    if (existingPaperType === 'grid') return 'spiral-pad';
+    if (existingPaperType === 'vintage') return 'vintage';
+    if (existingPaperType === 'lavender') return 'lavender';
+    if (existingPaperType === 'sage_herbal') return 'sage_herbal';
+
+    return 'paper-clip';
+  };
+
+  const [selectedFormat, setSelectedFormat] = useState<UnifiedFormatId>(getInitialFormat());
   const [title, setTitle] = useState<string>(existingJournal?.title || '');
-  const [content, setContent] = useState<string>(existingJournal?.content || dayInfo.note || '');
+  const [content, setContent] = useState<string>(
+    existingJournal?.content || existingNoteSticker?.text || dayInfo.note || ''
+  );
   const [selectedDecorId, setSelectedDecorId] = useState<string | null>(null);
 
   const [activeDecorTab, setActiveDecorTab] = useState<'Гербарий' | 'Сухоцветы' | 'Винтаж' | 'Уют' | 'Скотч'>('Сухоцветы');
@@ -49,6 +167,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
   const sheetRef = useRef<HTMLDivElement>(null);
 
   const formattedDate = formatFullDateRU(date);
+  const currentOption = UNIFIED_FORMAT_OPTIONS.find((o) => o.id === selectedFormat) || UNIFIED_FORMAT_OPTIONS[0];
 
   // Dragging state
   const dragRef = useRef<{
@@ -86,16 +205,66 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
     };
   };
 
-  // Save journal page
+  // Save / Glue note and journal page to calendar
   const handleSave = async () => {
     playPaperRustle(settings.soundEnabled !== false);
     triggerHaptic(12, settings.hapticsEnabled !== false);
 
-    await updateJournalPage(date, {
-      paperType,
-      title: title.trim(),
-      content: content.trim()
+    const trimmedContent = content.trim();
+
+    const noteStickerConfig: NoteStickerConfig | null = trimmedContent
+      ? {
+          style: currentOption.stickerStyle,
+          text: trimmedContent,
+          x: existingNoteSticker?.x || 0,
+          y: existingNoteSticker?.y || 0,
+          rotation: existingNoteSticker?.rotation || (Math.random() * 4 - 2)
+        }
+      : null;
+
+    // Atomically update journal page and note sticker in one update
+    await updateJournalPage(
+      date,
+      {
+        paperType: currentOption.paperType,
+        title: title.trim(),
+        content: trimmedContent
+      },
+      noteStickerConfig
+    );
+
+    // Also update life details note for backwards compatibility
+    await updateDayLifeDetails(date, {
+      noteSticker: noteStickerConfig || undefined,
+      note: trimmedContent
     });
+
+    onClose();
+  };
+
+  // Remove note sticker and journal content
+  const handleRemove = async () => {
+    playPaperRustle(settings.soundEnabled !== false);
+    triggerHaptic(8, settings.hapticsEnabled !== false);
+
+    await updateJournalPage(
+      date,
+      {
+        title: '',
+        content: '',
+        decorations: []
+      },
+      null
+    );
+
+    await updateDayLifeDetails(date, {
+      noteSticker: undefined,
+      note: ''
+    });
+
+    setTitle('');
+    setContent('');
+    setSelectedDecorId(null);
     onClose();
   };
 
@@ -106,21 +275,6 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
     const randomOffsetX = Math.round(50 + (Math.random() * 24 - 12));
     const randomOffsetY = Math.round(45 + (Math.random() * 24 - 12));
     await addJournalDecoration(date, stickerId, { x: randomOffsetX, y: randomOffsetY });
-  };
-
-  // Clear journal page
-  const handleClear = async () => {
-    if (window.confirm('Очистить текст и оформление этой странички?')) {
-      playBubbleTap(settings.soundEnabled !== false);
-      await updateJournalPage(date, {
-        title: '',
-        content: '',
-        decorations: []
-      });
-      setTitle('');
-      setContent('');
-      setSelectedDecorId(null);
-    }
   };
 
   // Rotate decoration
@@ -210,7 +364,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
         {/* Top Control Bar */}
         <div className="journal-page-topbar">
           <div className="topbar-date-group">
-            <span className="topbar-badge">Страничка ежедневника</span>
+            <span className="topbar-badge">Заметка и страничка ежедневника</span>
             <span className="topbar-date">{formattedDate.split(',')[0]}</span>
           </div>
 
@@ -218,10 +372,10 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
             <button
               className="btn btn-sm btn-outline"
               onClick={() => setIsDecorTrayOpen(!isDecorTrayOpen)}
-              title="Панель наклеек и гербария"
+              title="Панель сухоцветов, марок и скотча"
             >
               <Sparkles size={14} />
-              <span>Наклейки и скотч</span>
+              <span>Сухоцветы и скотч</span>
             </button>
             <button className="btn-icon" onClick={onClose} aria-label="Закрыть">
               <X size={18} />
@@ -229,53 +383,108 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
           </div>
         </div>
 
-        {/* Paper Style Selector */}
+        {/* Paper & Sticker Format Selector (Unified top bar) */}
         <div className="journal-paper-type-row">
-          <span className="paper-row-label">Бумага:</span>
+          <span className="paper-row-label">Формат:</span>
           <div className="paper-options-strip">
-            {JOURNAL_PAPER_OPTIONS.map((p) => {
-              const isSelected = paperType === p.id;
+            {UNIFIED_FORMAT_OPTIONS.map((f) => {
+              const isSelected = selectedFormat === f.id;
               return (
                 <button
-                  key={p.id}
+                  key={f.id}
                   className={`paper-choice-pill ${isSelected ? 'active' : ''}`}
                   onClick={() => {
                     playBubbleTap(settings.soundEnabled !== false);
-                    setPaperType(p.id);
+                    setSelectedFormat(f.id);
                   }}
-                  title={p.desc}
+                  title={f.desc}
                 >
-                  <span className="paper-swatch" style={{ backgroundColor: p.previewBg }} />
-                  <span>{p.name}</span>
+                  <span className="paper-format-icon">{f.icon}</span>
+                  <span>{f.name}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* The Authentic Journal Scrapbook Page */}
+        {/* The Authentic Scrapbook Journal Sheet */}
         <div
           ref={sheetRef}
-          className={`journal-scrapbook-sheet paper-theme-${paperType}`}
+          className={`journal-scrapbook-sheet paper-theme-${currentOption.paperType} format-${selectedFormat}`}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
         >
-          {/* Left Binder Spiral Rings */}
-          <div className="journal-binder-rings">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="binder-ring-hole">
-                <div className="binder-ring-clip" />
-              </div>
-            ))}
-          </div>
+          {/* Format Decor: 📎 Metal Paperclip on top for 'Со скрепкой' */}
+          {selectedFormat === 'paper-clip' && (
+            <div className="journal-sheet-clip-decor" aria-hidden="true">
+              <svg viewBox="0 0 24 48" fill="none" className="journal-paperclip-svg">
+                <path
+                  d="M7 6v30a5 5 0 0 0 10 0V11a3.5 3.5 0 0 0-7 0v24"
+                  stroke="#3F683B"
+                  strokeWidth="3.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+          )}
 
-          {/* Decorative Corner Washi Tapes */}
-          <div className="journal-page-washi-corner top-left" />
-          <div className="journal-page-washi-corner top-right" />
+          {/* Format Decor: 🏷️ Washi Tape Corners for 'Со скотчем' */}
+          {selectedFormat === 'washi-tape' && (
+            <>
+              <div className="journal-page-washi-corner top-left" aria-hidden="true" />
+              <div className="journal-page-washi-corner top-right" aria-hidden="true" />
+            </>
+          )}
+
+          {/* Format Decor: 📓 Spiral Binder Rings for 'Спиральный блокнот' */}
+          {selectedFormat === 'spiral-pad' && (
+            <div className="journal-binder-rings" aria-hidden="true">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="binder-ring-hole">
+                  <div className="binder-ring-clip" />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Format Decor: ☁️ Cloud Badge */}
+          {selectedFormat === 'cloud' && (
+            <div className="journal-sheet-badge-decor cloud" aria-hidden="true">
+              ☁️
+            </div>
+          )}
+
+          {/* Format Decor: 🎀 Ribbon Bow */}
+          {selectedFormat === 'ribbon-card' && (
+            <div className="journal-sheet-badge-decor ribbon" aria-hidden="true">
+              🎀
+            </div>
+          )}
+
+          {/* Format Decor: 📜 Vintage Wax Seal */}
+          {selectedFormat === 'vintage' && (
+            <div className="journal-sheet-badge-decor vintage" aria-hidden="true">
+              📜
+            </div>
+          )}
+
+          {/* Format Decor: 💜 Lavender Sprig */}
+          {selectedFormat === 'lavender' && (
+            <div className="journal-sheet-badge-decor lavender" aria-hidden="true">
+              💜
+            </div>
+          )}
+
+          {/* Format Decor: 🌿 Sage Leaves */}
+          {selectedFormat === 'sage_herbal' && (
+            <div className="journal-sheet-badge-decor sage" aria-hidden="true">
+              🌿
+            </div>
+          )}
 
           {/* Page Content Container */}
           <div className="journal-page-inner">
-            {/* Header / Date Stamp */}
+            {/* Header / Date Stamp & Optional Title */}
             <div className="journal-page-header">
               <span className="journal-stamp-date">{formattedDate}</span>
               <input
@@ -287,12 +496,12 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
               />
             </div>
 
-            {/* Ruled Handwriting Journal Textarea */}
+            {/* Ruled Handwriting Journal & Note Textarea */}
             <div className="journal-lines-container">
               <textarea
                 className="journal-ruled-textarea"
                 rows={9}
-                placeholder="Напиши сюда мысли, воспоминания, планы или секретики этого дня... Добавь сухоцветы, марки или скотч, чтобы оформить страничку!"
+                placeholder="Напиши сюда заметку, мысль или секретик... Когда сохранишь, в квадратике этого дня появится милый стикер!"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
@@ -358,7 +567,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
           </div>
         )}
 
-        {/* Sticker / Decorator Tray */}
+        {/* Bottom Drawer: Botanicals, Dried Flowers, Vintage & Washi Strips */}
         {isDecorTrayOpen && (
           <div className="journal-stickers-tray">
             {/* Category Tabs */}
@@ -396,14 +605,14 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
 
         {/* Bottom Actions */}
         <div className="journal-page-footer">
-          <button className="btn btn-outline" onClick={handleClear}>
+          <button className="btn btn-outline btn-remove-journal" onClick={handleRemove}>
             <Trash2 size={14} />
-            <span>Очистить</span>
+            <span>Убрать стикер</span>
           </button>
 
           <button className="btn btn-primary btn-save-journal" onClick={handleSave}>
             <Check size={16} />
-            <span>Сохранить страничку</span>
+            <span>Приклеить в календарь</span>
           </button>
         </div>
       </div>

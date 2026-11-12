@@ -46,9 +46,9 @@ describe('LifeTrackerModal component', () => {
     expect(screen.getByText(/15 ноября 2026/i)).toBeDefined();
     expect(screen.getByText(/Настрой отметки этого окошка/i)).toBeDefined();
 
-    // Verify intimate tracking is completely removed ("Убираем секас Вообще")
-    expect(screen.queryByText(/секас/i)).toBeNull();
+    // Verify intimate tracking is completely removed
     expect(screen.queryByText(/КАКОЙ БЫЛ/i)).toBeNull();
+    expect(screen.queryByText(/intimate/i)).toBeNull();
 
     // Check enriched activities matching Photo 4
     expect(screen.getByText(/Свидание \/ Вино/i)).toBeDefined();

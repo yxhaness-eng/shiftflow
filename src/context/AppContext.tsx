@@ -84,7 +84,11 @@ interface AppContextType {
     date: string,
     transform: { x?: number; y?: number; rotation?: number }
   ) => Promise<void>;
-  updateJournalPage: (date: string, pageData: Partial<JournalPageData>) => Promise<void>;
+  updateJournalPage: (
+    date: string,
+    pageData: Partial<JournalPageData>,
+    noteStickerData?: NoteStickerConfig | null
+  ) => Promise<void>;
   addJournalDecoration: (
     date: string,
     stickerId: string,
@@ -586,9 +590,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     [overrides]
   );
 
-  // Update Journal Page (text, paperType, decorations)
+  // Update Journal Page (text, paperType, decorations, noteSticker)
   const updateJournalPage = useCallback(
-    async (date: string, pageData: Partial<JournalPageData>) => {
+    async (
+      date: string,
+      pageData: Partial<JournalPageData>,
+      noteStickerData?: NoteStickerConfig | null
+    ) => {
       const existing = overrides[date];
       const currentJournal: JournalPageData = existing?.journalPage || {
         paperType: 'lined',
@@ -604,6 +612,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updatedAt: new Date().toISOString()
       };
 
+      const finalNoteSticker =
+        noteStickerData === null
+          ? undefined
+          : noteStickerData !== undefined
+          ? noteStickerData
+          : existing?.noteSticker;
+
       const updated: DayOverride = {
         date,
         pointId: existing?.pointId,
@@ -614,7 +629,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         tags: existing?.tags,
         intimate: existing?.intimate,
         activities: existing?.activities,
-        noteSticker: existing?.noteSticker,
+        noteSticker: finalNoteSticker,
         journalPage: updatedJournal,
         updatedAt: new Date().toISOString()
       };

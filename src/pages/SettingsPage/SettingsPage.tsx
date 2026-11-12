@@ -206,13 +206,13 @@ export const SettingsPage: React.FC = () => {
             onClick={() => handleThemeChange('wine-velvet')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#23080E' }} />
-              <span style={{ backgroundColor: '#FFFDF9' }} />
+              <span style={{ backgroundColor: '#1F060B' }} />
+              <span style={{ backgroundColor: '#FAF5EE' }} />
               <span style={{ backgroundColor: '#DE4364' }} />
             </div>
             <div className="theme-info">
               <div className="theme-name">Wine Velvet</div>
-              <div className="theme-desc">Тёмный винный велюр, кремовые страницы и розовый румянец</div>
+              <div className="theme-desc">Тёмный винный велюр, страницы айвори и розовый румянец</div>
             </div>
             {settings.theme === 'wine-velvet' && <Check size={16} className="theme-check-icon" />}
           </div>
@@ -223,13 +223,13 @@ export const SettingsPage: React.FC = () => {
             onClick={() => handleThemeChange('rose-vintage')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#2F141B' }} />
-              <span style={{ backgroundColor: '#FFF8F6' }} />
-              <span style={{ backgroundColor: '#C84B68' }} />
+              <span style={{ backgroundColor: '#FAF2F3' }} />
+              <span style={{ backgroundColor: '#FFFFFF' }} />
+              <span style={{ backgroundColor: '#B85D6B' }} />
             </div>
             <div className="theme-info">
               <div className="theme-name">Rose Vintage</div>
-              <div className="theme-desc">Благородный розовый шёлк, приглушённый бордо и сургуч</div>
+              <div className="theme-desc">Пыльно-розовый пергамент, античное дерево и сургуч</div>
             </div>
             {settings.theme === 'rose-vintage' && <Check size={16} className="theme-check-icon" />}
           </div>
@@ -240,13 +240,13 @@ export const SettingsPage: React.FC = () => {
             onClick={() => handleThemeChange('royal-bordeaux')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#1C0812' }} />
-              <span style={{ backgroundColor: '#FAF6EE' }} />
-              <span style={{ backgroundColor: '#B83E9C' }} />
+              <span style={{ backgroundColor: '#180408' }} />
+              <span style={{ backgroundColor: '#24080E' }} />
+              <span style={{ backgroundColor: '#D4AF37' }} />
             </div>
             <div className="theme-info">
               <div className="theme-name">Royal Bordeaux</div>
-              <div className="theme-desc">Глубокая спелая слива, шампань и золотистый контур</div>
+              <div className="theme-desc">Полуночный бордо, королевская слива и античное золото</div>
             </div>
             {settings.theme === 'royal-bordeaux' && <Check size={16} className="theme-check-icon" />}
           </div>
@@ -258,12 +258,12 @@ export const SettingsPage: React.FC = () => {
           >
             <div className="theme-preview-dots">
               <span style={{ backgroundColor: '#FAF5EB' }} />
-              <span style={{ backgroundColor: '#D9CDEB' }} />
-              <span style={{ backgroundColor: '#D4DFCC' }} />
+              <span style={{ backgroundColor: '#FFFFFF' }} />
+              <span style={{ backgroundColor: '#8C6541' }} />
             </div>
             <div className="theme-info">
               <div className="theme-name">Cozy Journal</div>
-              <div className="theme-desc">Молочные тона, тёплый акварельный уют и пергамент</div>
+              <div className="theme-desc">Тёплая молочная бумага, эспрессо-чернила и благородная кожа</div>
             </div>
             {(settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats') && (
               <Check size={16} className="theme-check-icon" />
@@ -276,32 +276,34 @@ export const SettingsPage: React.FC = () => {
             onClick={() => handleThemeChange('lavender-journal')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#F8F5FA' }} />
-              <span style={{ backgroundColor: '#CDBEE6' }} />
-              <span style={{ backgroundColor: '#CADDC7' }} />
+              <span style={{ backgroundColor: '#F7F4F9' }} />
+              <span style={{ backgroundColor: '#FFFFFF' }} />
+              <span style={{ backgroundColor: '#7B5EA7' }} />
             </div>
             <div className="theme-info">
               <div className="theme-name">Lavender Journal</div>
-              <div className="theme-desc">Лавандовый ежедневник, сиреневые текстуры</div>
+              <div className="theme-desc">Мягкая глициния, глубокая слива и королевская лаванда</div>
             </div>
             {settings.theme === 'lavender-journal' && <Check size={16} className="theme-check-icon" />}
           </div>
 
-          {/* Theme 6: Pastel Scrapbook */}
+          {/* Theme 6: Sage Botanical (Pastel Scrapbook) */}
           <div
-            className={`theme-card ${settings.theme === 'pastel-scrapbook' ? 'selected' : ''}`}
+            className={`theme-card ${settings.theme === 'pastel-scrapbook' || settings.theme === 'sage-botanical' ? 'selected' : ''}`}
             onClick={() => handleThemeChange('pastel-scrapbook')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#FBF8F2' }} />
-              <span style={{ backgroundColor: '#ECD1C9' }} />
-              <span style={{ backgroundColor: '#CED9C3' }} />
+              <span style={{ backgroundColor: '#F2F6F0' }} />
+              <span style={{ backgroundColor: '#FFFFFF' }} />
+              <span style={{ backgroundColor: '#557A46' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Pastel Scrapbook</div>
-              <div className="theme-desc">Коллажная пастель, пудровый и шалфейный</div>
+              <div className="theme-name">Sage Botanical</div>
+              <div className="theme-desc">Травяная матча-бумага, лесные чернила и оливковый шалфей</div>
             </div>
-            {settings.theme === 'pastel-scrapbook' && <Check size={16} className="theme-check-icon" />}
+            {(settings.theme === 'pastel-scrapbook' || settings.theme === 'sage-botanical') && (
+              <Check size={16} className="theme-check-icon" />
+            )}
           </div>
         </div>
       </div>

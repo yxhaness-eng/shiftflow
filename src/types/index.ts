@@ -7,7 +7,8 @@ export type ThemeId =
   | 'cozy-journal'
   | 'cozy-cats'
   | 'lavender-journal'
-  | 'pastel-scrapbook';
+  | 'pastel-scrapbook'
+  | 'sage-botanical';
 
 export interface WorkPoint {
   id: string;

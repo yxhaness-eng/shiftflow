@@ -25,10 +25,9 @@ import { formatFullDateRU } from '../../utils/dateUtils';
 import { STICKERS_MAP } from '../../data/stickersManifest';
 import { StickerPicker } from '../StickerPicker/StickerPicker';
 import { LifeTrackerModal } from '../LifeTrackerModal/LifeTrackerModal';
-import { NoteStickerModal } from '../NoteStickerModal/NoteStickerModal';
 import { ScrapbookCellZoom } from '../ScrapbookCellZoom/ScrapbookCellZoom';
 import { JournalPageModal } from '../JournalPageModal/JournalPageModal';
-import { ACTIVITY_MAP, INTIMATE_PRESETS } from '../../data/lifeTrackerData';
+import { ACTIVITY_MAP } from '../../data/lifeTrackerData';
 import { triggerHaptic, playBubbleTap } from '../../services/soundEffects';
 
 const AVAILABLE_TAGS = ['Романтика', 'Отдых', 'Встреча', 'Настроение', 'Праздник', 'Планы'];
@@ -54,9 +53,8 @@ export const DayEditor: React.FC = () => {
   const [isStickerPickerOpen, setIsStickerPickerOpen] = useState(false);
   const [selectedStickerIdToEdit, setSelectedStickerIdToEdit] = useState<string | null>(null);
 
-  // Life Tracker & Note Sticker modals
+  // Life Tracker & Scrapbook Journal modals
   const [isLifeTrackerOpen, setIsLifeTrackerOpen] = useState(false);
-  const [isNoteStickerModalOpen, setIsNoteStickerModalOpen] = useState(false);
   const [isScrapbookZoomOpen, setIsScrapbookZoomOpen] = useState(false);
   const [isJournalPageOpen, setIsJournalPageOpen] = useState(false);
 
@@ -354,10 +352,10 @@ export const DayEditor: React.FC = () => {
                 <div className="shortcut-card-left">
                   <span className="shortcut-card-icon">🌸</span>
                   <div>
-                    <div className="shortcut-card-title">Отметки дня и секас</div>
+                    <div className="shortcut-card-title">Отметки дня (дела и настроение)</div>
                     <div className="shortcut-card-subtitle">
-                      {dayInfo.intimate?.hadSex
-                        ? `💕 Секас был (${dayInfo.intimate.customType || INTIMATE_PRESETS.find(p => p.id === dayInfo.intimate?.type)?.label || 'Отмечено'})`
+                      {dayInfo.activities && dayInfo.activities.length > 0
+                        ? `Выбрано отметок: ${dayInfo.activities.length}`
                         : 'Нажми, чтобы настроить настроение и дела'}
                     </div>
                   </div>
@@ -384,31 +382,7 @@ export const DayEditor: React.FC = () => {
                 </div>
               )}
 
-              {/* Note Sticker Card */}
-              <div
-                className="scrapbook-shortcut-card"
-                onClick={() => {
-                  playBubbleTap(settings.soundEnabled !== false);
-                  setIsNoteStickerModalOpen(true);
-                }}
-              >
-                <div className="shortcut-card-left">
-                  <span className="shortcut-card-icon">📝</span>
-                  <div>
-                    <div className="shortcut-card-title">Стикер-заметка этого дня</div>
-                    <div className="shortcut-card-subtitle">
-                      {dayInfo.noteSticker?.text
-                        ? `Приклеен стикер: "${dayInfo.noteSticker.text.slice(0, 30)}..."`
-                        : 'Выбрать вид бумажки со скрепкой или скотчем и написать мысль'}
-                    </div>
-                  </div>
-                </div>
-                <button className="btn btn-outline btn-sm">
-                  {dayInfo.noteSticker?.text ? 'Изменить' : 'Приклеить'}
-                </button>
-              </div>
-
-              {/* Scrapbook Journal Page Card ("Как страничку в ежедневнике") */}
+              {/* Unified Scrapbook Journal & Note Card */}
               <div
                 className="scrapbook-shortcut-card journal-page-card"
                 onClick={() => {
@@ -419,16 +393,16 @@ export const DayEditor: React.FC = () => {
                 <div className="shortcut-card-left">
                   <span className="shortcut-card-icon">📖</span>
                   <div>
-                    <div className="shortcut-card-title">Страничка в ежедневнике</div>
+                    <div className="shortcut-card-title">Заметка и страничка ежедневника</div>
                     <div className="shortcut-card-subtitle">
-                      {dayInfo.journalPage?.content || dayInfo.note
-                        ? `Оформлено заметок: "${(dayInfo.journalPage?.content || dayInfo.note || '').slice(0, 26)}..."`
-                        : 'Оформить как страничку ежедневника (сухоцветы, рисунки, мысли)'}
+                      {dayInfo.journalPage?.content || dayInfo.noteSticker?.text || dayInfo.note
+                        ? `Заметка: "${(dayInfo.journalPage?.content || dayInfo.noteSticker?.text || dayInfo.note || '').slice(0, 30)}..."`
+                        : 'Оформить мысли, выбрать стикер со скрепкой или скотчем, добавить сухоцветы'}
                     </div>
                   </div>
                 </div>
                 <button className="btn btn-outline btn-sm">
-                  {dayInfo.journalPage?.content || dayInfo.note ? 'Открыть' : 'Оформить'}
+                  {dayInfo.journalPage?.content || dayInfo.noteSticker?.text || dayInfo.note ? 'Открыть' : 'Оформить'}
                 </button>
               </div>
 
@@ -873,14 +847,14 @@ export const DayEditor: React.FC = () => {
         targetDateTitle={dateFormatted}
       />
 
-      {/* Life & Intimate Tracker Modal (Screenshot 1) */}
+      {/* Life & Daily Tracking Modal */}
       {isLifeTrackerOpen && (
         <LifeTrackerModal
           date={selectedDate}
           onClose={() => setIsLifeTrackerOpen(false)}
           onOpenNoteSticker={() => {
             setIsLifeTrackerOpen(false);
-            setIsNoteStickerModalOpen(true);
+            setIsJournalPageOpen(true);
           }}
           onOpenZoomCanvas={() => {
             setIsLifeTrackerOpen(false);
@@ -889,15 +863,7 @@ export const DayEditor: React.FC = () => {
         />
       )}
 
-      {/* Note Sticker Modal (Screenshot 2) */}
-      {isNoteStickerModalOpen && (
-        <NoteStickerModal
-          date={selectedDate}
-          onClose={() => setIsNoteStickerModalOpen(false)}
-        />
-      )}
-
-      {/* Scrapbook Day Zoom Modal (Voice Request) */}
+      {/* Scrapbook Day Zoom Modal */}
       {isScrapbookZoomOpen && (
         <ScrapbookCellZoom
           date={selectedDate}
@@ -908,12 +874,12 @@ export const DayEditor: React.FC = () => {
           }}
           onOpenNoteSticker={() => {
             setIsScrapbookZoomOpen(false);
-            setIsNoteStickerModalOpen(true);
+            setIsJournalPageOpen(true);
           }}
         />
       )}
 
-      {/* Scrapbook Journal Page Modal ("Красивая страничка в ежедневнике") */}
+      {/* Scrapbook Journal & Note Page Modal */}
       {isJournalPageOpen && (
         <JournalPageModal
           date={selectedDate}

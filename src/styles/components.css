@@ -1850,30 +1850,33 @@ input:checked + .slider-round:before {
   padding: 1px 4px;
 }
 
+/* Authentic Mini Paper Sticker Note Badge (approximately 24-28px) */
 .cell-mini-note-card {
   position: relative;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: auto;
-  min-width: 36px;
-  max-width: 92%;
-  padding: 4px 6px 3px;
-  margin: 3px auto 2px;
-  border-radius: 3px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 2px;
+  margin: 2px auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.08);
   transform: rotate(var(--mini-note-rot, -1.8deg));
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.18s ease;
   pointer-events: auto;
   cursor: pointer;
   box-sizing: border-box;
   z-index: 2;
+  flex-shrink: 0;
 }
 
 .cell-mini-note-card:hover {
-  transform: rotate(0deg) scale(1.06);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  transform: rotate(0deg) scale(1.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.24);
   z-index: 6;
 }
 
@@ -1882,9 +1885,9 @@ input:checked + .slider-round:before {
   background-color: #FAF7EE;
   background-image: repeating-linear-gradient(
     transparent,
-    transparent 6px,
-    rgba(145, 170, 140, 0.22) 6px,
-    rgba(145, 170, 140, 0.22) 7px
+    transparent 5px,
+    rgba(145, 170, 140, 0.25) 5px,
+    rgba(145, 170, 140, 0.25) 6px
   );
   border: 1px solid #DFD5C2;
 }
@@ -1902,18 +1905,18 @@ input:checked + .slider-round:before {
   color: #FAF5EB;
 }
 
-/* Style: Cloud (Mint pastel cloud shape - Photo 4 cell 28) */
+/* Style: Cloud (Mint pastel scalloped cloud - Photo 4 cell 28) */
 .cell-mini-note-card.style-cloud {
   background-color: #E2ECE0;
   border: 1px solid #B4CBB0;
-  border-radius: 9px 13px 9px 12px;
+  border-radius: 8px 12px 8px 11px;
 }
 
 /* Style: Spiral Pad (Notepad sheet) */
 .cell-mini-note-card.style-spiral-pad {
   background-color: #FFFFFF;
   border: 1px solid #D6D0C5;
-  border-top: 2px dashed #999;
+  border-top: 2px dashed #8B8378;
 }
 
 /* Style: Ribbon Card (Cute blush/ivory card) */
@@ -1926,18 +1929,19 @@ input:checked + .slider-round:before {
 .cell-mini-note-card.style-tag {
   background-color: #EFE4D2;
   border: 1px solid #C8B8A0;
+  clip-path: polygon(15% 0%, 85% 0%, 100% 25%, 100% 100%, 0% 100%, 0% 25%);
 }
 
 /* Paper Clip Decor */
 .mini-note-clip-decor {
   position: absolute;
-  top: -7px;
-  left: 3px;
-  width: 12px;
-  height: 20px;
+  top: -8px;
+  left: 2px;
+  width: 9px;
+  height: 18px;
   z-index: 4;
   pointer-events: none;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.28));
 }
 
 .mini-clip-svg {
@@ -1949,34 +1953,34 @@ input:checked + .slider-round:before {
 /* Washi Tape Strips */
 .mini-note-washi {
   position: absolute;
-  background: rgba(206, 148, 120, 0.88);
-  height: 6px;
+  background: rgba(206, 148, 120, 0.9);
+  height: 5px;
   border-radius: 1px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
   z-index: 4;
   pointer-events: none;
 }
 
 .washi-top-left {
   top: -3px;
-  left: 1px;
-  width: 14px;
-  transform: rotate(-12deg);
+  left: -2px;
+  width: 12px;
+  transform: rotate(-15deg);
 }
 
 .washi-top-right {
   top: -3px;
-  right: 1px;
-  width: 14px;
-  transform: rotate(10deg);
+  right: -2px;
+  width: 12px;
+  transform: rotate(15deg);
 }
 
 .washi-craft-strip {
   top: -3px;
   left: 50%;
-  transform: translateX(-50%) rotate(-2deg);
-  width: 22px;
-  background: rgba(186, 138, 108, 0.9);
+  transform: translateX(-50%) rotate(-3deg);
+  width: 18px;
+  background: rgba(186, 138, 108, 0.92);
 }
 
 /* Cloud puffs */
@@ -1984,7 +1988,7 @@ input:checked + .slider-round:before {
   content: '';
   position: absolute;
   top: -3px;
-  left: 8px;
+  left: 6px;
   width: 8px;
   height: 6px;
   background: inherit;
@@ -2003,9 +2007,9 @@ input:checked + .slider-round:before {
 }
 
 .mini-spiral-hole {
-  width: 3px;
-  height: 3px;
-  background: #666;
+  width: 2.5px;
+  height: 2.5px;
+  background: #555;
   border-radius: 50%;
 }
 
@@ -2015,7 +2019,7 @@ input:checked + .slider-round:before {
   top: -7px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   line-height: 1;
   pointer-events: none;
 }
@@ -2026,52 +2030,44 @@ input:checked + .slider-round:before {
   top: 2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
+  width: 3.5px;
+  height: 3.5px;
   border-radius: 50%;
   background: #FFF;
   border: 1px solid #888;
 }
 
-/* Handwriting Note Text */
-.mini-note-text {
-  font-family: 'Caveat', cursive, var(--font-handwriting), serif;
-  font-size: 0.72rem;
-  line-height: 1.15;
-  color: #382B22;
-  font-weight: 600;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-word;
-  text-align: center;
-  max-width: 100%;
-}
-
-.cell-mini-note-card.style-dark-craft .mini-note-text {
-  color: #FAF5EB;
-}
-
-/* Ruled lines placeholder when note has no text */
+/* Realistic tactile ruled lines inside the mini paper sticker badge */
 .mini-note-ruled-lines {
-  width: 100%;
+  width: 14px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 2px 0;
+  gap: 2.5px;
+  margin-top: 2px;
+  pointer-events: none;
 }
 
 .mini-rule-line {
-  height: 1px;
-  background: rgba(145, 170, 140, 0.4);
-  width: 80%;
-  margin: 0 auto;
+  height: 1.5px;
+  background: rgba(120, 145, 120, 0.5);
+  border-radius: 1px;
+  width: 100%;
 }
 
 .mini-rule-line:last-child {
-  width: 55%;
+  width: 58%;
+}
+
+.cell-mini-note-card.style-dark-craft .mini-rule-line {
+  background: rgba(250, 245, 235, 0.5);
+}
+
+.cell-mini-note-card.style-washi-tape .mini-rule-line {
+  background: rgba(145, 120, 100, 0.5);
+}
+
+.cell-mini-note-card.style-cloud .mini-rule-line {
+  background: rgba(100, 135, 105, 0.5);
 }
 
 /* Life Tracker Modal (Burgundy theme from Screenshot 1) */
@@ -2141,7 +2137,7 @@ input:checked + .slider-round:before {
   background: #611D27;
 }
 
-/* Card "Секас был" */
+/* Card "Интим был" (legacy) */
 .life-tracker-card.sex-card {
   background: #44141B;
   border: 1px solid #5C1D24;
@@ -3216,11 +3212,57 @@ input:checked + .slider-round:before {
   position: relative;
   border-radius: 18px;
   min-height: 380px;
-  padding: 18px 18px 18px 36px;
+  padding: 18px 20px 18px 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), inset 0 0 20px rgba(0,0,0,0.02);
   overflow: hidden;
   touch-action: none;
   border: 1px solid #D8CABB;
+}
+
+.journal-scrapbook-sheet.format-spiral-pad {
+  padding-left: 36px;
+}
+
+/* Realistic Metal Paperclip on top of journal sheet */
+.journal-sheet-clip-decor {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 48px;
+  z-index: 15;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+.journal-paperclip-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.journal-sheet-badge-decor {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  font-size: 1.4rem;
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.journal-sheet-badge-decor.ribbon {
+  top: -12px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  font-size: 1.6rem;
+}
+
+.journal-sheet-badge-decor.cloud {
+  top: -8px;
+  right: 20px;
+  font-size: 1.6rem;
 }
 
 /* Paper Theme Backgrounds */

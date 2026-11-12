@@ -20,16 +20,19 @@ describe('JournalPageModal component', () => {
       </AppProvider>
     );
 
-    expect(screen.getByText(/Страничка ежедневника/i)).toBeDefined();
-    expect(screen.getByText('Линейка')).toBeDefined();
-    expect(screen.getByText('Клетка')).toBeDefined();
-    expect(screen.getByText('Крафт')).toBeDefined();
+    expect(screen.getByText(/Заметка и страничка ежедневника/i)).toBeDefined();
+    expect(screen.getByText('Со скрепкой')).toBeDefined();
+    expect(screen.getByText('Со скотчем')).toBeDefined();
+    expect(screen.getByText('Спиральный блокнот')).toBeDefined();
+    expect(screen.getByText('Облачко')).toBeDefined();
+    expect(screen.getByText('С бантиком')).toBeDefined();
+    expect(screen.getByText('Винтажный свиток')).toBeDefined();
     expect(screen.getByText('Лаванда')).toBeDefined();
     expect(screen.getByText('Шалфей')).toBeDefined();
 
     expect(screen.getByPlaceholderText(/Заголовок странички или настроение/i)).toBeDefined();
-    expect(screen.getByPlaceholderText(/Напиши сюда мысли, воспоминания, планы или секретики/i)).toBeDefined();
-    expect(screen.getByText(/Сохранить страничку/i)).toBeDefined();
+    expect(screen.getByPlaceholderText(/Напиши сюда заметку, мысль или секретик/i)).toBeDefined();
+    expect(screen.getByText(/Приклеить в календарь/i)).toBeDefined();
   });
 
   it('allows writing title, notes, choosing paper and saving', async () => {
@@ -44,13 +47,13 @@ describe('JournalPageModal component', () => {
     const titleInput = screen.getByPlaceholderText(/Заголовок странички или настроение/i);
     fireEvent.change(titleInput, { target: { value: 'Мой тёплый ноябрь' } });
 
-    const contentInput = screen.getByPlaceholderText(/Напиши сюда мысли, воспоминания, планы или секретики/i);
+    const contentInput = screen.getByPlaceholderText(/Напиши сюда заметку, мысль или секретик/i);
     fireEvent.change(contentInput, { target: { value: 'Сегодня пила латте и гуляла по парку.' } });
 
-    const kraftBtn = screen.getByText('Крафт');
-    fireEvent.click(kraftBtn);
+    const tapeBtn = screen.getByText('Со скотчем');
+    fireEvent.click(tapeBtn);
 
-    const saveBtn = screen.getByText(/Сохранить страничку/i);
+    const saveBtn = screen.getByText(/Приклеить в календарь/i);
     fireEvent.click(saveBtn);
 
     await waitFor(() => {

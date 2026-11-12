@@ -9,7 +9,7 @@ export interface IntimatePreset {
 }
 
 /**
- * @deprecated Intimate tracking is deprecated/removed per user request ("Убираем секас Вообще").
+ * @deprecated Intimate tracking is deprecated and removed per user request.
  * Kept as empty array for backwards compatibility.
  */
 export const INTIMATE_PRESETS: IntimatePreset[] = [];
