@@ -377,11 +377,18 @@ export const STICKERS_MANIFEST: StickerManifestItem[] = [
     description: 'Домашний уют, чистота и свежее белье'
   },
   {
-    id: 'life_intimate',
-    name: 'Особый момент',
+    id: 'life_special',
+    name: 'Особенный день 18+',
     category: 'Жизнь и настроение',
-    imagePath: 'stickers/life/intimate.webp',
-    description: 'Романтический и страстный вечер для двоих'
+    imagePath: 'stickers/life/special.webp',
+    description: 'Особенный романтический вечер и моменты для двоих'
+  },
+  {
+    id: 'life_period',
+    name: 'Эти дни',
+    category: 'Жизнь и настроение',
+    imagePath: 'stickers/life/period.webp',
+    description: 'Забота о себе, женский календарь и мягкий отдых'
   }
 ];
 

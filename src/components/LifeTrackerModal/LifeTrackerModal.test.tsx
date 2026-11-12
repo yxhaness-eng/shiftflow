@@ -52,9 +52,9 @@ describe('LifeTrackerModal component', () => {
 
     // Check enriched activities matching Photo 4
     expect(screen.getByText(/Свидание \/ Вино/i)).toBeDefined();
-    expect(screen.getByText(/Огонь \/ Энергия/i)).toBeDefined();
+    expect(screen.getByText(/Эти дни/i)).toBeDefined();
     expect(screen.getByText(/Нежность \/ Любовь/i)).toBeDefined();
-    expect(screen.getByText(/Уютный вечер/i)).toBeDefined();
+    expect(screen.getByText(/Тренировка/i)).toBeDefined();
     expect(screen.getByText(/Супер день/i)).toBeDefined();
     expect(screen.getByText(/Вкусняшки/i)).toBeDefined();
     expect(screen.getByText(/Кино \/ Сериал/i)).toBeDefined();

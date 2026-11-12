@@ -128,7 +128,7 @@ describe('CalendarDayCell component', () => {
   it('renders enriched activity icons properly', () => {
     const dayInfo: ResolvedDayInfo = {
       ...baseDayInfo,
-      activities: ['date', 'energy', 'cozy_evening']
+      activities: ['date', 'workout', 'period']
     };
 
     const { container } = render(
@@ -137,8 +137,8 @@ describe('CalendarDayCell component', () => {
 
     const activitiesRow = container.querySelector('.cell-activities-row');
     expect(activitiesRow).toBeDefined();
-    expect(screen.getByText('🔥')).toBeDefined();
-    expect(screen.getByText('🧸')).toBeDefined();
+    const imgs = activitiesRow?.querySelectorAll('img');
+    expect(imgs?.length).toBe(3);
   });
 
   it('renders shift pill with contrast text and day number in cell header', () => {

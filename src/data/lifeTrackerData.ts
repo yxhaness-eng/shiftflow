@@ -38,11 +38,7 @@ export const ACTIVITY_PRESETS: ActivityPreset[] = [
   { id: 'chat', label: 'Болтовня', emoji: '💬', iconImage: 'stickers/life/chat.webp' },
   { id: 'beauty', label: 'Бьюти / Уход', emoji: '✨', iconImage: 'stickers/life/beauty.webp' },
   { id: 'special', label: 'Особенный день', emoji: '⭐', iconImage: 'stickers/life/special.webp' },
-  { id: 'energy', label: 'Огонь / Энергия', emoji: '🔥' },
-  { id: 'cozy_evening', label: 'Уютный вечер', emoji: '🧸' },
-  { id: 'period', label: 'Эти дни', emoji: '🩸' },
-  { id: 'custom_badge_1', label: 'Отметка 1', emoji: '🏷️', iconImage: 'stickers/life/badge_custom_1.webp' },
-  { id: 'custom_badge_2', label: 'Отметка 2', emoji: '🏷️', iconImage: 'stickers/life/badge_custom_2.webp' }
+  { id: 'period', label: 'Эти дни', emoji: '🩸', iconImage: 'stickers/life/period.webp' }
 ];
 
 export interface NoteStyleOption {
