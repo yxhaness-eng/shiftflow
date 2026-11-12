@@ -96,7 +96,7 @@ export const StickersPage: React.FC = () => {
             <span>Стикеры и отметки календаря</span>
           </h2>
           <p className="stickers-subtitle">
-            Круглые значки дня для настроения и дел, плюс 52 скрапбук-стикера. Нажми на карандаш, чтобы переименовать любой кругляш!
+            Круглые значки дня для настроения и дел, плюс 52 скрапбук-стикера. Нажми на карандаш, чтобы переименовать любой значок!
           </p>
         </div>
       </div>
@@ -106,7 +106,7 @@ export const StickersPage: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
           <h3 className="card-title" style={{ margin: 0 }}>
             <Tag size={18} color="var(--accent-primary)" />
-            <span>Отметки дня («Кругляхи»)</span>
+            <span>Отметки дня (значки активностей)</span>
           </h3>
           <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
             Всего значков: {ACTIVITY_PRESETS.length}

@@ -116,17 +116,20 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
         {/* Authentic Mini Paper Sticker with Paper Clip / Washi Tape (Photo 4) - no raw text preview */}
         {hasNote && (() => {
           const notePos = dayInfo.markerPositions?.['note'] || (noteSticker?.x !== undefined ? { x: noteSticker.x, y: noteSticker.y || 0 } : null);
+          const rawScale = dayInfo.markerPositions?.['note']?.scale ?? 1.0;
+          const noteScale = Math.min(1.2, Math.max(0.45, rawScale));
           const customStyle = notePos
             ? ({
                 '--mini-note-rot': `${noteRotation}deg`,
                 position: 'absolute',
                 left: '50%',
                 top: '50%',
-                transform: `translate(-50%, -50%) translate(${notePos.x}%, ${notePos.y}%) rotate(${noteRotation}deg)`,
+                transform: `translate(-50%, -50%) translate(${notePos.x}%, ${notePos.y}%) rotate(${noteRotation}deg) scale(${noteScale})`,
                 zIndex: 4
               } as React.CSSProperties)
             : ({
-                '--mini-note-rot': `${noteRotation}deg`
+                '--mini-note-rot': `${noteRotation}deg`,
+                transform: `rotate(${noteRotation}deg) scale(${noteScale})`
               } as React.CSSProperties);
 
           return (
@@ -206,6 +209,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
                 {activities.map((actId, idx) => {
                   const act = ACTIVITY_MAP[actId];
                   const pos = dayInfo.markerPositions?.[actId] || { x: (idx - 1) * 22, y: 16 };
+                  const scale = Math.min(1.25, Math.max(0.4, pos.scale ?? 1.0));
                   return (
                     <div
                       key={actId}
@@ -214,7 +218,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
                         position: 'absolute',
                         left: '50%',
                         top: '50%',
-                        transform: `translate(-50%, -50%) translate(${pos.x}%, ${pos.y}%)`,
+                        transform: `translate(-50%, -50%) translate(${pos.x}%, ${pos.y}%) scale(${scale})`,
                         zIndex: 5
                       }}
                       title={act?.label || actId}

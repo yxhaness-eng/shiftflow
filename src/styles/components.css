@@ -209,26 +209,32 @@
   justify-content: center;
   flex: 1;
   position: relative;
-  min-height: 36px;
+  min-height: 28px;
+  max-height: 32px;
+  overflow: hidden;
   pointer-events: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .cell-sticker-wrapper {
   position: relative;
   display: inline-block;
-  margin: -4px;
+  margin: -2px;
 }
 
 .cell-sticker-wrapper .sticker-image {
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
+  max-width: 24px;
+  max-height: 24px;
   object-fit: contain;
 }
 
 @media (min-width: 640px) {
   .cell-sticker-wrapper .sticker-image {
-    width: 44px;
-    height: 44px;
+    width: 26px;
+    height: 26px;
   }
 }
 
@@ -1964,13 +1970,26 @@ input:checked + .slider-round:before {
 }
 
 .cell-activity-mini-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  max-width: 22px;
+  max-height: 22px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.cell-activity-mini-icon.custom-placed {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
 }
 
 .cell-activity-mini-icon img {
@@ -2951,14 +2970,16 @@ input:checked + .slider-round:before {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: grab;
   user-select: none;
   touch-action: none;
+  z-index: 6;
+  transition: outline 0.15s ease;
 }
 
 .canvas-placed-sticker:active {
@@ -2966,7 +2987,7 @@ input:checked + .slider-round:before {
 }
 
 .canvas-placed-sticker.selected {
-  outline: 2px dashed #DE4364;
+  outline: 2.5px dashed var(--accent-primary, #D99AA4);
   outline-offset: 4px;
   border-radius: 8px;
 }
@@ -2976,23 +2997,71 @@ input:checked + .slider-round:before {
   max-height: 100%;
   object-fit: contain;
   pointer-events: none;
-  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.12));
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.14));
 }
 
-/* Canvas Note Sticker (Draggable) */
+/* Canvas Circular Activity Badges (Draggable & Resizable) */
+.canvas-activity-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transition: box-shadow 0.15s ease, outline 0.15s ease;
+  background: #FFFDF8;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16);
+  z-index: 5;
+}
+
+.canvas-activity-badge:active {
+  cursor: grabbing;
+}
+
+.canvas-activity-badge.selected {
+  outline: 2.5px solid var(--accent-primary, #D99AA4);
+  outline-offset: 3px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+}
+
+.canvas-activity-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.canvas-activity-emoji {
+  font-size: 1.45rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Canvas Note Sticker (Draggable & Resizable) */
 .canvas-note-sticker {
   position: absolute;
   top: 50%;
   left: 50%;
-  max-width: 140px;
+  width: 86px;
+  max-width: 105px;
+  min-height: 52px;
   background: #FFFDF8;
   border: 1px solid #E4D8C4;
   border-radius: 8px;
-  padding: 8px 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 6px 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
   cursor: grab;
   user-select: none;
   touch-action: none;
+  z-index: 4;
+  transition: box-shadow 0.15s ease, outline 0.15s ease;
 }
 
 .canvas-note-sticker.style-dark-craft {
@@ -3006,13 +3075,14 @@ input:checked + .slider-round:before {
 }
 
 .canvas-note-sticker.selected {
-  outline: 2px dashed #82A776;
-  outline-offset: 4px;
+  outline: 2.5px solid var(--accent-primary, #D99AA4);
+  outline-offset: 3px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
 }
 
 .canvas-note-text {
   font-family: 'Caveat', cursive, var(--font-handwriting), serif;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   line-height: 1.25;
   color: var(--text-primary);
   display: -webkit-box;
@@ -3023,6 +3093,123 @@ input:checked + .slider-round:before {
 
 .canvas-note-sticker.style-dark-craft .canvas-note-text {
   color: #FAF5EB;
+}
+
+/* Resize Control Bar */
+.marker-resize-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  margin-top: 10px;
+  background: var(--bg-card, #2D3A30);
+  border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  flex-wrap: wrap;
+}
+
+.resize-item-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 90px;
+}
+
+.resize-item-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.resize-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-resize-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--bg-secondary, rgba(255,255,255,0.08));
+  border: 1px solid var(--border-color, rgba(255,255,255,0.12));
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-resize-step:hover:not(:disabled) {
+  background: var(--accent-primary);
+  color: #FFF;
+  border-color: var(--accent-primary);
+}
+
+.btn-resize-step:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.resize-value-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  background: rgba(0,0,0,0.18);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.btn-resize-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 9px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--bg-secondary, rgba(255,255,255,0.08));
+  border: 1px solid var(--border-color, rgba(255,255,255,0.12));
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-resize-reset:hover {
+  background: var(--bg-card-subtle);
+  color: var(--text-primary);
+}
+
+.btn-resize-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(220, 53, 69, 0.12);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: #E05D6D;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-resize-delete:hover {
+  background: #E05D6D;
+  color: #FFF;
 }
 
 .canvas-drag-hint {

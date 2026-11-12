@@ -19,8 +19,11 @@ export const StickerElement: React.FC<StickerElementProps> = ({
   // Resolve base asset path (works cleanly with relative paths for GitHub/Cloudflare Pages)
   const imageSrc = `./${item.imagePath}?v=cutout2`;
 
+  // In cell preview, keep scale compact so it never overlaps neighbor cells
+  const effectiveScale = interactive ? sticker.scale : Math.min(sticker.scale, 0.85);
+
   const style: React.CSSProperties = {
-    transform: `translate(${sticker.x}%, ${sticker.y}%) rotate(${sticker.rotation}deg) scale(${sticker.scale})`,
+    transform: `translate(${sticker.x}%, ${sticker.y}%) rotate(${sticker.rotation}deg) scale(${effectiveScale})`,
     cursor: interactive ? 'pointer' : 'default',
     filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))'
   };

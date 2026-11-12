@@ -4,11 +4,15 @@ import {
   Edit3,
   Tag,
   RotateCcw,
-  Sparkles
+  Sparkles,
+  Minus,
+  Plus,
+  Trash2
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { formatFullDateRU } from '../../utils/dateUtils';
 import { ACTIVITY_MAP } from '../../data/lifeTrackerData';
+import { STICKERS_MAP } from '../../data/stickersManifest';
 import { playStickerPop, playBubbleTap, triggerHaptic } from '../../services/soundEffects';
 
 interface ScrapbookCellZoomProps {
@@ -28,29 +32,15 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
     settings,
     getDayInfo,
     updateDayMarkerPosition,
-    resetDayMarkerPositions
+    updateDayMarkerScale,
+    resetDayMarkerPositions,
+    updateStickerTransform,
+    removeSticker
   } = useApp();
 
   const dayInfo = getDayInfo(date);
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-
-  // Local drag positions for instant smooth drag feedback
-  const [livePositions, setLivePositions] = useState<Record<string, { x: number; y: number }>>({});
-
-  const formattedDate = formatFullDateRU(date);
-
-  // Dragging state
-  const dragRef = useRef<{
-    id: string; // 'note' or activityId
-    pointerId: number;
-    startX: number;
-    startY: number;
-    origX: number;
-    origY: number;
-    isDragging: boolean;
-  } | null>(null);
-
   const activities = dayInfo.activities || [];
+  const stickers = dayInfo.stickers || [];
   const markerPositions = dayInfo.markerPositions || {};
 
   // Check if note is present
@@ -59,6 +49,29 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
     (dayInfo.note && dayInfo.note.trim().length > 0) ||
     (dayInfo.journalPage && (dayInfo.journalPage.content?.trim() || dayInfo.journalPage.title?.trim()))
   );
+
+  // Default selected item: note, or first activity, or first sticker
+  const defaultSelected = hasNote
+    ? 'note'
+    : (activities[0] || (stickers[0]?.id || null));
+
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(defaultSelected);
+
+  // Local drag positions for instant smooth drag feedback
+  const [livePositions, setLivePositions] = useState<Record<string, { x: number; y: number }>>({});
+
+  const formattedDate = formatFullDateRU(date);
+
+  // Dragging state
+  const dragRef = useRef<{
+    id: string; // 'note', activityId, or sticker.id
+    pointerId: number;
+    startX: number;
+    startY: number;
+    origX: number;
+    origY: number;
+    isDragging: boolean;
+  } | null>(null);
 
   // Helper to get marker coordinates (live > saved > default)
   const getMarkerCoords = (markerId: string, defaultIdx: number = 0) => {
@@ -79,6 +92,99 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
     const defX = cols > 1 ? -28 + colIdx * spacingX : 0;
     const defY = 16 + rowIdx * 24;
     return { x: Math.round(defX), y: Math.round(defY) };
+  };
+
+  // Helper to get scale of any marker or sticker
+  const getItemScale = (itemId: string): number => {
+    if (itemId === 'note') {
+      return markerPositions['note']?.scale ?? 1.0;
+    }
+    if (activities.includes(itemId)) {
+      return markerPositions[itemId]?.scale ?? 1.0;
+    }
+    const stk = stickers.find((s) => s.id === itemId);
+    if (stk) {
+      return stk.scale ?? 1.0;
+    }
+    return 1.0;
+  };
+
+  // Helper to get label/name of selected item
+  const getSelectedItemDetails = () => {
+    if (!selectedItemId) return null;
+
+    if (selectedItemId === 'note') {
+      return {
+        label: 'Стикер-заметка',
+        scale: getItemScale('note'),
+        canDelete: false
+      };
+    }
+
+    if (activities.includes(selectedItemId)) {
+      const act = ACTIVITY_MAP[selectedItemId];
+      const customLabel = settings.activityCustomLabels?.[selectedItemId] || act?.label || selectedItemId;
+      return {
+        label: customLabel,
+        scale: getItemScale(selectedItemId),
+        canDelete: false
+      };
+    }
+
+    const stk = stickers.find((s) => s.id === selectedItemId);
+    if (stk) {
+      const item = STICKERS_MAP[stk.stickerId];
+      return {
+        label: item?.name || 'Стикер',
+        scale: stk.scale ?? 1.0,
+        canDelete: true
+      };
+    }
+
+    return null;
+  };
+
+  const handleAdjustScale = async (delta: number) => {
+    if (!selectedItemId) return;
+    playBubbleTap(settings.soundEnabled !== false);
+    triggerHaptic(6, settings.hapticsEnabled !== false);
+
+    const currentScale = getItemScale(selectedItemId);
+    const nextScale = Math.max(0.4, Math.min(1.8, Math.round((currentScale + delta) * 100) / 100));
+
+    if (selectedItemId === 'note' || activities.includes(selectedItemId)) {
+      await updateDayMarkerScale(date, selectedItemId, nextScale);
+    } else {
+      // It's a placed sticker
+      const stk = stickers.find((s) => s.id === selectedItemId);
+      if (stk) {
+        await updateStickerTransform(stk.id, { scale: nextScale });
+      }
+    }
+  };
+
+  const handleResetScale = async () => {
+    if (!selectedItemId) return;
+    playBubbleTap(settings.soundEnabled !== false);
+    triggerHaptic(8, settings.hapticsEnabled !== false);
+
+    if (selectedItemId === 'note' || activities.includes(selectedItemId)) {
+      await updateDayMarkerScale(date, selectedItemId, 1.0);
+    } else {
+      const stk = stickers.find((s) => s.id === selectedItemId);
+      if (stk) {
+        await updateStickerTransform(stk.id, { scale: 1.0 });
+      }
+    }
+  };
+
+  const handleDeleteSticker = async (stickerId: string) => {
+    playBubbleTap(settings.soundEnabled !== false);
+    triggerHaptic(12, settings.hapticsEnabled !== false);
+    await removeSticker(stickerId);
+    if (selectedItemId === stickerId) {
+      setSelectedItemId(hasNote ? 'note' : (activities[0] || null));
+    }
   };
 
   const handlePointerDown = (
@@ -143,7 +249,15 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
 
       const finalPos = livePositions[activeId];
       if (finalPos) {
-        await updateDayMarkerPosition(date, activeId, finalPos);
+        if (activeId === 'note' || activities.includes(activeId)) {
+          await updateDayMarkerPosition(date, activeId, finalPos);
+        } else {
+          // Placed sticker
+          const stk = stickers.find((s) => s.id === activeId);
+          if (stk) {
+            await updateStickerTransform(stk.id, { x: finalPos.x, y: finalPos.y });
+          }
+        }
       }
 
       dragRef.current.isDragging = false;
@@ -157,6 +271,8 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
     setLivePositions({});
     await resetDayMarkerPositions(date);
   };
+
+  const selectedDetails = getSelectedItemDetails();
 
   return (
     <div className="scrapbook-zoom-overlay" onClick={onClose}>
@@ -208,7 +324,7 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
 
         <div className="zoom-hint-banner">
           <Sparkles size={14} />
-          <span>Перетаскивай кругляхи и стикер заметки пальцем по окошку!</span>
+          <span>Перетаскивай значки и стикер заметки пальцем, нажимай для изменения размера!</span>
         </div>
 
         {/* Enlarged Day Cell Canvas */}
@@ -245,6 +361,7 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
           {/* DRAGGABLE NOTE STICKER */}
           {hasNote && (() => {
             const noteCoords = getMarkerCoords('note', 0);
+            const noteScale = getItemScale('note');
             const style = dayInfo.noteSticker?.style || 'paper-clip';
             const textPreview =
               dayInfo.noteSticker?.text?.trim() ||
@@ -257,10 +374,11 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
               <div
                 className={`canvas-note-sticker style-${style} ${selectedItemId === 'note' ? 'selected' : ''}`}
                 style={{
-                  transform: `translate(${noteCoords.x}%, ${noteCoords.y}%) rotate(${dayInfo.noteSticker?.rotation || 0}deg)`
+                  transform: `translate(${noteCoords.x}%, ${noteCoords.y}%) rotate(${dayInfo.noteSticker?.rotation || 0}deg) scale(${noteScale})`
                 }}
                 onPointerDown={(e) => handlePointerDown(e, 'note', noteCoords.x, noteCoords.y)}
-                title="Стикер-заметка (перетаскивай)"
+                onClick={() => setSelectedItemId('note')}
+                title="Стикер-заметка (нажми для размера, перетаскивай)"
               >
                 <div className={`canvas-note-decor decor-${style}`} />
                 <div className="canvas-note-text">{textPreview}</div>
@@ -268,10 +386,11 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
             );
           })()}
 
-          {/* DRAGGABLE CIRCULAR ACTIVITY BADGES ("КРУГЛЯХИ") */}
+          {/* DRAGGABLE CIRCULAR ACTIVITY BADGES */}
           {activities.map((actId, idx) => {
             const act = ACTIVITY_MAP[actId];
             const coords = getMarkerCoords(actId, idx);
+            const scale = getItemScale(actId);
             const isSelected = selectedItemId === actId;
             const customLabel = settings.activityCustomLabels?.[actId] || act?.label || actId;
 
@@ -280,10 +399,11 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
                 key={actId}
                 className={`canvas-activity-badge ${isSelected ? 'selected' : ''}`}
                 style={{
-                  transform: `translate(${coords.x}%, ${coords.y}%)`
+                  transform: `translate(${coords.x}%, ${coords.y}%) scale(${scale})`
                 }}
                 onPointerDown={(e) => handlePointerDown(e, actId, coords.x, coords.y)}
-                title={`${customLabel} (перетаскивай)`}
+                onClick={() => setSelectedItemId(actId)}
+                title={`${customLabel} (нажми для размера, перетаскивай)`}
               >
                 {act?.iconImage ? (
                   <img
@@ -298,7 +418,35 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
             );
           })}
 
-          {activities.length === 0 && !hasNote && (
+          {/* DRAGGABLE PLACED STICKERS */}
+          {stickers.map((stk) => {
+            const item = STICKERS_MAP[stk.stickerId];
+            if (!item) return null;
+            const isSelected = selectedItemId === stk.id;
+            const currentPos = livePositions[stk.id] || { x: stk.x, y: stk.y };
+            const scale = stk.scale ?? 1.0;
+
+            return (
+              <div
+                key={stk.id}
+                className={`canvas-placed-sticker ${isSelected ? 'selected' : ''}`}
+                style={{
+                  transform: `translate(${currentPos.x}%, ${currentPos.y}%) rotate(${stk.rotation || 0}deg) scale(${scale})`
+                }}
+                onPointerDown={(e) => handlePointerDown(e, stk.id, currentPos.x, currentPos.y)}
+                onClick={() => setSelectedItemId(stk.id)}
+                title={`${item.name} (нажми для размера, перетаскивай)`}
+              >
+                <img
+                  src={`./${item.imagePath}?v=cutout2`}
+                  alt={item.name}
+                  draggable={false}
+                />
+              </div>
+            );
+          })}
+
+          {activities.length === 0 && !hasNote && stickers.length === 0 && (
             <div className="canvas-empty-state">
               <p>В этом окошке пока нет отметок</p>
               <button
@@ -313,6 +461,64 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
             </div>
           )}
         </div>
+
+        {/* RESIZE AND SCALE CONTROLS BAR (Photo & User feedback) */}
+        {selectedDetails && (
+          <div className="marker-resize-bar">
+            <div className="resize-item-info">
+              <span className="resize-item-name">{selectedDetails.label}</span>
+            </div>
+
+            <div className="resize-controls-group">
+              <button
+                type="button"
+                className="btn-resize-step"
+                onClick={() => handleAdjustScale(-0.1)}
+                disabled={selectedDetails.scale <= 0.45}
+                title="Уменьшить размер (−10%)"
+                aria-label="Уменьшить"
+              >
+                <Minus size={16} />
+              </button>
+
+              <span className="resize-value-badge" title="Текущий масштаб">
+                {Math.round(selectedDetails.scale * 100)}%
+              </span>
+
+              <button
+                type="button"
+                className="btn-resize-step"
+                onClick={() => handleAdjustScale(0.1)}
+                disabled={selectedDetails.scale >= 1.75}
+                title="Увеличить размер (+10%)"
+                aria-label="Увеличить"
+              >
+                <Plus size={16} />
+              </button>
+
+              <button
+                type="button"
+                className="btn-resize-reset"
+                onClick={handleResetScale}
+                title="Вернуть стандартный размер (100%)"
+              >
+                100%
+              </button>
+
+              {selectedDetails.canDelete && selectedItemId && (
+                <button
+                  type="button"
+                  className="btn-resize-delete"
+                  onClick={() => handleDeleteSticker(selectedItemId)}
+                  title="Убрать этот стикер с даты"
+                  aria-label="Удалить"
+                >
+                  <Trash2 size={15} />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

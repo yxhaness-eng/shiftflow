@@ -98,6 +98,7 @@ export interface JournalPageData {
 export interface MarkerPosition {
   x: number;              // percentage offset (-45 .. 45)
   y: number;              // percentage offset (-45 .. 45)
+  scale?: number;         // Scale factor (0.5 .. 1.8, default 1.0)
 }
 
 export interface DayOverride {

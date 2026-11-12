@@ -87,7 +87,12 @@ interface AppContextType {
   updateDayMarkerPosition: (
     date: string,
     markerId: string,
-    pos: { x: number; y: number }
+    pos: { x: number; y: number; scale?: number }
+  ) => Promise<void>;
+  updateDayMarkerScale: (
+    date: string,
+    markerId: string,
+    scale: number
   ) => Promise<void>;
   resetDayMarkerPositions: (date: string) => Promise<void>;
   setActivityCustomLabel: (activityId: string, customLabel: string) => Promise<void>;
@@ -602,7 +607,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     async (
       date: string,
       markerId: string,
-      pos: { x: number; y: number }
+      pos: { x: number; y: number; scale?: number }
     ) => {
       const existing = overrides[date] || {
         date,
@@ -615,9 +620,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const clampedY = Math.round(Math.max(-45, Math.min(45, pos.y)));
 
       const currentPositions = existing.markerPositions || {};
+      const prevPos = currentPositions[markerId] || { x: 0, y: 0 };
+      const newScale = pos.scale !== undefined ? Math.max(0.4, Math.min(2.0, Math.round(pos.scale * 100) / 100)) : (prevPos.scale ?? 1.0);
+
       const updatedPositions = {
         ...currentPositions,
-        [markerId]: { x: clampedX, y: clampedY }
+        [markerId]: { x: clampedX, y: clampedY, scale: newScale }
       };
 
       // If markerId is 'note', sync with noteSticker
@@ -634,6 +642,39 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         ...existing,
         markerPositions: updatedPositions,
         noteSticker: updatedNoteSticker,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
+    },
+    [overrides]
+  );
+
+  // Update scale of a day marker (shrink or enlarge)
+  const updateDayMarkerScale = useCallback(
+    async (date: string, markerId: string, scale: number) => {
+      const existing = overrides[date] || {
+        date,
+        status: 'work',
+        stickers: [],
+        updatedAt: new Date().toISOString()
+      };
+
+      const currentPositions = existing.markerPositions || {};
+      const prevPos = currentPositions[markerId] || { x: 0, y: 0 };
+      const clampedScale = Math.max(0.4, Math.min(2.0, Math.round(scale * 100) / 100));
+
+      const updatedPositions = {
+        ...currentPositions,
+        [markerId]: { ...prevPos, scale: clampedScale }
+      };
+
+      const updated: DayOverride = {
+        ...existing,
+        markerPositions: updatedPositions,
         updatedAt: new Date().toISOString()
       };
 
@@ -1020,6 +1061,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     updateDayLifeDetails,
     updateNoteStickerTransform,
     updateDayMarkerPosition,
+    updateDayMarkerScale,
     resetDayMarkerPositions,
     setActivityCustomLabel,
     updateJournalPage,
