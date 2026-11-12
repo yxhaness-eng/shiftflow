@@ -841,16 +841,23 @@ select:focus {
 
 .calendar-cell .day-number,
 .calendar-day-cell .day-number {
-  font-size: 0.82rem;
+  font-family: 'Caveat', cursive, sans-serif;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--cal-cell-text);
   line-height: 1;
+  letter-spacing: 0.3px;
+}
+
+.calendar-cell.is-weekend:not(.other-month) .day-number,
+.calendar-day-cell.is-weekend:not(.other-month) .day-number {
+  color: var(--cal-weekend-color);
 }
 
 .calendar-cell.other-month .day-number,
 .calendar-day-cell.other-month .day-number {
   color: var(--cal-cell-other-text);
-  opacity: 0.8;
+  opacity: 0.65;
 }
 
 .calendar-cell.is-today,
@@ -865,13 +872,13 @@ select:focus {
 .calendar-day-cell .day-number.today-badge {
   background-color: var(--cal-cell-today-border);
   color: var(--cal-cell-today-number-color);
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-round);
-  font-size: 0.78rem;
+  font-size: 1.15rem;
 }
 
 .month-header-card {

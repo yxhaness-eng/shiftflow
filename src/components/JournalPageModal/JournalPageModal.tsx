@@ -141,7 +141,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
                   }}
                   title={`${choice.label}: ${choice.desc}`}
                 >
-                  <span className="note-style-icon">{choice.icon}</span>
+                  <span className={`style-thumb-mini-icon style-icon-${choice.style}`} aria-hidden="true" />
                   <span className="note-style-name">{choice.label}</span>
                 </button>
               );

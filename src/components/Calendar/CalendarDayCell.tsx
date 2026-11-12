@@ -16,6 +16,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
   onLongPress
 }) => {
   const {
+    date,
     isCurrentMonth,
     isToday,
     dayNumber,
@@ -84,6 +85,9 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
     note?.trim() ||
     'Стикер-заметка';
 
+  const dayOfWeek = new Date(date + 'T12:00:00').getDay();
+  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
   const hasEvent = Boolean(
     hasNote ||
     (activities && activities.length > 0)
@@ -91,7 +95,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
 
   return (
     <div
-      className={`calendar-cell ${!isCurrentMonth ? 'other-month' : ''} ${isToday ? 'is-today' : ''} ${hasEvent ? 'has-event' : ''}`}
+      className={`calendar-cell ${!isCurrentMonth ? 'other-month' : ''} ${isWeekend ? 'is-weekend' : ''} ${isToday ? 'is-today' : ''} ${hasEvent ? 'has-event' : ''}`}
       onClick={handleClick}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
@@ -106,7 +110,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
     >
       {/* Cell Header: Day Number */}
       <div className="cell-header">
-        <span className={`day-number ${isToday ? 'today-badge' : ''}`}>
+        <span className={`day-number ${isWeekend ? 'weekend-day' : ''} ${isToday ? 'today-badge' : ''}`}>
           {dayNumber}
         </span>
       </div>

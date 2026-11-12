@@ -178,21 +178,32 @@
 }
 
 .day-number {
-  font-size: 0.82rem;
+  font-family: 'Caveat', cursive, sans-serif;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--cal-cell-text);
-  width: 22px;
+  line-height: 1;
+  width: auto;
+  min-width: 22px;
   height: 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-round);
+  letter-spacing: 0.3px;
+}
+
+.day-number.weekend-day:not(.other-month) {
+  color: var(--cal-weekend-color, #D99AA4);
 }
 
 .day-number.today-badge {
   background-color: var(--cal-cell-today-border, var(--accent-lavender));
   color: var(--cal-cell-today-number-color, #ffffff);
   box-shadow: var(--shadow-soft);
+  font-size: 1.15rem;
+  width: 22px;
+  height: 22px;
 }
 
 .note-indicator {
@@ -369,8 +380,10 @@
   }
 
   .weekday-header-cell {
-    font-size: 0.72rem !important;
-    padding: 3px 0 !important;
+    font-family: 'Caveat', cursive, sans-serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    padding: 2px 0 !important;
   }
 
   .calendar-cell {
@@ -382,9 +395,13 @@
   }
 
   .cell-header .day-number {
-    font-size: 0.74rem !important;
-    width: 18px !important;
-    height: 18px !important;
+    font-family: 'Caveat', cursive, sans-serif !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    width: auto !important;
+    min-width: 20px !important;
+    height: 20px !important;
   }
 
   .cell-stickers-container {
@@ -3665,6 +3682,13 @@ input:checked + .slider-round:before {
   box-shadow: 0 0 0 1.5px var(--accent-primary);
   color: var(--text-primary);
   font-weight: 700;
+}
+
+.note-style-btn .style-thumb-mini-icon {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 2px;
+  display: block;
 }
 
 .note-style-icon {
