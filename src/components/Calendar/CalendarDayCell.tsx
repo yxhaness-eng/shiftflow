@@ -122,9 +122,9 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
             ? ({
                 '--mini-note-rot': `${noteRotation}deg`,
                 position: 'absolute',
-                left: '50%',
-                top: '50%',
-                transform: `translate(-50%, -50%) translate(${notePos.x}%, ${notePos.y}%) rotate(${noteRotation}deg) scale(${noteScale})`,
+                left: `calc(50% + ${notePos.x}%)`,
+                top: `calc(50% + ${notePos.y}%)`,
+                transform: `translate(-50%, -50%) rotate(${noteRotation}deg) scale(${noteScale})`,
                 zIndex: 4
               } as React.CSSProperties)
             : ({
@@ -216,9 +216,9 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
                       className="cell-activity-mini-icon custom-placed"
                       style={{
                         position: 'absolute',
-                        left: '50%',
-                        top: '50%',
-                        transform: `translate(-50%, -50%) translate(${pos.x}%, ${pos.y}%) scale(${scale})`,
+                        left: `calc(50% + ${pos.x}%)`,
+                        top: `calc(50% + ${pos.y}%)`,
+                        transform: `translate(-50%, -50%) scale(${scale})`,
                         zIndex: 5
                       }}
                       title={act?.label || actId}
@@ -258,9 +258,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
 
         {/* Placed Stickers Preview */}
         {stickers.slice(0, 2).map((stk) => (
-          <div key={stk.id} className="cell-sticker-wrapper">
-            <StickerElement sticker={stk} />
-          </div>
+          <StickerElement key={stk.id} sticker={stk} />
         ))}
         {stickers.length > 2 && (
           <span className="more-stickers-badge">+{stickers.length - 2}</span>

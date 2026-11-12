@@ -23,9 +23,13 @@ export const StickerElement: React.FC<StickerElementProps> = ({
   const effectiveScale = interactive ? sticker.scale : Math.min(sticker.scale, 0.85);
 
   const style: React.CSSProperties = {
-    transform: `translate(${sticker.x}%, ${sticker.y}%) rotate(${sticker.rotation}deg) scale(${effectiveScale})`,
+    position: 'absolute',
+    left: `calc(50% + ${sticker.x}%)`,
+    top: `calc(50% + ${sticker.y}%)`,
+    transform: `translate(-50%, -50%) rotate(${sticker.rotation}deg) scale(${effectiveScale})`,
     cursor: interactive ? 'pointer' : 'default',
-    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))'
+    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))',
+    zIndex: 6
   };
 
   return (

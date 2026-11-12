@@ -630,12 +630,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       // If markerId is 'note', sync with noteSticker
       let updatedNoteSticker = existing.noteSticker;
-      if (markerId === 'note' && updatedNoteSticker) {
-        updatedNoteSticker = {
-          ...updatedNoteSticker,
-          x: clampedX,
-          y: clampedY
-        };
+      if (markerId === 'note') {
+        if (updatedNoteSticker) {
+          updatedNoteSticker = {
+            ...updatedNoteSticker,
+            x: clampedX,
+            y: clampedY
+          };
+        } else {
+          updatedNoteSticker = {
+            text: existing.note || '',
+            x: clampedX,
+            y: clampedY,
+            rotation: 0,
+            style: 'paper-clip'
+          };
+        }
       }
 
       const updated: DayOverride = {

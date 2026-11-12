@@ -57,6 +57,9 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
 
   const [selectedItemId, setSelectedItemId] = useState<string | null>(defaultSelected);
 
+  // Canvas element reference to precisely compute drag offsets across any screen size
+  const canvasRef = useRef<HTMLDivElement>(null);
+
   // Local drag positions for instant smooth drag feedback
   const [livePositions, setLivePositions] = useState<Record<string, { x: number; y: number }>>({});
 
@@ -222,12 +225,17 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
     const deltaX = e.clientX - dragRef.current.startX;
     const deltaY = e.clientY - dragRef.current.startY;
 
-    // Zoomed cell is ~300px, 3px = ~1%
-    const deltaPercentX = deltaX / 3.0;
-    const deltaPercentY = deltaY / 3.0;
+    const canvasRect = canvasRef.current?.getBoundingClientRect();
+    const canvasWidth = canvasRect?.width || 320;
+    const canvasHeight = canvasRect?.height || 320;
 
-    const newX = Math.round(Math.max(-42, Math.min(42, dragRef.current.origX + deltaPercentX)));
-    const newY = Math.round(Math.max(-42, Math.min(42, dragRef.current.origY + deltaPercentY)));
+    // Convert pixel delta directly to percentage of canvas width / height for 1:1 finger tracking
+    const deltaPercentX = (deltaX / canvasWidth) * 100;
+    const deltaPercentY = (deltaY / canvasHeight) * 100;
+
+    // Unrestricted movement across the entire canvas: -44% to +44%
+    const newX = Math.round(Math.max(-44, Math.min(44, dragRef.current.origX + deltaPercentX)));
+    const newY = Math.round(Math.max(-42, Math.min(44, dragRef.current.origY + deltaPercentY)));
 
     setLivePositions((prev) => ({
       ...prev,
@@ -329,6 +337,7 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
 
         {/* Enlarged Day Cell Canvas */}
         <div
+          ref={canvasRef}
           className="enlarged-day-canvas"
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
@@ -374,7 +383,9 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
               <div
                 className={`canvas-note-sticker style-${style} ${selectedItemId === 'note' ? 'selected' : ''}`}
                 style={{
-                  transform: `translate(${noteCoords.x}%, ${noteCoords.y}%) rotate(${dayInfo.noteSticker?.rotation || 0}deg) scale(${noteScale})`
+                  left: `calc(50% + ${noteCoords.x}%)`,
+                  top: `calc(50% + ${noteCoords.y}%)`,
+                  transform: `translate(-50%, -50%) rotate(${dayInfo.noteSticker?.rotation || 0}deg) scale(${noteScale})`
                 }}
                 onPointerDown={(e) => handlePointerDown(e, 'note', noteCoords.x, noteCoords.y)}
                 onClick={() => setSelectedItemId('note')}
@@ -399,7 +410,9 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
                 key={actId}
                 className={`canvas-activity-badge ${isSelected ? 'selected' : ''}`}
                 style={{
-                  transform: `translate(${coords.x}%, ${coords.y}%) scale(${scale})`
+                  left: `calc(50% + ${coords.x}%)`,
+                  top: `calc(50% + ${coords.y}%)`,
+                  transform: `translate(-50%, -50%) scale(${scale})`
                 }}
                 onPointerDown={(e) => handlePointerDown(e, actId, coords.x, coords.y)}
                 onClick={() => setSelectedItemId(actId)}
@@ -431,7 +444,9 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
                 key={stk.id}
                 className={`canvas-placed-sticker ${isSelected ? 'selected' : ''}`}
                 style={{
-                  transform: `translate(${currentPos.x}%, ${currentPos.y}%) rotate(${stk.rotation || 0}deg) scale(${scale})`
+                  left: `calc(50% + ${currentPos.x}%)`,
+                  top: `calc(50% + ${currentPos.y}%)`,
+                  transform: `translate(-50%, -50%) rotate(${stk.rotation || 0}deg) scale(${scale})`
                 }}
                 onPointerDown={(e) => handlePointerDown(e, stk.id, currentPos.x, currentPos.y)}
                 onClick={() => setSelectedItemId(stk.id)}
