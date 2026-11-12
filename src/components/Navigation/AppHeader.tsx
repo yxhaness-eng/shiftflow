@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Sparkles, Settings, Download } from 'lucide-react';
+import { Calendar, Sparkles, Settings, Download, CalendarCheck } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 interface AppHeaderProps {
@@ -8,11 +8,27 @@ interface AppHeaderProps {
 }
 
 export const AppHeader: React.FC<AppHeaderProps> = ({ onInstallClick, canInstall }) => {
-  const { activeTab, setActiveTab } = useApp();
+  const { activeTab, setActiveTab, goToToday } = useApp();
+
+  const handleBrandClick = () => {
+    setActiveTab('calendar');
+  };
+
+  const handleTodayClick = () => {
+    setActiveTab('calendar');
+    goToToday();
+  };
 
   return (
     <header className="app-header">
-      <div className="brand-badge" onClick={() => setActiveTab('calendar')} style={{ cursor: 'pointer' }}>
+      <div
+        className="brand-badge"
+        onClick={handleBrandClick}
+        role="button"
+        tabIndex={0}
+        aria-label="ShiftFlow — Главная"
+        style={{ cursor: 'pointer' }}
+      >
         <img
           src="./icons/wax-seal.svg"
           onError={(e) => {
@@ -21,7 +37,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onInstallClick, canInstall
           alt="ShiftFlow Vintage Wax Seal Badge"
           className="brand-icon brand-wax-seal"
         />
-        <div>
+        <div className="brand-text">
           <h1 className="brand-title">
             <span>ShiftFlow</span>
             <span className="brand-gem" aria-hidden="true">✦</span>
@@ -30,8 +46,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onInstallClick, canInstall
         </div>
       </div>
 
-      {/* Desktop Navigation */}
-      <nav className="desktop-nav">
+      {/* Desktop Navigation - hidden on mobile screens (max-width: 768px) */}
+      <nav className="desktop-nav" aria-label="Основная навигация">
         <button
           className={`nav-link ${activeTab === 'calendar' ? 'active' : ''}`}
           onClick={() => setActiveTab('calendar')}
@@ -57,18 +73,33 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ onInstallClick, canInstall
         </button>
       </nav>
 
-      {/* PWA Install Button if available */}
-      {canInstall && onInstallClick && (
+      {/* Header Actions: Today button and optional PWA Install */}
+      <div className="header-actions">
         <button
-          className="btn btn-secondary btn-sm"
-          onClick={onInstallClick}
-          title="Установить как приложение"
+          type="button"
+          className="btn-icon header-today-btn"
+          onClick={handleTodayClick}
+          title="Перейти к сегодняшней дате"
+          aria-label="Сегодня"
         >
-          <Download size={14} />
-          <span>Установить</span>
+          <CalendarCheck size={17} />
         </button>
-      )}
+
+        {canInstall && onInstallClick && (
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm header-install-btn"
+            onClick={onInstallClick}
+            title="Установить как приложение"
+            aria-label="Установить приложение"
+          >
+            <Download size={14} />
+            <span className="install-text">Установить</span>
+          </button>
+        )}
+      </div>
     </header>
   );
 };
+
 

@@ -79,19 +79,24 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .weekday-header-cell {
   font-size: 0.78rem;
   font-weight: 700;
-  color: var(--text-secondary);
+  color: var(--cal-weekday-color, var(--text-secondary));
   padding: 6px 0;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .weekday-header-cell.weekend {
-  color: var(--accent-rose-dark);
+  color: var(--cal-weekend-color, var(--accent-rose-dark));
 }
 
 /* Month Grid */
@@ -99,6 +104,10 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
 }
 
 @media (min-width: 640px) {
@@ -109,8 +118,9 @@
 
 /* Calendar Cell */
 .calendar-cell {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background-color: var(--cal-cell-bg);
+  color: var(--cal-cell-text);
+  border: 1px solid var(--cal-cell-border);
   border-radius: var(--radius-md);
   min-height: 82px;
   padding: 6px 5px;
@@ -121,6 +131,9 @@
   position: relative;
   transition: all 0.18s ease;
   outline: none;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
 }
 
 @media (min-width: 640px) {
@@ -141,13 +154,19 @@
 }
 
 .calendar-cell.other-month {
-  opacity: 0.38;
-  background-color: var(--bg-card-subtle);
+  opacity: 0.65;
+  background-color: var(--cal-cell-bg-other);
+  color: var(--cal-cell-other-text);
+}
+
+.calendar-cell.other-month .day-number {
+  color: var(--cal-cell-other-text);
+  opacity: 0.8;
 }
 
 .calendar-cell.is-today {
-  border-color: var(--accent-lavender-dark);
-  box-shadow: 0 0 0 1.5px var(--accent-lavender-dark), var(--shadow-soft);
+  border-color: var(--cal-cell-today-border, var(--accent-lavender-dark));
+  box-shadow: 0 0 0 1.5px var(--cal-cell-today-border, var(--accent-lavender-dark)), var(--shadow-soft);
 }
 
 /* Cell Header */
@@ -155,12 +174,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .day-number {
   font-size: 0.82rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--cal-cell-text);
   width: 22px;
   height: 22px;
   display: inline-flex;
@@ -170,8 +190,8 @@
 }
 
 .day-number.today-badge {
-  background-color: var(--accent-lavender);
-  color: var(--text-primary);
+  background-color: var(--cal-cell-today-border, var(--accent-lavender));
+  color: var(--cal-cell-today-number-color, #ffffff);
   box-shadow: var(--shadow-soft);
 }
 
@@ -225,6 +245,9 @@
 /* Cell Footer */
 .cell-footer {
   margin-top: 3px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .shift-pill {
@@ -241,12 +264,23 @@
   justify-content: center;
   gap: 3px;
   border: 1px solid rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .shift-pill.is-swap {
   border: 1.5px dashed var(--badge-swap-border) !important;
   background-color: var(--badge-swap-bg) !important;
   color: var(--badge-swap-text) !important;
+}
+
+.shift-pill-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  font-size: 0.68rem;
 }
 
 .swap-icon-spin {
@@ -256,17 +290,29 @@
 .status-pill {
   border-radius: var(--radius-sm);
   padding: 2px 4px;
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.status-pill span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  font-size: 0.68rem;
 }
 
 .day-off-pill {
-  background-color: var(--bg-secondary);
-  color: var(--text-secondary);
+  background-color: var(--cal-dayoff-bg, var(--bg-secondary));
+  color: var(--cal-dayoff-text, var(--text-secondary));
+  border: 1px solid var(--cal-dayoff-border, rgba(0, 0, 0, 0.06));
 }
 
 .vacation-pill {
@@ -277,6 +323,91 @@
 .sick-pill {
   background-color: #FCE8E6;
   color: #C5221F;
+}
+
+/* Mobile Optimization for 7-Column Grid & Calendar Cells (max-width: 640px) */
+@media (max-width: 640px) {
+  .app-main {
+    padding: 8px 6px calc(76px + var(--safe-bottom)) 6px !important;
+  }
+
+  .calendar-container {
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .calendar-month-grid,
+  .weekday-header-grid {
+    gap: 3px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .weekday-header-cell {
+    font-size: 0.72rem !important;
+    padding: 3px 0 !important;
+  }
+
+  .calendar-cell {
+    min-height: 72px !important;
+    padding: 4px 2px !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+  }
+
+  .cell-header .day-number {
+    font-size: 0.74rem !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .cell-stickers-container {
+    min-height: 28px !important;
+  }
+
+  .cell-mini-note-card {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  .cell-sticker-wrapper .sticker-image {
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .cell-footer {
+    margin-top: 2px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .shift-pill,
+  .shift-pill-text,
+  .status-pill,
+  .status-pill span,
+  .day-off-pill,
+  .vacation-pill,
+  .sick-pill {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
+    font-size: 0.68rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .shift-pill {
+    padding: 2px 2px !important;
+    gap: 2px !important;
+  }
+
+  .status-pill {
+    padding: 2px 2px !important;
+  }
 }
 
 /* Sticker Elements */
@@ -3060,7 +3191,7 @@ input:checked + .slider-round:before {
 
 .journal-page-container {
   width: 100%;
-  max-width: 400px;
+  max-width: 390px;
   max-height: 92vh;
   margin: auto;
   display: flex;
@@ -3098,6 +3229,372 @@ input:checked + .slider-round:before {
   font-weight: 700;
   color: var(--text-primary);
   margin: 1px 0 0 0;
+}
+
+/* Sticker style picker card */
+.note-style-picker-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.note-style-picker-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.note-style-picker-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.note-style-picker-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.note-style-picker-strip::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.note-style-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 66px;
+  flex-shrink: 0;
+  padding: 8px 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: all 0.16s ease;
+  user-select: none;
+}
+
+.note-style-btn:hover {
+  background: var(--bg-card-hover, rgba(255, 255, 255, 0.08));
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.note-style-btn.active {
+  background: var(--accent-subtle, rgba(222, 67, 100, 0.14));
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 1.5px var(--accent-primary);
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.note-style-icon {
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.note-style-name {
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+/* Authentic Watercolor Note Sheet Wrapper & Paper */
+.journal-sheet-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+}
+
+.journal-sheet-paper.note-paper-authentic {
+  position: relative;
+  width: 100%;
+  background-color: #FFFDF8;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 1px solid #E8DECF;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.journal-sheet-paper.note-paper-authentic.style-dark-craft {
+  background-color: #79573B !important;
+  background-blend-mode: multiply;
+  border-color: #5D3E24;
+}
+
+.journal-sheet-paper.note-paper-authentic.style-cloud {
+  border-radius: 28px;
+}
+
+/* Paperclip Decor - explicit sizing prevents exploding */
+.sheet-paperclip-decor {
+  position: absolute;
+  top: -14px;
+  left: 28px;
+  width: 22px;
+  height: 44px;
+  max-width: 22px;
+  max-height: 44px;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
+}
+
+.sheet-clip-svg {
+  width: 22px !important;
+  height: 44px !important;
+  max-width: 22px !important;
+  max-height: 44px !important;
+  display: block;
+}
+
+/* Other Sheet Decors */
+.sheet-washi-tape-decor.washi-top {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 84px;
+  height: 18px;
+  background: rgba(214, 168, 142, 0.88);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  border-left: 2px dashed rgba(255, 255, 255, 0.45);
+  border-right: 2px dashed rgba(255, 255, 255, 0.45);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.sheet-washi-tape-decor.washi-craft {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0.5deg);
+  width: 90px;
+  height: 18px;
+  background: rgba(160, 116, 84, 0.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.22);
+  border-left: 2px dashed rgba(255, 255, 255, 0.4);
+  border-right: 2px dashed rgba(255, 255, 255, 0.4);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.sheet-spiral-holes-decor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 4px 16px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.sheet-spiral-ring {
+  width: 10px;
+  height: 14px;
+  border: 2px solid #8B949E;
+  border-radius: 4px;
+  background: transparent;
+}
+
+.sheet-ribbon-decor {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.8rem;
+  line-height: 1;
+  z-index: 5;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+}
+
+/* Note Sheet Content Area */
+.journal-sheet-content {
+  padding: 22px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sheet-header-line {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px dashed rgba(120, 80, 60, 0.22);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.sheet-date-text {
+  font-family: 'Caveat', cursive, var(--font-handwriting), serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #6E5345;
+  letter-spacing: 0.3px;
+}
+
+.journal-sheet-paper.style-dark-craft .sheet-date-text {
+  color: #FAF5EB;
+}
+
+.journal-sheet-paper.style-dark-craft .sheet-header-line {
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+.journal-title-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid rgba(120, 80, 60, 0.22);
+  outline: none;
+  font-family: 'Caveat', cursive, var(--font-handwriting), serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #3A2A22;
+  padding: 2px 4px 6px;
+  margin-bottom: 4px;
+  transition: border-color 0.2s ease;
+}
+
+.journal-title-input:focus {
+  border-bottom-color: var(--accent-primary);
+}
+
+.journal-title-input::placeholder {
+  color: rgba(120, 90, 75, 0.55);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.journal-sheet-paper.style-dark-craft .journal-title-input {
+  color: #FAF5EB;
+  border-bottom-color: rgba(255, 255, 255, 0.28);
+}
+
+.journal-sheet-paper.style-dark-craft .journal-title-input::placeholder {
+  color: rgba(250, 245, 235, 0.6);
+}
+
+.sheet-textarea-container {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 2px;
+}
+
+.journal-content-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  outline: none;
+  resize: vertical;
+  font-family: 'Caveat', cursive, var(--font-handwriting), serif;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  color: #382923;
+  background-image: linear-gradient(to bottom, transparent 94%, rgba(120, 80, 60, 0.18) 95%);
+  background-size: 100% 2rem;
+  background-attachment: local;
+  padding: 0 4px;
+  min-height: 180px;
+}
+
+.journal-content-textarea::placeholder {
+  color: rgba(120, 90, 75, 0.55);
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+}
+
+.journal-sheet-paper.style-dark-craft .journal-content-textarea {
+  color: #FAF5EB;
+  background-image: linear-gradient(to bottom, transparent 94%, rgba(255, 255, 255, 0.18) 95%);
+}
+
+.journal-sheet-paper.style-dark-craft .journal-content-textarea::placeholder {
+  color: rgba(250, 245, 235, 0.6);
+}
+
+/* Journal Actions Row */
+.journal-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+.btn-trash-note {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--bg-card);
+  color: #DE4364;
+  border: 1px solid rgba(222, 67, 100, 0.35);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.16s ease;
+}
+
+.btn-trash-note:hover {
+  background: rgba(222, 67, 100, 0.12);
+  border-color: #DE4364;
+}
+
+.btn-save-note {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent-primary, #DE4364);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  flex: 1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: all 0.16s ease;
+}
+
+.btn-save-note:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
 }
 
 /* DayEditor Activities Grid */

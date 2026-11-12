@@ -270,7 +270,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
             className={`shift-pill ${isSwap ? 'is-swap' : ''}`}
             style={{
               backgroundColor: actualPoint.color,
-              color: actualPoint.textColor || 'var(--text-primary)'
+              color: actualPoint.textColor || 'var(--cal-cell-text, #2D241E)'
             }}
             title={
               isSwap

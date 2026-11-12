@@ -33,6 +33,12 @@ describe('JournalPageModal component', () => {
     expect(screen.getByPlaceholderText(/Заголовок странички или мысли/i)).toBeDefined();
     expect(screen.getByPlaceholderText(/Напиши сюда заметку, мысль или секретик/i)).toBeDefined();
     expect(screen.getByText(/Приклеить в окошко/i)).toBeDefined();
+
+    // Verify paperclip SVG has explicit width and height constraints
+    const clipSvg = document.querySelector('.sheet-clip-svg');
+    expect(clipSvg).not.toBeNull();
+    expect(clipSvg?.getAttribute('width')).toBe('22');
+    expect(clipSvg?.getAttribute('height')).toBe('44');
   });
 
   it('allows writing title, notes, choosing sticker style and saving', async () => {

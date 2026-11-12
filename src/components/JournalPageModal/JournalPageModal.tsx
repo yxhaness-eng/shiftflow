@@ -162,7 +162,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
             {/* Visual clip/tape header decor */}
             {selectedStyle === 'paper-clip' && (
               <div className="sheet-paperclip-decor" aria-hidden="true">
-                <svg viewBox="0 0 16 32" fill="none" className="sheet-clip-svg">
+                <svg width="22" height="44" viewBox="0 0 16 32" fill="none" className="sheet-clip-svg">
                   <path
                     d="M4 3v20a4 4 0 0 0 8 0v-16a2.5 2.5 0 0 0-5 0v15"
                     stroke="#4E7C4B"

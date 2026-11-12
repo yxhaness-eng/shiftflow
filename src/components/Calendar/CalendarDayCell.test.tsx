@@ -140,4 +140,49 @@ describe('CalendarDayCell component', () => {
     expect(screen.getByText('🔥')).toBeDefined();
     expect(screen.getByText('🧸')).toBeDefined();
   });
+
+  it('renders shift pill with contrast text and day number in cell header', () => {
+    const dayInfo: ResolvedDayInfo = {
+      ...baseDayInfo,
+      status: 'work',
+      actualPoint: {
+        id: 'point_a',
+        name: 'Точка А',
+        color: '#D9CDEB',
+        textColor: '#4A3E59',
+        isActive: true,
+        order: 1
+      }
+    };
+
+    const { container } = render(
+      <CalendarDayCell dayInfo={dayInfo} onClick={vi.fn()} />
+    );
+
+    const cell = container.querySelector('.calendar-cell');
+    expect(cell).toBeDefined();
+    expect(container.querySelector('.day-number')?.textContent?.trim()).toBe('11');
+    const pill = container.querySelector('.shift-pill');
+    expect(pill).toBeDefined();
+    expect(pill?.textContent).toContain('Точка А');
+    expect((pill as HTMLElement)?.style.backgroundColor).toBe('rgb(217, 205, 235)');
+    expect((pill as HTMLElement)?.style.color).toBe('rgb(74, 62, 89)');
+  });
+
+  it('marks today cell and other-month cell with appropriate classes', () => {
+    const todayInfo: ResolvedDayInfo = {
+      ...baseDayInfo,
+      isToday: true,
+      isCurrentMonth: false
+    };
+
+    const { container } = render(
+      <CalendarDayCell dayInfo={todayInfo} onClick={vi.fn()} />
+    );
+
+    const cell = container.querySelector('.calendar-cell');
+    expect(cell?.classList.contains('is-today')).toBe(true);
+    expect(cell?.classList.contains('other-month')).toBe(true);
+    expect(container.querySelector('.day-number.today-badge')).toBeDefined();
+  });
 });
