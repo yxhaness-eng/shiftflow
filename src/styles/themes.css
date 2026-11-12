@@ -1,32 +1,41 @@
-/* ShiftFlow Theme System */
+/* ==========================================================================
+   ShiftFlow Theme System (Unslopped & Refined)
+   Curated 3 Master Palettes:
+   1. Wine Velvet (Винный бархат & Крем) — Dark Romantic Stationery (Default)
+   2. Cozy Journal (Тёплый крафт & Эспрессо) — Warm Daylight Scrapbook
+   3. Sage Botanical (Шалфей & Лаванда) — Fresh Pressed Botanicals
+   ========================================================================== */
+
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Marck+Script&family=Comfortaa:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap');
 
 /* ==========================================================================
-   1. PRIMARY DEFAULT THEME: WINE VELVET (Фото 4)
-   Rich Deep Wine Velvet, Warm Ivory, Rose & Quiet Hairlines
+   THEME 1: WINE VELVET (Винный бархат & Крем)
+   Dark Romantic Stationery — Deep Wine Velvet, Warm Ivory, Rose Accent
    ========================================================================== */
 :root,
-[data-theme='wine-velvet'] {
-  /* Rich deep wine velvet background */
-  --bg-primary: #1F060B;
-  --bg-secondary: #290A11;
-  --bg-card: #2A0B12;
-  --bg-card-subtle: #341018;
-  --bg-hover: #3B131D;
-  --bg-active: #481822;
+[data-theme='wine-velvet'],
+[data-theme='rose-vintage'],
+[data-theme='royal-bordeaux'] {
+  /* Surfaces & Backgrounds */
+  --bg-primary: #1C060B;
+  --bg-secondary: #260910;
+  --bg-card: #280B12;
+  --bg-card-subtle: #331018;
+  --bg-hover: #3C131D;
+  --bg-active: #4A1724;
 
-  /* Header and main texts on dark velvet: warm ivory */
+  /* Typography on dark surfaces: Warm Ivory & Soft Mauve */
   --text-primary: #FAF5EB;
-  --text-secondary: #DFCECC;
-  --text-muted: #9E8287;
-  --text-light: #1F060B;
+  --text-secondary: #DFCAC8;
+  --text-muted: #9E8086;
+  --text-light: #1C060B;
 
   /* Quiet hairline borders */
   --border-color: #431620;
-  --border-subtle: #341018;
+  --border-subtle: #331018;
   --border-focus: #DE4364;
 
-  /* Accents */
+  /* Accent colors */
   --accent-lavender: #E8B4C0;
   --accent-lavender-dark: #DE4364;
   --accent-sage: #C5D6C0;
@@ -42,14 +51,14 @@
   --btn-primary-bg: #DE4364;
   --btn-primary-text: #FFFFFF;
   --btn-primary-border: #DE4364;
-  --btn-primary-hover: #E65070;
+  --btn-primary-hover: #EB5374;
   --btn-secondary-bg: rgba(67, 22, 32, 0.72);
   --btn-secondary-text: #FAF5EB;
   --btn-secondary-border: rgba(250, 245, 235, 0.22);
   --btn-secondary-hover: #551925;
 
-  /* Form inputs */
-  --input-bg: rgba(20, 4, 8, 0.65);
+  /* Inputs & Controls */
+  --input-bg: rgba(20, 4, 8, 0.70);
   --input-border: #431620;
   --input-focus-ring: rgba(222, 67, 100, 0.25);
 
@@ -58,9 +67,9 @@
   --badge-swap-text: #FAF5EB;
 
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.35);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.38);
-  --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.55);
-  --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.40);
+  --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.60);
+  --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.32);
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -71,1117 +80,671 @@
 
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
-  /* Specific Calendar Grid Variables (Фото 4 matching) */
+  /* Calendar Grid (Фото 4 matching) */
   --cal-cell-bg: #FAF5EE;
-  --cal-cell-bg-other: #3D1B22;
+  --cal-cell-bg-other: #35141C;
   --cal-cell-other-text: #8E6D74;
   --cal-cell-border: #431620;
-  --cal-cell-text: #36141B;
+  --cal-cell-text: #341219;
   --cal-cell-event: #FCEBED;
   --cal-cell-event-border: #DE4364;
-  --cal-cell-today-bg: #FCEBED;
+  --cal-cell-today-bg: #FAF5EE;
   --cal-cell-today-border: #DE4364;
   --cal-cell-today-number-color: #FFFFFF;
   --cal-dayoff-bg: #F4EAE6;
   --cal-dayoff-text: #6E3844;
   --cal-dayoff-border: #E5D2D6;
   --cal-weekday-color: #FAF5EB;
-  --cal-weekend-color: #DE4364;
-  --cal-legend-bg: rgba(42, 11, 18, 0.72);
+  --cal-weekend-color: #E87A90;
+  --cal-legend-bg: rgba(40, 11, 18, 0.72);
   --cal-gesture-bg: rgba(67, 22, 32, 0.65);
 }
 
 /* ==========================================================================
-   2. PRESET: ROSE VINTAGE (Пыльно-розовый пергамент, античное дерево, сургуч)
-   Light authentic paper theme
-   ========================================================================== */
-[data-theme='rose-vintage'] {
-  --bg-primary: #FAF2F3;
-  --bg-secondary: #F2E4E6;
-  --bg-card: #FFFFFF;
-  --bg-card-subtle: #FCF8F9;
-  --bg-hover: #EFE1E4;
-  --bg-active: #E5D0D4;
-
-  --text-primary: #42262B;
-  --text-secondary: #7B545A;
-  --text-muted: #A8888D;
-  --text-light: #FAF2F3;
-
-  --border-color: #EBD8DA;
-  --border-subtle: #F5E9EA;
-  --border-focus: #B85D6B;
-
-  --accent-lavender: #E0CCE0;
-  --accent-lavender-dark: #B85D6B;
-  --accent-sage: #CAD8C5;
-  --accent-sage-dark: #637C5E;
-  --accent-rose: #F6DEE1;
-  --accent-rose-dark: #B85D6B;
-  --accent-blue: #D2DEE8;
-  --accent-blue-dark: #557285;
-  --accent-cream: #FAF2F3;
-
-  --btn-primary-bg: #B85D6B;
-  --btn-primary-text: #FFFFFF;
-  --btn-primary-border: #B85D6B;
-  --btn-primary-hover: #A34E5C;
-  --btn-secondary-bg: #F2E4E6;
-  --btn-secondary-text: #42262B;
-  --btn-secondary-border: #EBD8DA;
-  --btn-secondary-hover: #E5D0D4;
-
-  --input-bg: #FFFFFF;
-  --input-border: #EBD8DA;
-  --input-focus-ring: rgba(184, 93, 107, 0.15);
-
-  --badge-swap-bg: #F9EBED;
-  --badge-swap-border: #B85D6B;
-  --badge-swap-text: #42262B;
-
-  --shadow-soft: 0 1px 3px rgba(66, 38, 43, 0.05);
-  --shadow-card: 0 2px 8px rgba(66, 38, 43, 0.06);
-  --shadow-floating: 0 8px 24px rgba(66, 38, 43, 0.10);
-  --shadow-sticker: 0 2px 6px rgba(66, 38, 43, 0.08);
-
-  --cal-cell-bg: #FFFFFF;
-  --cal-cell-bg-other: #FAF2F3;
-  --cal-cell-other-text: #A8888D;
-  --cal-cell-border: #EBD8DA;
-  --cal-cell-text: #42262B;
-  --cal-cell-event: #F9EBED;
-  --cal-cell-event-border: #B85D6B;
-  --cal-cell-today-bg: #F2E4E6;
-  --cal-cell-today-border: #B85D6B;
-  --cal-cell-today-number-color: #FFFFFF;
-  --cal-dayoff-bg: #F2E4E6;
-  --cal-dayoff-text: #7B545A;
-  --cal-dayoff-border: #EBD8DA;
-  --cal-weekday-color: #42262B;
-  --cal-weekend-color: #B85D6B;
-  --cal-legend-bg: #FFFFFF;
-  --cal-gesture-bg: #F2E4E6;
-}
-
-/* ==========================================================================
-   3. PRESET: ROYAL BORDEAUX (Полуночный винный & Античное золото)
-   Rich dark midnight wine velvet theme
-   ========================================================================== */
-[data-theme='royal-bordeaux'] {
-  --bg-primary: #180408;
-  --bg-secondary: #24080E;
-  --bg-card: #24080E;
-  --bg-card-subtle: #2E0C13;
-  --bg-hover: #381018;
-  --bg-active: #461620;
-
-  --text-primary: #FAF5EB;
-  --text-secondary: #D8C2C6;
-  --text-muted: #9C7F85;
-  --text-light: #180408;
-
-  --border-color: #4A1622;
-  --border-subtle: #5A1C2A;
-  --border-focus: #D4AF37;
-
-  --accent-lavender: #E5BFCA;
-  --accent-lavender-dark: #C43C56;
-  --accent-sage: #CADCC5;
-  --accent-sage-dark: #617C5A;
-  --accent-rose: #FCEBED;
-  --accent-rose-dark: #C43C56;
-  --accent-gold: #D4AF37;
-  --accent-blue: #CBD7EB;
-  --accent-blue-dark: #536F99;
-  --accent-cream: #FAF5EB;
-
-  --btn-primary-bg: #C43C56;
-  --btn-primary-text: #FFFFFF;
-  --btn-primary-border: #C43C56;
-  --btn-primary-hover: #D34A64;
-  --btn-secondary-bg: rgba(74, 22, 34, 0.72);
-  --btn-secondary-text: #FAF5EB;
-  --btn-secondary-border: rgba(212, 175, 55, 0.35);
-  --btn-secondary-hover: #5B1C2A;
-
-  --input-bg: rgba(20, 4, 8, 0.65);
-  --input-border: #4A1622;
-  --input-focus-ring: rgba(212, 175, 55, 0.25);
-
-  --badge-swap-bg: #381018;
-  --badge-swap-border: #D4AF37;
-  --badge-swap-text: #FAF5EB;
-
-  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.35);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.40);
-  --shadow-floating: 0 8px 24px rgba(0, 0, 0, 0.58);
-  --shadow-sticker: 0 2px 6px rgba(0, 0, 0, 0.30);
-
-  --cal-cell-bg: #FAF5EE;
-  --cal-cell-bg-other: #3D1B22;
-  --cal-cell-other-text: #8E6D74;
-  --cal-cell-border: #4A1622;
-  --cal-cell-text: #36141B;
-  --cal-cell-event: #FCEBED;
-  --cal-cell-event-border: #C43C56;
-  --cal-cell-today-bg: #FCEBED;
-  --cal-cell-today-border: #D4AF37;
-  --cal-cell-today-number-color: #180408;
-  --cal-dayoff-bg: #F4EAE6;
-  --cal-dayoff-text: #6E3844;
-  --cal-dayoff-border: #E5D2D6;
-  --cal-weekday-color: #FAF5EB;
-  --cal-weekend-color: #E67389;
-  --cal-legend-bg: rgba(36, 8, 14, 0.75);
-  --cal-gesture-bg: rgba(74, 22, 34, 0.65);
-}
-
-/* ==========================================================================
-   4. LIGHT THEMES: COZY JOURNAL (ex Cozy Cats), LAVENDER & SAGE BOTANICAL
+   THEME 2: COZY JOURNAL (Тёплый крафт & Эспрессо)
+   Warm Daylight Scrapbook — French Milk Paper, Linen Cards, Dark Espresso
    ========================================================================== */
 [data-theme='cozy-journal'],
-[data-theme='cozy-cats'] {
-  --bg-primary: #FAF5EB;
-  --bg-secondary: #F5EDE2;
+[data-theme='cozy-cats'],
+[data-theme='pastel-scrapbook'] {
+  /* Surfaces & Backgrounds */
+  --bg-primary: #F7F2E8;
+  --bg-secondary: #EFE7DA;
   --bg-card: #FFFFFF;
-  --bg-card-subtle: #FCFAF7;
-  --bg-hover: #F3EBE0;
-  --bg-active: #EBE0D2;
+  --bg-card-subtle: #FAF6EF;
+  --bg-hover: #ECE2D2;
+  --bg-active: #E4D7C4;
 
-  --text-primary: #3A2E26;
-  --text-secondary: #7A6B61;
-  --text-muted: #A8998E;
-  --text-light: #FAF5EB;
+  /* Typography: Deep Espresso & Warm Walnut */
+  --text-primary: #34271F;
+  --text-secondary: #6B5A4E;
+  --text-muted: #99887B;
+  --text-light: #FAF5EE;
 
-  --border-color: #E8DFD5;
-  --border-subtle: #F2EAE1;
-  --border-focus: #8C6541;
+  /* Quiet hairline borders */
+  --border-color: #E4DAD0;
+  --border-subtle: #EFE8DF;
+  --border-focus: #B26E30;
 
-  --accent-lavender: #D9CDEB;
-  --accent-lavender-dark: #8C6541;
-  --accent-sage: #D4DFCC;
-  --accent-sage-dark: #6A8060;
-  --accent-rose: #F6DFDB;
-  --accent-rose-dark: #B55D4C;
-  --accent-blue: #D5E1EF;
-  --accent-blue-dark: #58799E;
-  --accent-cream: #FAF5EB;
+  /* Accents */
+  --accent-lavender: #D3C4E3;
+  --accent-lavender-dark: #7A5B9C;
+  --accent-sage: #CEDEC9;
+  --accent-sage-dark: #587752;
+  --accent-rose: #EBCFD2;
+  --accent-rose-dark: #AF6670;
+  --accent-blue: #CDDCEB;
+  --accent-blue-dark: #55779E;
+  --accent-cream: #FAF2E8;
+  --accent-gold: #B26E30;
 
-  --btn-primary-bg: #8C6541;
+  /* Buttons */
+  --btn-primary-bg: #B26E30;
   --btn-primary-text: #FFFFFF;
-  --btn-primary-border: #8C6541;
-  --btn-primary-hover: #795535;
-  --btn-secondary-bg: #F5EDE2;
-  --btn-secondary-text: #3A2E26;
-  --btn-secondary-border: #E8DFD5;
-  --btn-secondary-hover: #EBE0D2;
+  --btn-primary-border: #B26E30;
+  --btn-primary-hover: #C27A38;
+  --btn-secondary-bg: #EFE7DA;
+  --btn-secondary-text: #34271F;
+  --btn-secondary-border: #E0D4C5;
+  --btn-secondary-hover: #E6DBCB;
 
+  /* Inputs & Controls */
   --input-bg: #FFFFFF;
-  --input-border: #E8DFD5;
-  --input-focus-ring: rgba(140, 101, 65, 0.15);
+  --input-border: #E4DAD0;
+  --input-focus-ring: rgba(178, 110, 48, 0.20);
 
-  --badge-swap-bg: #FDF4ED;
-  --badge-swap-border: #8C6541;
-  --badge-swap-text: #3A2E26;
+  --badge-swap-bg: #FFF3E6;
+  --badge-swap-border: #E0B480;
+  --badge-swap-text: #8C5220;
 
-  --shadow-soft: 0 1px 3px rgba(58, 46, 38, 0.04);
-  --shadow-card: 0 2px 8px rgba(58, 46, 38, 0.06);
-  --shadow-floating: 0 8px 24px rgba(58, 46, 38, 0.09);
-  --shadow-sticker: 0 2px 6px rgba(58, 46, 38, 0.08);
+  --shadow-soft: 0 1px 3px rgba(52, 39, 31, 0.05);
+  --shadow-card: 0 2px 8px rgba(52, 39, 31, 0.07);
+  --shadow-floating: 0 8px 24px rgba(52, 39, 31, 0.12);
+  --shadow-sticker: 0 2px 6px rgba(52, 39, 31, 0.12);
 
+  /* Calendar Grid */
   --cal-cell-bg: #FFFFFF;
-  --cal-cell-bg-other: #FAF5EB;
-  --cal-cell-other-text: #A8998E;
-  --cal-cell-border: #E8DFD5;
-  --cal-cell-text: #3A2E26;
-  --cal-cell-event: #FDF4ED;
-  --cal-cell-event-border: #8C6541;
-  --cal-cell-today-bg: #F7EFE6;
-  --cal-cell-today-border: #8C6541;
+  --cal-cell-bg-other: #EFE8DC;
+  --cal-cell-other-text: #99887B;
+  --cal-cell-border: #E4DAD0;
+  --cal-cell-text: #34271F;
+  --cal-cell-event: #FEF7ED;
+  --cal-cell-event-border: #B26E30;
+  --cal-cell-today-bg: #FFFFFF;
+  --cal-cell-today-border: #B26E30;
   --cal-cell-today-number-color: #FFFFFF;
-  --cal-dayoff-bg: #F5EDE2;
-  --cal-dayoff-text: #7A6B61;
-  --cal-dayoff-border: #E8DFD5;
-  --cal-weekday-color: #3A2E26;
-  --cal-weekend-color: #B55D4C;
-  --cal-legend-bg: #FFFFFF;
-  --cal-gesture-bg: #F5EDE2;
-}
-
-[data-theme='lavender-journal'] {
-  --bg-primary: #F7F4F9;
-  --bg-secondary: #EFEBF3;
-  --bg-card: #FFFFFF;
-  --bg-card-subtle: #FAF8FC;
-  --bg-hover: #ECE5F2;
-  --bg-active: #E2D8EA;
-
-  --text-primary: #3B2B47;
-  --text-secondary: #736180;
-  --text-muted: #A596B0;
-  --text-light: #F7F4F9;
-
-  --border-color: #E4DCEB;
-  --border-subtle: #EFE9F5;
-  --border-focus: #7B5EA7;
-
-  --accent-lavender: #D9CEE8;
-  --accent-lavender-dark: #7B5EA7;
-  --accent-sage: #CADDC7;
-  --accent-sage-dark: #5C7A58;
-  --accent-rose: #EBCDD8;
-  --accent-rose-dark: #A15B77;
-  --accent-blue: #CBD7EB;
-  --accent-blue-dark: #536F99;
-  --accent-cream: #F7F4F9;
-
-  --btn-primary-bg: #7B5EA7;
-  --btn-primary-text: #FFFFFF;
-  --btn-primary-border: #7B5EA7;
-  --btn-primary-hover: #6A4F94;
-  --btn-secondary-bg: #EFEBF3;
-  --btn-secondary-text: #3B2B47;
-  --btn-secondary-border: #E4DCEB;
-  --btn-secondary-hover: #E2D8EA;
-
-  --input-bg: #FFFFFF;
-  --input-border: #E4DCEB;
-  --input-focus-ring: rgba(123, 94, 167, 0.15);
-
-  --badge-swap-bg: #F5EDF7;
-  --badge-swap-border: #7B5EA7;
-  --badge-swap-text: #3B2B47;
-
-  --shadow-soft: 0 1px 3px rgba(59, 43, 71, 0.04);
-  --shadow-card: 0 2px 8px rgba(59, 43, 71, 0.06);
-  --shadow-floating: 0 8px 24px rgba(59, 43, 71, 0.10);
-  --shadow-sticker: 0 2px 6px rgba(59, 43, 71, 0.08);
-
-  --cal-cell-bg: #FFFFFF;
-  --cal-cell-bg-other: #F7F4F9;
-  --cal-cell-other-text: #A596B0;
-  --cal-cell-border: #E4DCEB;
-  --cal-cell-text: #3B2B47;
-  --cal-cell-event: #F5EDF7;
-  --cal-cell-event-border: #7B5EA7;
-  --cal-cell-today-bg: #EFEBF3;
-  --cal-cell-today-border: #7B5EA7;
-  --cal-cell-today-number-color: #FFFFFF;
-  --cal-dayoff-bg: #EFEBF3;
-  --cal-dayoff-text: #736180;
-  --cal-dayoff-border: #E4DCEB;
-  --cal-weekday-color: #3B2B47;
-  --cal-weekend-color: #A15B77;
-  --cal-legend-bg: #FFFFFF;
-  --cal-gesture-bg: #EFEBF3;
-}
-
-[data-theme='pastel-scrapbook'],
-[data-theme='sage-botanical'] {
-  --bg-primary: #F2F6F0;
-  --bg-secondary: #E6EEE3;
-  --bg-card: #FFFFFF;
-  --bg-card-subtle: #F7FAF6;
-  --bg-hover: #E2EBE0;
-  --bg-active: #D5E2D2;
-
-  --text-primary: #283626;
-  --text-secondary: #5E6E5B;
-  --text-muted: #8F9E8C;
-  --text-light: #F2F6F0;
-
-  --border-color: #D8E2D4;
-  --border-subtle: #E4ECE1;
-  --border-focus: #557A46;
-
-  --accent-lavender: #D5D8E8;
-  --accent-lavender-dark: #557A46;
-  --accent-sage: #C2D6BE;
-  --accent-sage-dark: #557A46;
-  --accent-rose: #EAD2D0;
-  --accent-rose-dark: #A45D56;
-  --accent-blue: #CFDEE3;
-  --accent-blue-dark: #4E7079;
-  --accent-cream: #F2F6F0;
-
-  --btn-primary-bg: #557A46;
-  --btn-primary-text: #FFFFFF;
-  --btn-primary-border: #557A46;
-  --btn-primary-hover: #47663A;
-  --btn-secondary-bg: #E6EEE3;
-  --btn-secondary-text: #283626;
-  --btn-secondary-border: #D8E2D4;
-  --btn-secondary-hover: #D5E2D2;
-
-  --input-bg: #FFFFFF;
-  --input-border: #D8E2D4;
-  --input-focus-ring: rgba(85, 122, 70, 0.15);
-
-  --badge-swap-bg: #EDF4EB;
-  --badge-swap-border: #557A46;
-  --badge-swap-text: #283626;
-
-  --shadow-soft: 0 1px 3px rgba(40, 54, 38, 0.04);
-  --shadow-card: 0 2px 8px rgba(40, 54, 38, 0.06);
-  --shadow-floating: 0 8px 24px rgba(40, 54, 38, 0.09);
-  --shadow-sticker: 0 2px 6px rgba(40, 54, 38, 0.08);
-
-  --cal-cell-bg: #FFFFFF;
-  --cal-cell-bg-other: #F2F6F0;
-  --cal-cell-other-text: #8F9E8C;
-  --cal-cell-border: #D8E2D4;
-  --cal-cell-text: #283626;
-  --cal-cell-event: #EDF4EB;
-  --cal-cell-event-border: #557A46;
-  --cal-cell-today-bg: #E6EEE3;
-  --cal-cell-today-border: #557A46;
-  --cal-cell-today-number-color: #FFFFFF;
-  --cal-dayoff-bg: #E6EEE3;
-  --cal-dayoff-text: #5E6E5B;
-  --cal-dayoff-border: #D8E2D4;
-  --cal-weekday-color: #283626;
-  --cal-weekend-color: #A45D56;
-  --cal-legend-bg: #FFFFFF;
-  --cal-gesture-bg: #E6EEE3;
+  --cal-dayoff-bg: #F9F2EB;
+  --cal-dayoff-text: #785A48;
+  --cal-dayoff-border: #E8DCD2;
+  --cal-weekday-color: #34271F;
+  --cal-weekend-color: #B26E30;
+  --cal-legend-bg: rgba(255, 255, 255, 0.88);
+  --cal-gesture-bg: rgba(239, 231, 218, 0.88);
 }
 
 /* ==========================================================================
-   5. GLOBAL RESET & BASE STYLES
+   THEME 3: SAGE BOTANICAL (Шалфей & Лаванда)
+   Fresh Pressed Botanicals — Soft Matcha Paper, Forest Ink & Lavender
    ========================================================================== */
-* {
+[data-theme='sage-botanical'],
+[data-theme='lavender-journal'] {
+  /* Surfaces & Backgrounds */
+  --bg-primary: #EFF4ED;
+  --bg-secondary: #E3EDE0;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #F5FAF3;
+  --bg-hover: #DCE8D8;
+  --bg-active: #D0E0CC;
+
+  /* Typography: Deep Pine Forest & Herbal Slate */
+  --text-primary: #1F2E1E;
+  --text-secondary: #4E614C;
+  --text-muted: #7B8F79;
+  --text-light: #F4F8F3;
+
+  /* Quiet hairline borders */
+  --border-color: #D3DFD1;
+  --border-subtle: #E2ECE0;
+  --border-focus: #4A7342;
+
+  /* Accents */
+  --accent-lavender: #D5C7E8;
+  --accent-lavender-dark: #755994;
+  --accent-sage: #B8D6B2;
+  --accent-sage-dark: #4A7342;
+  --accent-rose: #ECCFD6;
+  --accent-rose-dark: #A85B6C;
+  --accent-blue: #C8D9E8;
+  --accent-blue-dark: #4D7398;
+  --accent-cream: #EFF4ED;
+  --accent-gold: #A38B42;
+
+  /* Buttons */
+  --btn-primary-bg: #4A7342;
+  --btn-primary-text: #FFFFFF;
+  --btn-primary-border: #4A7342;
+  --btn-primary-hover: #56854D;
+  --btn-secondary-bg: #E3EDE0;
+  --btn-secondary-text: #1F2E1E;
+  --btn-secondary-border: #D0DEC9;
+  --btn-secondary-hover: #D7E5D3;
+
+  /* Inputs & Controls */
+  --input-bg: #FFFFFF;
+  --input-border: #D3DFD1;
+  --input-focus-ring: rgba(74, 115, 66, 0.20);
+
+  --badge-swap-bg: #EDF7EA;
+  --badge-swap-border: #8CBF84;
+  --badge-swap-text: #2C5724;
+
+  --shadow-soft: 0 1px 3px rgba(31, 46, 30, 0.05);
+  --shadow-card: 0 2px 8px rgba(31, 46, 30, 0.07);
+  --shadow-floating: 0 8px 24px rgba(31, 46, 30, 0.12);
+  --shadow-sticker: 0 2px 6px rgba(31, 46, 30, 0.12);
+
+  /* Calendar Grid */
+  --cal-cell-bg: #FFFFFF;
+  --cal-cell-bg-other: #E2ECE0;
+  --cal-cell-other-text: #7B8F79;
+  --cal-cell-border: #D3DFD1;
+  --cal-cell-text: #1F2E1E;
+  --cal-cell-event: #F3F0F8;
+  --cal-cell-event-border: #755994;
+  --cal-cell-today-bg: #FFFFFF;
+  --cal-cell-today-border: #4A7342;
+  --cal-cell-today-number-color: #FFFFFF;
+  --cal-dayoff-bg: #EBF2E8;
+  --cal-dayoff-text: #3D573B;
+  --cal-dayoff-border: #D7E3D4;
+  --cal-weekday-color: #1F2E1E;
+  --cal-weekend-color: #755994;
+  --cal-legend-bg: rgba(255, 255, 255, 0.88);
+  --cal-gesture-bg: rgba(227, 237, 224, 0.88);
+}
+
+/* ==========================================================================
+   GLOBAL UNSLOPPED STYLES
+   4px Spacing, Calm Surfaces, Tactile Contrast
+   ========================================================================== */
+*, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    'Comfortaa', 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
-  line-height: 1.5;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   transition: background-color 0.25s ease, color 0.25s ease;
-  user-select: none;
-  -webkit-user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-input, textarea, select, button {
-  font-family: inherit;
-  color: inherit;
-  user-select: auto;
-  -webkit-user-select: auto;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-/* Paper texture subtle background feel */
-.app-container {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-primary);
-  background-image: 
-    radial-gradient(rgba(222, 67, 100, 0.05) 0.8px, transparent 0.8px),
-    radial-gradient(rgba(222, 67, 100, 0.05) 0.8px, var(--bg-primary) 0.8px);
-  background-size: 30px 30px;
-  background-position: 0 0, 15px 15px;
-}
-
-[data-theme='royal-bordeaux'] .app-container {
-  background-image: 
-    radial-gradient(rgba(212, 175, 55, 0.05) 0.8px, transparent 0.8px),
-    radial-gradient(rgba(212, 175, 55, 0.05) 0.8px, var(--bg-primary) 0.8px);
-}
-
-/* Light themes paper texture fallback */
-[data-theme='rose-vintage'] .app-container,
-[data-theme='cozy-journal'] .app-container,
-[data-theme='cozy-cats'] .app-container,
-[data-theme='lavender-journal'] .app-container,
-[data-theme='pastel-scrapbook'] .app-container,
-[data-theme='sage-botanical'] .app-container {
-  background-image: 
-    radial-gradient(var(--border-subtle) 0.75px, transparent 0.75px),
-    radial-gradient(var(--border-subtle) 0.75px, var(--bg-primary) 0.75px);
-}
-
-/* ==========================================================================
-   6. APP HEADER & BRAND BADGE (WAX SEAL LOGO)
-   ========================================================================== */
+/* App Header & Brand */
 .app-header {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background-color: rgba(31, 6, 11, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(250, 245, 235, 0.10);
-  padding: 12px 18px;
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-[data-theme='royal-bordeaux'] .app-header {
-  background-color: rgba(24, 4, 8, 0.92);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
-}
-
-[data-theme='rose-vintage'] .app-header {
-  background-color: rgba(250, 242, 243, 0.92);
-  border-bottom: 1px solid var(--border-color);
-}
-
-[data-theme='cozy-journal'] .app-header,
-[data-theme='cozy-cats'] .app-header {
-  background-color: rgba(250, 245, 235, 0.92);
-  border-bottom: 1px solid var(--border-color);
-}
-
-[data-theme='lavender-journal'] .app-header {
-  background-color: rgba(247, 244, 249, 0.92);
-  border-bottom: 1px solid var(--border-color);
-}
-
-[data-theme='pastel-scrapbook'] .app-header,
-[data-theme='sage-botanical'] .app-header {
-  background-color: rgba(242, 246, 240, 0.92);
-  border-bottom: 1px solid var(--border-color);
 }
 
 .brand-badge {
   display: flex;
   align-items: center;
   gap: 12px;
-  text-decoration: none;
-  cursor: pointer;
-  user-select: none;
 }
 
-/* Wax Seal / Journal Logo Badge */
-.brand-icon,
-.brand-wax-seal {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-round);
-  object-fit: cover;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
-.brand-badge:hover .brand-icon,
-.brand-badge:hover .brand-wax-seal {
-  transform: scale(1.05);
-}
-
-.brand-title {
-  font-size: 1.25rem;
+.brand-title span {
+  font-family: 'Comfortaa', cursive, sans-serif;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1.15rem;
   color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  line-height: 1.15;
-}
-
-.brand-gem {
-  color: var(--cal-weekend-color, #DE4364);
-  font-size: 0.95rem;
-  margin-left: 2px;
-  display: inline-block;
+  letter-spacing: -0.2px;
 }
 
 .brand-subtitle {
   font-size: 0.72rem;
-  font-weight: 500;
   color: var(--text-secondary);
+  letter-spacing: 0.3px;
 }
 
-/* Desktop navigation inside header */
+/* Desktop Navigation */
 .desktop-nav {
-  display: none;
-  gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-@media (min-width: 768px) {
-  .desktop-nav {
-    display: flex;
-  }
-}
-
-.nav-link {
+.desktop-nav .nav-link {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  border-radius: var(--radius-round);
-  font-size: 0.88rem;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-secondary);
-  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-  background-color: rgba(67, 22, 32, 0.55);
-  border: 1px solid rgba(250, 245, 235, 0.15);
-  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.nav-link:hover {
-  background-color: #431620;
-  color: #FAF5EB;
-  border-color: rgba(250, 245, 235, 0.35);
-}
-
-.nav-link.active {
-  background-color: #431620;
-  color: #FAF5EB;
-  border-color: rgba(250, 245, 235, 0.65);
-}
-
-[data-theme='royal-bordeaux'] .nav-link {
-  background-color: rgba(74, 22, 34, 0.55);
-  border-color: rgba(212, 175, 55, 0.20);
-}
-
-[data-theme='royal-bordeaux'] .nav-link:hover {
-  background-color: #4A1622;
-  color: #FAF5EB;
-  border-color: rgba(212, 175, 55, 0.45);
-}
-
-[data-theme='royal-bordeaux'] .nav-link.active {
-  background-color: #4A1622;
-  color: #FAF5EB;
-  border-color: #D4AF37;
-}
-
-/* Light themes navigation link overrides */
-[data-theme='rose-vintage'] .nav-link,
-[data-theme='cozy-journal'] .nav-link,
-[data-theme='cozy-cats'] .nav-link,
-[data-theme='lavender-journal'] .nav-link,
-[data-theme='pastel-scrapbook'] .nav-link,
-[data-theme='sage-botanical'] .nav-link {
-  background-color: transparent;
-  border-color: transparent;
-  color: var(--text-secondary);
-  backdrop-filter: none;
-}
-
-[data-theme='rose-vintage'] .nav-link:hover,
-[data-theme='cozy-journal'] .nav-link:hover,
-[data-theme='cozy-cats'] .nav-link:hover,
-[data-theme='lavender-journal'] .nav-link:hover,
-[data-theme='pastel-scrapbook'] .nav-link:hover,
-[data-theme='sage-botanical'] .nav-link:hover {
-  background-color: var(--bg-secondary);
+.desktop-nav .nav-link:hover {
+  background-color: var(--bg-hover);
   color: var(--text-primary);
-  border-color: transparent;
 }
 
-[data-theme='rose-vintage'] .nav-link.active,
-[data-theme='cozy-journal'] .nav-link.active,
-[data-theme='cozy-cats'] .nav-link.active,
-[data-theme='lavender-journal'] .nav-link.active,
-[data-theme='pastel-scrapbook'] .nav-link.active,
-[data-theme='sage-botanical'] .nav-link.active {
-  background-color: var(--bg-card);
+.desktop-nav .nav-link.active {
+  background-color: var(--btn-secondary-bg);
+  border-color: var(--border-subtle);
   color: var(--text-primary);
-  border-color: var(--border-color);
-  box-shadow: var(--shadow-soft);
 }
 
-/* ==========================================================================
-   7. MOBILE BOTTOM NAVIGATION BAR
-   ========================================================================== */
+/* Bottom Navigation (Mobile) */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 50;
-  background-color: rgba(31, 6, 11, 0.95);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(250, 245, 235, 0.12);
-  padding: 8px 12px calc(8px + var(--safe-bottom));
+  background-color: var(--bg-card);
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  box-shadow: 0 -2px 14px rgba(0, 0, 0, 0.45);
+  padding: 6px 8px calc(6px + var(--safe-bottom));
+  z-index: 50;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
 }
 
-[data-theme='royal-bordeaux'] .bottom-nav {
-  background-color: rgba(24, 4, 8, 0.95);
-  border-top: 1px solid rgba(212, 175, 55, 0.20);
-}
-
-[data-theme='rose-vintage'] .bottom-nav,
-[data-theme='cozy-journal'] .bottom-nav,
-[data-theme='cozy-cats'] .bottom-nav,
-[data-theme='lavender-journal'] .bottom-nav,
-[data-theme='pastel-scrapbook'] .bottom-nav,
-[data-theme='sage-botanical'] .bottom-nav {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-top-color: var(--border-color);
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-}
-
-@media (min-width: 768px) {
-  .bottom-nav {
-    display: none;
-  }
-}
-
-.bottom-tab {
+.bottom-nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 3px;
   padding: 6px 12px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   color: var(--text-secondary);
+  background: transparent;
+  border: none;
   font-size: 0.72rem;
   font-weight: 600;
-  transition: color 0.15s ease;
-  position: relative;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-width: 60px;
 }
 
-.bottom-tab.active {
+.bottom-nav-item:hover {
   color: var(--text-primary);
 }
 
-.bottom-tab.active .tab-icon-wrap {
-  background-color: #431620;
-  color: #FAF5EB;
-  border: 1px solid rgba(250, 245, 235, 0.25);
-  border-radius: var(--radius-round);
-  padding: 4px 14px;
-  transform: translateY(-2px);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme='royal-bordeaux'] .bottom-tab.active .tab-icon-wrap {
-  background-color: #381018;
-  color: #FAF5EB;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-}
-
-[data-theme='rose-vintage'] .bottom-tab.active .tab-icon-wrap,
-[data-theme='cozy-journal'] .bottom-tab.active .tab-icon-wrap,
-[data-theme='cozy-cats'] .bottom-tab.active .tab-icon-wrap,
-[data-theme='lavender-journal'] .bottom-tab.active .tab-icon-wrap,
-[data-theme='pastel-scrapbook'] .bottom-tab.active .tab-icon-wrap,
-[data-theme='sage-botanical'] .bottom-tab.active .tab-icon-wrap {
-  background-color: var(--bg-secondary);
+.bottom-nav-item.active {
   color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-soft);
+  background-color: var(--bg-hover);
 }
 
-.tab-icon-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  transition: transform 0.15s ease, background-color 0.15s ease;
-}
-
-/* ==========================================================================
-   8. MAIN CONTENT AREA & CARDS
-   ========================================================================== */
-.app-main {
-  flex: 1;
-  padding: 16px 16px calc(76px + var(--safe-bottom));
-  max-width: 920px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-  .app-main {
-    padding: 24px 24px 48px;
-  }
+.bottom-nav-item.active svg {
+  color: var(--accent-rose-dark);
 }
 
 /* Cards */
 .card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 18px;
-  box-shadow: var(--shadow-card);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
 }
 
 .card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px 0;
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  letter-spacing: -0.2px;
 }
 
-/* ==========================================================================
-   9. BUTTONS (Deliberate hairline borders & authentic materials)
-   ========================================================================== */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 8px 16px;
-  border-radius: var(--radius-round);
-  font-size: 0.88rem;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
   font-weight: 600;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+  transition: all 0.15s ease;
   border: 1px solid transparent;
-}
-
-.btn:active {
-  transform: scale(0.98);
+  font-family: inherit;
+  text-decoration: none;
 }
 
 .btn-primary {
-  background-color: var(--btn-primary-bg, #DE4364);
-  color: var(--btn-primary-text, #FFFFFF);
-  border-color: var(--btn-primary-border, var(--btn-primary-bg, #DE4364));
-  box-shadow: var(--shadow-soft);
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border-color: var(--btn-primary-border);
 }
 
 .btn-primary:hover {
-  background-color: var(--btn-primary-hover, #E65070);
-  border-color: var(--btn-primary-hover, #E65070);
-}
-
-.btn-secondary {
-  background-color: var(--btn-secondary-bg, rgba(67, 22, 32, 0.72));
-  color: var(--btn-secondary-text, #FAF5EB);
-  border: 1px solid var(--btn-secondary-border, rgba(250, 245, 235, 0.22));
-}
-
-.btn-secondary:hover {
-  background-color: var(--btn-secondary-hover, #551925);
-  color: var(--btn-secondary-text, #FAF5EB);
+  background-color: var(--btn-primary-hover);
 }
 
 .btn-outline {
-  background-color: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border-color: var(--btn-secondary-border);
 }
 
 .btn-outline:hover {
-  background-color: var(--bg-secondary);
+  background-color: var(--btn-secondary-hover);
 }
 
-.btn-danger {
-  background-color: #501018;
-  color: #FFB3B3;
-  border: 1px solid #7E1C27;
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  border-radius: var(--radius-xs);
 }
 
-.btn-danger:hover {
-  background-color: #681520;
-  color: #FFFFFF;
-}
-
-.btn-icon {
-  width: 36px;
-  height: 36px;
+.btn-icon-sm {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
-  border-radius: var(--radius-round);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--btn-secondary-bg, rgba(67, 22, 32, 0.72));
-  color: var(--btn-secondary-text, #FAF5EB);
-  border: 1px solid var(--btn-secondary-border, rgba(250, 245, 235, 0.22));
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.btn-icon:hover {
-  background-color: var(--btn-secondary-hover, #551925);
-}
-
-/* Light themes danger button override */
-[data-theme='rose-vintage'] .btn-danger,
-[data-theme='cozy-journal'] .btn-danger,
-[data-theme='cozy-cats'] .btn-danger,
-[data-theme='lavender-journal'] .btn-danger,
-[data-theme='pastel-scrapbook'] .btn-danger,
-[data-theme='sage-botanical'] .btn-danger {
-  background-color: #FDF2F2;
-  color: #C53030;
-  border: 1px solid #FEB2B2;
-}
-
-[data-theme='rose-vintage'] .btn-danger:hover,
-[data-theme='cozy-journal'] .btn-danger:hover,
-[data-theme='cozy-cats'] .btn-danger:hover,
-[data-theme='lavender-journal'] .btn-danger:hover,
-[data-theme='pastel-scrapbook'] .btn-danger:hover,
-[data-theme='sage-botanical'] .btn-danger:hover {
-  background-color: #FED7D7;
-  color: #9B2C2C;
-}
-
-/* Badge */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border-radius: var(--radius-round);
-  font-size: 0.72rem;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-/* ==========================================================================
-   10. MODAL AND BOTTOM SHEET STYLES
-   ========================================================================== */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background-color: rgba(14, 3, 6, 0.65);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  animation: fadeIn 0.2s ease;
-}
-
-@media (min-width: 640px) {
-  .modal-backdrop {
-    align-items: center;
-    padding: 20px;
-  }
-}
-
-.modal-sheet {
-  background-color: var(--bg-primary);
-  width: 100%;
-  max-width: 540px;
-  max-height: 90vh;
-  max-height: 90dvh;
-  border-top-left-radius: var(--radius-xl);
-  border-top-right-radius: var(--radius-xl);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-floating);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: slideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (min-width: 640px) {
-  .modal-sheet {
-    border-radius: var(--radius-xl);
-    max-height: 85vh;
-  }
-}
-
-.modal-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--bg-card);
-}
-
-.modal-body {
-  padding: 20px;
-  overflow-y: auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.modal-footer {
-  padding: 14px 20px calc(14px + var(--safe-bottom));
-  border-top: 1px solid var(--border-color);
-  background-color: var(--bg-card);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-/* Modal Inputs & Selects */
-:root input,
-:root select,
-:root textarea,
-[data-theme] input,
-[data-theme] select,
-[data-theme] textarea {
-  background-color: var(--input-bg, #FFFFFF);
-  color: var(--text-primary);
-  border: 1px solid var(--input-border, var(--border-color));
   border-radius: var(--radius-sm);
-  padding: 8px 12px;
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-icon-sm:hover {
+  background: var(--bg-hover);
+}
+
+/* Form Controls */
+input[type="text"],
+input[type="time"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.92rem;
+  outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-:root input:focus,
-:root select:focus,
-:root textarea:focus,
-[data-theme] input:focus,
-[data-theme] select:focus,
-[data-theme] textarea:focus {
+input[type="text"]:focus,
+input[type="time"]:focus,
+textarea:focus,
+select:focus {
   border-color: var(--border-focus);
-  outline: none;
-  box-shadow: 0 0 0 2px var(--input-focus-ring, rgba(222, 67, 100, 0.2));
+  box-shadow: 0 0 0 3px var(--input-focus-ring);
 }
 
 /* ==========================================================================
-   11. CALENDAR VIEW SPECIFIC ENHANCEMENTS (PHOTO 4 MATCHING)
+   CALENDAR SPECIFIC COMPONENT MAPPINGS
    ========================================================================== */
-
-/* Month Title */
-:root .month-title,
-[data-theme] .month-title {
-  color: var(--text-primary);
-  font-family: 'Comfortaa', 'Caveat', cursive, sans-serif;
-  letter-spacing: -0.01em;
+.calendar-view-container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
-/* Legend bar */
-:root .calendar-legend,
-[data-theme] .calendar-legend {
-  background-color: var(--cal-legend-bg, var(--bg-card));
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+/* Calendar Weekdays Row */
+.calendar-weekdays-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 4px;
 }
 
-:root .gesture-hint-pill,
-[data-theme] .gesture-hint-pill {
-  background-color: var(--cal-gesture-bg, var(--bg-secondary));
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-}
-
-/* Playful Script / Cursive for Weekdays ПН ВТ СР ЧТ ПТ СБ ВС */
-:root .weekday-header-cell,
-[data-theme] .weekday-header-cell {
-  font-family: 'Caveat', 'Marck Script', 'Comfortaa', cursive, sans-serif;
-  font-size: 1.18rem;
+.weekday-header-cell {
+  text-align: center;
+  padding: 6px 0;
+  font-family: 'Caveat', cursive, sans-serif;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--cal-weekday-color, var(--text-primary));
-  text-transform: none;
-  letter-spacing: 0.02em;
+  color: var(--cal-weekday-color);
+  letter-spacing: 0.5px;
 }
 
-:root .weekday-header-cell.weekend,
-[data-theme] .weekday-header-cell.weekend {
-  color: var(--cal-weekend-color, #DE4364);
-  text-shadow: none;
+.weekday-header-cell.weekend {
+  color: var(--cal-weekend-color);
 }
 
-/* Calendar Cells with High Legibility & Tactile Materials */
-:root .calendar-cell,
-[data-theme] .calendar-cell {
-  background-color: var(--cal-cell-bg);
+/* Calendar Grid */
+.calendar-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  background-color: var(--cal-cell-border);
   border: 1px solid var(--cal-cell-border);
-  color: var(--cal-cell-text);
-  box-shadow: var(--shadow-soft);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
 }
 
-:root .calendar-cell:hover,
-[data-theme] .calendar-cell:hover {
-  border-color: var(--border-focus);
-}
-
-:root .calendar-cell.other-month,
-[data-theme] .calendar-cell.other-month {
-  background-color: var(--cal-cell-bg-other);
-  opacity: 0.65;
-  border-color: var(--border-subtle);
-}
-
-:root .calendar-cell .day-number,
-[data-theme] .calendar-cell .day-number {
-  color: var(--cal-cell-text);
-  font-weight: 700;
-}
-
-:root .calendar-cell.other-month .day-number,
-[data-theme] .calendar-cell.other-month .day-number {
-  color: var(--cal-cell-other-text, var(--text-muted));
-}
-
-/* Blush-pink highlighted event days */
-:root .calendar-cell.has-event,
-:root .calendar-cell:has(.cell-header-badges:not(:empty)),
-:root .calendar-cell:has(.cell-mini-note-card),
-:root .calendar-cell:has(.cell-activities-row),
-[data-theme] .calendar-cell.has-event,
-[data-theme] .calendar-cell:has(.cell-header-badges:not(:empty)),
-[data-theme] .calendar-cell:has(.cell-mini-note-card),
-[data-theme] .calendar-cell:has(.cell-activities-row) {
-  background-color: var(--cal-cell-event);
-  border-color: var(--cal-cell-event-border, var(--border-focus));
-}
-
-/* Today / Selected Cell */
-:root .calendar-cell.is-today,
-[data-theme] .calendar-cell.is-today {
-  background-color: var(--cal-cell-today-bg) !important;
-  border: 2px solid var(--cal-cell-today-border) !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12) !important;
-}
-
-:root .calendar-cell.is-today .day-number,
-[data-theme] .calendar-cell.is-today .day-number {
-  background-color: var(--cal-cell-today-border);
-  color: var(--cal-cell-today-number-color, #FFFFFF);
-}
-
-/* Day-off pill inside calendar cells */
-:root .calendar-cell .day-off-pill,
-[data-theme] .calendar-cell .day-off-pill {
-  background-color: var(--cal-dayoff-bg, var(--bg-secondary));
-  color: var(--cal-dayoff-text, var(--text-secondary));
-  border: 1px solid var(--cal-dayoff-border, var(--border-color));
-}
-
-/* Simulation Preview in DayEditor matches calendar cell styling */
-:root .preview-day-cell,
-[data-theme] .preview-day-cell {
+/* Day Cell */
+.calendar-day-cell {
   background-color: var(--cal-cell-bg);
-  border-color: var(--cal-cell-border);
   color: var(--cal-cell-text);
+  min-height: 84px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
-:root .preview-day-cell .day-number,
-[data-theme] .preview-day-cell .day-number {
+.calendar-day-cell:hover {
+  filter: brightness(0.97);
+}
+
+.calendar-day-cell.other-month {
+  background-color: var(--cal-cell-bg-other);
+}
+
+.calendar-day-cell .day-number {
+  font-size: 0.88rem;
+  font-weight: 700;
   color: var(--cal-cell-text);
+  line-height: 1;
 }
 
-/* ==========================================================================
-   12. KEYFRAME ANIMATIONS
-   ========================================================================== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.calendar-day-cell.other-month .day-number {
+  color: var(--cal-cell-other-text);
+  opacity: 0.7;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+/* Cell with Event / Note */
+.calendar-day-cell.has-note,
+.calendar-day-cell.has-activities,
+.calendar-day-cell.has-stickers {
+  background-color: var(--cal-cell-event);
+}
+
+/* Today Cell */
+.calendar-day-cell.is-today {
+  background-color: var(--cal-cell-today-bg) !important;
+  box-shadow: inset 0 0 0 2px var(--cal-cell-today-border);
+  z-index: 2;
+}
+
+.calendar-day-cell .day-number.today-badge {
+  background-color: var(--cal-cell-today-border);
+  color: var(--cal-cell-today-number-color);
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-round);
+  font-size: 0.78rem;
+}
+
+/* Calendar Month Header Controls */
+.month-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.month-title-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.month-title-year {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.month-title-name {
+  font-family: 'Comfortaa', cursive, sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.month-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-today {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-today:hover {
+  background: var(--bg-hover);
+}
+
+/* Quick Gesture Hints Bar (Фото 4 matching) */
+.quick-gestures-hint-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 14px;
+  background-color: var(--cal-gesture-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-round);
+  margin-bottom: 12px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.gesture-hint-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gesture-hint-item strong {
+  color: var(--text-primary);
+}
+
+/* Legend Points */
+.cycle-legend-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background-color: var(--cal-legend-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  margin-top: 14px;
+}
+
+/* Mini Sticker Badge in Calendar Cell */
+.cell-mini-note-card {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: #FFFDF9;
+  border: 1px solid #E0D4C5;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  transform: rotate(var(--mini-note-rot, -1.5deg));
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+}
+
+.cell-mini-note-card:hover {
+  transform: scale(1.15) rotate(0deg);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.22);
+  z-index: 5;
+}
+
+/* Mini note variant styles */
+.cell-mini-note-card.style-paper-clip {
+  background: #FAF8F2;
+  border-color: #D9CEBF;
+}
+
+.cell-mini-note-card.style-washi-tape {
+  background: #F4E8D3;
+  border-color: #D6C2A7;
+}
+
+.cell-mini-note-card.style-dark-craft {
+  background: #4A5742;
+  border-color: #384332;
+}
+
+.cell-mini-note-card.style-cloud {
+  background: #F2F7FA;
+  border-color: #C6DDE8;
+  border-radius: 8px;
+}
+
+.cell-mini-note-card.style-spiral-pad {
+  background: #FFFFFF;
+  border-color: #D1D7E0;
 }

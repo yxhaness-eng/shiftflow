@@ -202,106 +202,57 @@ export const SettingsPage: React.FC = () => {
         <div className="themes-grid">
           {/* Theme 1: Wine Velvet (Фото 4 - Основная тема) */}
           <div
-            className={`theme-card ${settings.theme === 'wine-velvet' ? 'selected' : ''}`}
+            className={`theme-card ${settings.theme === 'wine-velvet' || settings.theme === 'rose-vintage' || settings.theme === 'royal-bordeaux' ? 'selected' : ''}`}
             onClick={() => handleThemeChange('wine-velvet')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#1F060B' }} />
+              <span style={{ backgroundColor: '#1C060B' }} />
               <span style={{ backgroundColor: '#FAF5EE' }} />
               <span style={{ backgroundColor: '#DE4364' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Wine Velvet</div>
-              <div className="theme-desc">Тёмный винный велюр, страницы айвори и розовый румянец</div>
+              <div className="theme-name">Винный бархат</div>
+              <div className="theme-desc">Тёмный винный велюр, страницы айвори и румянец роз</div>
             </div>
-            {settings.theme === 'wine-velvet' && <Check size={16} className="theme-check-icon" />}
-          </div>
-
-          {/* Theme 2: Rose Vintage */}
-          <div
-            className={`theme-card ${settings.theme === 'rose-vintage' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('rose-vintage')}
-          >
-            <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#FAF2F3' }} />
-              <span style={{ backgroundColor: '#FFFFFF' }} />
-              <span style={{ backgroundColor: '#B85D6B' }} />
-            </div>
-            <div className="theme-info">
-              <div className="theme-name">Rose Vintage</div>
-              <div className="theme-desc">Пыльно-розовый пергамент, античное дерево и сургуч</div>
-            </div>
-            {settings.theme === 'rose-vintage' && <Check size={16} className="theme-check-icon" />}
-          </div>
-
-          {/* Theme 3: Royal Bordeaux */}
-          <div
-            className={`theme-card ${settings.theme === 'royal-bordeaux' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('royal-bordeaux')}
-          >
-            <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#180408' }} />
-              <span style={{ backgroundColor: '#24080E' }} />
-              <span style={{ backgroundColor: '#D4AF37' }} />
-            </div>
-            <div className="theme-info">
-              <div className="theme-name">Royal Bordeaux</div>
-              <div className="theme-desc">Полуночный бордо, королевская слива и античное золото</div>
-            </div>
-            {settings.theme === 'royal-bordeaux' && <Check size={16} className="theme-check-icon" />}
-          </div>
-
-          {/* Theme 4: Cozy Journal */}
-          <div
-            className={`theme-card ${settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('cozy-journal')}
-          >
-            <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#FAF5EB' }} />
-              <span style={{ backgroundColor: '#FFFFFF' }} />
-              <span style={{ backgroundColor: '#8C6541' }} />
-            </div>
-            <div className="theme-info">
-              <div className="theme-name">Cozy Journal</div>
-              <div className="theme-desc">Тёплая молочная бумага, эспрессо-чернила и благородная кожа</div>
-            </div>
-            {(settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats') && (
+            {(settings.theme === 'wine-velvet' || settings.theme === 'rose-vintage' || settings.theme === 'royal-bordeaux') && (
               <Check size={16} className="theme-check-icon" />
             )}
           </div>
 
-          {/* Theme 5: Lavender Journal */}
+          {/* Theme 2: Cozy Journal (Тёплый крафт) */}
           <div
-            className={`theme-card ${settings.theme === 'lavender-journal' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('lavender-journal')}
+            className={`theme-card ${settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' || settings.theme === 'pastel-scrapbook' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('cozy-journal')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#F7F4F9' }} />
+              <span style={{ backgroundColor: '#F7F2E8' }} />
               <span style={{ backgroundColor: '#FFFFFF' }} />
-              <span style={{ backgroundColor: '#7B5EA7' }} />
+              <span style={{ backgroundColor: '#B26E30' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Lavender Journal</div>
-              <div className="theme-desc">Мягкая глициния, глубокая слива и королевская лаванда</div>
+              <div className="theme-name">Тёплый крафт</div>
+              <div className="theme-desc">Молочная бумага, эспрессо-чернила и карамельная кожа</div>
             </div>
-            {settings.theme === 'lavender-journal' && <Check size={16} className="theme-check-icon" />}
+            {(settings.theme === 'cozy-journal' || settings.theme === 'cozy-cats' || settings.theme === 'pastel-scrapbook') && (
+              <Check size={16} className="theme-check-icon" />
+            )}
           </div>
 
-          {/* Theme 6: Sage Botanical (Pastel Scrapbook) */}
+          {/* Theme 3: Sage Botanical (Шалфей и лаванда) */}
           <div
-            className={`theme-card ${settings.theme === 'pastel-scrapbook' || settings.theme === 'sage-botanical' ? 'selected' : ''}`}
-            onClick={() => handleThemeChange('pastel-scrapbook')}
+            className={`theme-card ${settings.theme === 'sage-botanical' || settings.theme === 'lavender-journal' ? 'selected' : ''}`}
+            onClick={() => handleThemeChange('sage-botanical')}
           >
             <div className="theme-preview-dots">
-              <span style={{ backgroundColor: '#F2F6F0' }} />
+              <span style={{ backgroundColor: '#EFF4ED' }} />
               <span style={{ backgroundColor: '#FFFFFF' }} />
-              <span style={{ backgroundColor: '#557A46' }} />
+              <span style={{ backgroundColor: '#4A7342' }} />
             </div>
             <div className="theme-info">
-              <div className="theme-name">Sage Botanical</div>
-              <div className="theme-desc">Травяная матча-бумага, лесные чернила и оливковый шалфей</div>
+              <div className="theme-name">Шалфей и лаванда</div>
+              <div className="theme-desc">Матча, лесные чернила и сушёная лаванда гербария</div>
             </div>
-            {(settings.theme === 'pastel-scrapbook' || settings.theme === 'sage-botanical') && (
+            {(settings.theme === 'sage-botanical' || settings.theme === 'lavender-journal') && (
               <Check size={16} className="theme-check-icon" />
             )}
           </div>
