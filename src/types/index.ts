@@ -34,6 +34,29 @@ export interface ScheduleConfig {
 
 export type DayStatus = 'work' | 'day_off' | 'vacation' | 'sick';
 
+export interface IntimateEntry {
+  hadSex: boolean;
+  type?: string;          // 'passionate' | 'tender' | ... or custom
+  customType?: string;    // Custom string if user entered custom variant
+}
+
+export type NoteStickerStyle =
+  | 'paper-clip'
+  | 'washi-tape'
+  | 'spiral-pad'
+  | 'cloud'
+  | 'ribbon-card'
+  | 'tag'
+  | 'dark-craft';
+
+export interface NoteStickerConfig {
+  style: NoteStickerStyle;
+  text: string;
+  x?: number;             // relative offset in percent (-50 .. 50)
+  y?: number;             // relative offset in percent (-50 .. 50)
+  rotation?: number;      // degrees (-30 .. 30)
+}
+
 export interface DayOverride {
   date: string;            // YYYY-MM-DD
   pointId?: string;        // Actual point for this day (if work)
@@ -42,6 +65,9 @@ export interface DayOverride {
   originalPointId?: string;// Original scheduled point if swapped
   note?: string;           // Notes / journal text for this date
   tags?: string[];         // Personal event tags: "Романтика", "Отдых", "Встреча", etc.
+  intimate?: IntimateEntry;
+  activities?: string[];   // Multi-select activity & mood IDs or custom strings
+  noteSticker?: NoteStickerConfig;
   updatedAt: string;
 }
 
@@ -119,5 +145,8 @@ export interface ResolvedDayInfo {
   stickers: PlacedSticker[];
   note?: string;
   tags?: string[];
+  intimate?: IntimateEntry;
+  activities?: string[];
+  noteSticker?: NoteStickerConfig;
 }
 

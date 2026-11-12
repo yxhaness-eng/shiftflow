@@ -9,7 +9,9 @@ import {
   ThemeId,
   ResolvedDayInfo,
   DayStatus,
-  BackupData
+  BackupData,
+  IntimateEntry,
+  NoteStickerConfig
 } from '../types';
 import {
   initializeDatabase,
@@ -32,7 +34,7 @@ import {
 } from '../services/database';
 import { resolveDayInfo } from '../services/scheduleEngine';
 import { parseISODate, getTodayString } from '../utils/dateUtils';
-import { playPaperRustle, playStickerPop, triggerHaptic } from '../services/soundEffects';
+import { playPaperRustle, playStickerPop, playBubbleTap, triggerHaptic } from '../services/soundEffects';
 
 interface AppContextType {
   // State
@@ -66,6 +68,20 @@ interface AppContextType {
   createDaySwap: (date: string, actualPointId: string, note?: string) => Promise<void>;
   updateDayStatus: (date: string, status: DayStatus) => Promise<void>;
   updateDayNote: (date: string, note: string, tags?: string[]) => Promise<void>;
+  updateDayLifeDetails: (
+    date: string,
+    data: {
+      intimate?: IntimateEntry;
+      activities?: string[];
+      noteSticker?: NoteStickerConfig;
+      note?: string;
+      tags?: string[];
+    }
+  ) => Promise<void>;
+  updateNoteStickerTransform: (
+    date: string,
+    transform: { x?: number; y?: number; rotation?: number }
+  ) => Promise<void>;
   resetDayToDefault: (date: string) => Promise<void>;
 
   // Sticker actions
@@ -151,6 +167,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const allStickers = await getAllPlacedStickers();
       const allHistory = await getHistoryEvents(100);
 
+      if (typeof window === 'undefined') return;
+
       setSettingsState(initSettings);
       setPoints(initPoints);
       setScheduleConfig(initSchedule);
@@ -158,9 +176,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setPlacedStickers(allStickers);
       setHistory(allHistory);
     } catch (err) {
-      console.error('Failed to load database:', err);
+      if (typeof window !== 'undefined') {
+        console.error('Failed to load database:', err);
+      }
     } finally {
-      setIsLoading(false);
+      if (typeof window !== 'undefined') {
+        setIsLoading(false);
+      }
     }
   }, []);
 
@@ -308,11 +330,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isSwap: false,
         note: existing?.note,
         tags: existing?.tags,
+        intimate: existing?.intimate,
+        activities: existing?.activities,
+        noteSticker: existing?.noteSticker,
         updatedAt: new Date().toISOString()
       };
 
       await saveOverride(updated);
-      setOverrides((prev) => ({ ...prev, [date]: updated }));
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
 
       const pointName = pointsMap[pointId]?.name || pointId;
       await addHistoryEvent('point_change', date, `Изменение точки на ${pointName} (только этот день)`);
@@ -382,6 +409,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         originalPointId,
         note: note || overrides[date]?.note || 'Подмена рабочей смены',
         tags: overrides[date]?.tags,
+        intimate: overrides[date]?.intimate,
+        activities: overrides[date]?.activities,
+        noteSticker: overrides[date]?.noteSticker,
         updatedAt: new Date().toISOString()
       };
 
@@ -409,11 +439,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         originalPointId: existing?.originalPointId,
         note: existing?.note,
         tags: existing?.tags,
+        intimate: existing?.intimate,
+        activities: existing?.activities,
+        noteSticker: existing?.noteSticker,
         updatedAt: new Date().toISOString()
       };
 
       await saveOverride(updated);
-      setOverrides((prev) => ({ ...prev, [date]: updated }));
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
 
       const statusLabels: Record<DayStatus, string> = {
         work: 'Рабочий день',
@@ -444,15 +479,94 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         originalPointId: existing?.originalPointId,
         note: note.trim(),
         tags: tags || existing?.tags,
+        intimate: existing?.intimate,
+        activities: existing?.activities,
+        noteSticker: existing?.noteSticker,
         updatedAt: new Date().toISOString()
       };
 
       await saveOverride(updated);
-      setOverrides((prev) => ({ ...prev, [date]: updated }));
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
 
       await addHistoryEvent('note', date, `Обновлена заметка на ${date}`);
       const h = await getHistoryEvents(100);
       setHistory(h);
+    },
+    [overrides]
+  );
+
+  // Update Day Life Details (intimate, activities, noteSticker, note, tags)
+  const updateDayLifeDetails = useCallback(
+    async (
+      date: string,
+      data: {
+        intimate?: IntimateEntry;
+        activities?: string[];
+        noteSticker?: NoteStickerConfig;
+        note?: string;
+        tags?: string[];
+      }
+    ) => {
+      const existing = overrides[date];
+      const updated: DayOverride = {
+        date,
+        pointId: existing?.pointId,
+        status: existing?.status || 'work',
+        isSwap: existing?.isSwap,
+        originalPointId: existing?.originalPointId,
+        note: data.note !== undefined ? data.note : (existing?.note || ''),
+        tags: data.tags !== undefined ? data.tags : (existing?.tags || []),
+        intimate: data.intimate !== undefined ? data.intimate : existing?.intimate,
+        activities: data.activities !== undefined ? data.activities : existing?.activities,
+        noteSticker: data.noteSticker !== undefined ? data.noteSticker : existing?.noteSticker,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
+
+      playBubbleTap(settings.soundEnabled !== false);
+      triggerHaptic(8, settings.hapticsEnabled !== false);
+
+      await addHistoryEvent('note', date, `Обновлены отметки настроения и дел на ${date}`);
+      const h = await getHistoryEvents(100);
+      if (typeof window !== 'undefined') {
+        setHistory(h);
+      }
+    },
+    [overrides, settings]
+  );
+
+  // Update Note Sticker Transform (x, y, rotation)
+  const updateNoteStickerTransform = useCallback(
+    async (
+      date: string,
+      transform: { x?: number; y?: number; rotation?: number }
+    ) => {
+      const existing = overrides[date];
+      if (!existing || !existing.noteSticker) return;
+
+      const updatedSticker: NoteStickerConfig = {
+        ...existing.noteSticker,
+        x: transform.x !== undefined ? transform.x : existing.noteSticker.x,
+        y: transform.y !== undefined ? transform.y : existing.noteSticker.y,
+        rotation: transform.rotation !== undefined ? transform.rotation : existing.noteSticker.rotation
+      };
+
+      const updated: DayOverride = {
+        ...existing,
+        noteSticker: updatedSticker,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
     },
     [overrides]
   );
@@ -615,6 +729,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     createDaySwap,
     updateDayStatus,
     updateDayNote,
+    updateDayLifeDetails,
+    updateNoteStickerTransform,
     resetDayToDefault,
     addStickerToDate,
     updateStickerTransform,

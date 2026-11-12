@@ -129,6 +129,40 @@ export function playStickerPop(enabled = true): void {
 }
 
 /**
+ * Synthesizes a crisp, super satisfying tactile click / bubble tap sound
+ * for buttons, pills, checkboxes, and badge toggles ("звук тыкания").
+ */
+export function playBubbleTap(enabled = true): void {
+  if (!enabled) return;
+
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  try {
+    const now = ctx.currentTime;
+    const duration = 0.04;
+
+    const osc = ctx.createOscillator();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(650, now);
+    osc.frequency.exponentialRampToValueAtTime(320, now + duration);
+
+    const gainNode = ctx.createGain();
+    gainNode.gain.setValueAtTime(0.001, now);
+    gainNode.gain.linearRampToValueAtTime(0.12, now + 0.005);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + duration);
+  } catch (err) {
+    console.debug('Failed to play bubble tap sound:', err);
+  }
+}
+
+/**
  * Triggers subtle haptic feedback on mobile devices supporting Navigator.vibrate.
  * @param duration Duration in milliseconds (default 10ms for ultra-gentle tactile feel)
  * @param enabled Whether haptics is enabled by user preference

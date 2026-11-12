@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Printer } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import {
@@ -7,6 +7,7 @@ import {
   WEEKDAY_SHORT_RU
 } from '../../utils/dateUtils';
 import { CalendarDayCell } from './CalendarDayCell';
+import { NoteStickerModal } from '../NoteStickerModal/NoteStickerModal';
 
 export const CalendarView: React.FC = () => {
   const {
@@ -18,6 +19,8 @@ export const CalendarView: React.FC = () => {
     setSelectedDate,
     points
   } = useApp();
+
+  const [directNoteDate, setDirectNoteDate] = useState<string | null>(null);
 
   const gridCells = useMemo(() => {
     return getMonthCalendarGrid(currentMonth.year, currentMonth.month);
@@ -135,6 +138,18 @@ export const CalendarView: React.FC = () => {
         </div>
       </div>
 
+      {/* Cozy Gesture Hint (from Screenshot 2) */}
+      <div className="calendar-gesture-bar">
+        <span className="gesture-hint-pill">
+          <span className="gesture-hint-icon">👆</span>
+          <span><strong>Нажми</strong> — отметка и выбор</span>
+        </span>
+        <span className="gesture-hint-pill note-hint">
+          <span className="gesture-hint-icon">📝</span>
+          <span><strong>Зажми</strong> — стикер-заметка</span>
+        </span>
+      </div>
+
       {/* Weekday Headers */}
       <div className="weekday-header-grid">
         {WEEKDAY_SHORT_RU.map((dayName, idx) => (
@@ -156,10 +171,19 @@ export const CalendarView: React.FC = () => {
               key={cell.date}
               dayInfo={dayInfo}
               onClick={() => setSelectedDate(cell.date)}
+              onLongPress={() => setDirectNoteDate(cell.date)}
             />
           );
         })}
       </div>
+
+      {/* Direct Note Sticker Modal on Long Press */}
+      {directNoteDate && (
+        <NoteStickerModal
+          date={directNoteDate}
+          onClose={() => setDirectNoteDate(null)}
+        />
+      )}
 
       {/* Dedicated Print Footer */}
       <div className="print-footer">

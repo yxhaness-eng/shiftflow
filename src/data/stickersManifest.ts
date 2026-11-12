@@ -677,6 +677,118 @@ export const STICKERS_MANIFEST: StickerManifestItem[] = [
     "category": "Другое",
     "imagePath": "stickers/cat_daily_35.webp",
     "description": "Милая деталь для скрапбука"
+  },
+  {
+    "id": "life_love",
+    "name": "Сердечко любви",
+    "category": "Романтика",
+    "imagePath": "stickers/life/love.webp",
+    "description": "Любовь, нежность и романтика"
+  },
+  {
+    "id": "life_wine",
+    "name": "Бокалы вина",
+    "category": "Романтика",
+    "imagePath": "stickers/life/wine.webp",
+    "description": "Свидание, вечер вдвоем, бокал вина"
+  },
+  {
+    "id": "life_chat",
+    "name": "Диалог и общение",
+    "category": "Повседневная жизнь",
+    "imagePath": "stickers/life/chat.webp",
+    "description": "Душевные разговоры и переписка"
+  },
+  {
+    "id": "life_broom",
+    "name": "Уборка",
+    "category": "Повседневная жизнь",
+    "imagePath": "stickers/life/broom.webp",
+    "description": "Генеральная или лёгкая уборка дома"
+  },
+  {
+    "id": "life_laundry",
+    "name": "Стирка",
+    "category": "Повседневная жизнь",
+    "imagePath": "stickers/life/laundry.webp",
+    "description": "Стирка и свежее белье"
+  },
+  {
+    "id": "life_cooking",
+    "name": "Готовка",
+    "category": "Повседневная жизнь",
+    "imagePath": "stickers/life/cooking.webp",
+    "description": "Приготовление вкусной еды и ужина"
+  },
+  {
+    "id": "life_movie",
+    "name": "Кино и сериалы",
+    "category": "Отдых",
+    "imagePath": "stickers/life/movie.webp",
+    "description": "Просмотр фильма, сериала или мультика"
+  },
+  {
+    "id": "life_sleep",
+    "name": "Сон котика",
+    "category": "Отдых",
+    "imagePath": "stickers/life/sleep.webp",
+    "description": "Сладкий сон, релакс и дневной отдых"
+  },
+  {
+    "id": "life_workout",
+    "name": "Тренировка",
+    "category": "Хобби",
+    "imagePath": "stickers/life/workout.webp",
+    "description": "Спорт, растяжка или тренировка в зале"
+  },
+  {
+    "id": "life_food",
+    "name": "Вкусняшки",
+    "category": "Повседневная жизнь",
+    "imagePath": "stickers/life/food.webp",
+    "description": "Пицца, бургер или любимый читмил"
+  },
+  {
+    "id": "life_shopping",
+    "name": "Шопинг",
+    "category": "Повседневная жизнь",
+    "imagePath": "stickers/life/shopping.webp",
+    "description": "Покупки, доставка и приятный шопинг"
+  },
+  {
+    "id": "life_gift",
+    "name": "Подарочек",
+    "category": "Романтика",
+    "imagePath": "stickers/life/gift.webp",
+    "description": "Подарок, сюрприз или внимание"
+  },
+  {
+    "id": "life_trip",
+    "name": "Прогулка",
+    "category": "Отдых",
+    "imagePath": "stickers/life/trip.webp",
+    "description": "Пешая прогулка, парк или поездка"
+  },
+  {
+    "id": "life_beauty",
+    "name": "Бьюти и уход",
+    "category": "Повседневная жизнь",
+    "imagePath": "stickers/life/beauty.webp",
+    "description": "Масочки, косметика, спа и сияние"
+  },
+  {
+    "id": "life_intimate",
+    "name": "Отметка 18+",
+    "category": "Романтика",
+    "imagePath": "stickers/life/intimate.webp",
+    "description": "Особенная личная отметка"
+  },
+  {
+    "id": "life_star",
+    "name": "Супер день",
+    "category": "Настроение",
+    "imagePath": "stickers/life/star.webp",
+    "description": "Отличный яркий день, когда всё получилось"
   }
 ];
 

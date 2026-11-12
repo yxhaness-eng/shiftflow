@@ -24,7 +24,11 @@ import { useApp } from '../../context/AppContext';
 import { formatFullDateRU } from '../../utils/dateUtils';
 import { STICKERS_MAP } from '../../data/stickersManifest';
 import { StickerPicker } from '../StickerPicker/StickerPicker';
-import { triggerHaptic } from '../../services/soundEffects';
+import { LifeTrackerModal } from '../LifeTrackerModal/LifeTrackerModal';
+import { NoteStickerModal } from '../NoteStickerModal/NoteStickerModal';
+import { ScrapbookCellZoom } from '../ScrapbookCellZoom/ScrapbookCellZoom';
+import { ACTIVITY_MAP, INTIMATE_PRESETS } from '../../data/lifeTrackerData';
+import { triggerHaptic, playBubbleTap } from '../../services/soundEffects';
 
 const AVAILABLE_TAGS = ['Романтика', 'Отдых', 'Встреча', 'Настроение', 'Праздник', 'Планы'];
 
@@ -48,6 +52,11 @@ export const DayEditor: React.FC = () => {
 
   const [isStickerPickerOpen, setIsStickerPickerOpen] = useState(false);
   const [selectedStickerIdToEdit, setSelectedStickerIdToEdit] = useState<string | null>(null);
+
+  // Life Tracker & Note Sticker modals
+  const [isLifeTrackerOpen, setIsLifeTrackerOpen] = useState(false);
+  const [isNoteStickerModalOpen, setIsNoteStickerModalOpen] = useState(false);
+  const [isScrapbookZoomOpen, setIsScrapbookZoomOpen] = useState(false);
 
   // Local state for note and tags
   const [noteText, setNoteText] = useState('');
@@ -326,6 +335,88 @@ export const DayEditor: React.FC = () => {
                   </button>
                 </div>
               </div>
+            </div>
+
+            {/* COZY SCRAPBOOK & LIFE TRACKER SHORTCUTS */}
+            <div className="editor-section scrapbook-shortcuts-section">
+              <label className="section-label">Журнал жизни и скрапбук</label>
+
+              {/* Life Markings Card */}
+              <div
+                className="scrapbook-shortcut-card"
+                onClick={() => {
+                  playBubbleTap(settings.soundEnabled !== false);
+                  setIsLifeTrackerOpen(true);
+                }}
+              >
+                <div className="shortcut-card-left">
+                  <span className="shortcut-card-icon">🌸</span>
+                  <div>
+                    <div className="shortcut-card-title">Отметки дня и секас</div>
+                    <div className="shortcut-card-subtitle">
+                      {dayInfo.intimate?.hadSex
+                        ? `💕 Секас был (${dayInfo.intimate.customType || INTIMATE_PRESETS.find(p => p.id === dayInfo.intimate?.type)?.label || 'Отмечено'})`
+                        : 'Нажми, чтобы настроить настроение и дела'}
+                    </div>
+                  </div>
+                </div>
+                <button className="btn btn-outline btn-sm">Настроить</button>
+              </div>
+
+              {/* Active Badges Preview if any */}
+              {dayInfo.activities && dayInfo.activities.length > 0 && (
+                <div className="editor-active-activities-row">
+                  {dayInfo.activities.map((actId) => {
+                    const act = ACTIVITY_MAP[actId];
+                    return (
+                      <span key={actId} className="editor-active-badge-pill">
+                        {act?.iconImage ? (
+                          <img src={`./${act.iconImage}`} alt={act?.label || actId} />
+                        ) : (
+                          <span>{act?.emoji || '🏷️'}</span>
+                        )}
+                        <span>{act?.label || actId}</span>
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Note Sticker Card */}
+              <div
+                className="scrapbook-shortcut-card"
+                onClick={() => {
+                  playBubbleTap(settings.soundEnabled !== false);
+                  setIsNoteStickerModalOpen(true);
+                }}
+              >
+                <div className="shortcut-card-left">
+                  <span className="shortcut-card-icon">📝</span>
+                  <div>
+                    <div className="shortcut-card-title">Стикер-заметка этого дня</div>
+                    <div className="shortcut-card-subtitle">
+                      {dayInfo.noteSticker?.text
+                        ? `Приклеен стикер: "${dayInfo.noteSticker.text.slice(0, 30)}..."`
+                        : 'Выбрать вид бумажки со скрепкой или скотчем и написать мысль'}
+                    </div>
+                  </div>
+                </div>
+                <button className="btn btn-outline btn-sm">
+                  {dayInfo.noteSticker?.text ? 'Изменить' : 'Приклеить'}
+                </button>
+              </div>
+
+              {/* Zoom & Free Drag Button */}
+              <button
+                className="btn-zoom-editor-trigger"
+                onClick={() => {
+                  playBubbleTap(settings.soundEnabled !== false);
+                  setIsScrapbookZoomOpen(true);
+                }}
+              >
+                <ZoomIn size={16} />
+                <span>Увеличить окошко и свободно расставить стикеры</span>
+              </button>
             </div>
 
             {/* SECTION 2: Personal Note & Events */}
@@ -755,6 +846,46 @@ export const DayEditor: React.FC = () => {
         onSelectSticker={handleStickerAdded}
         targetDateTitle={dateFormatted}
       />
+
+      {/* Life & Intimate Tracker Modal (Screenshot 1) */}
+      {isLifeTrackerOpen && (
+        <LifeTrackerModal
+          date={selectedDate}
+          onClose={() => setIsLifeTrackerOpen(false)}
+          onOpenNoteSticker={() => {
+            setIsLifeTrackerOpen(false);
+            setIsNoteStickerModalOpen(true);
+          }}
+          onOpenZoomCanvas={() => {
+            setIsLifeTrackerOpen(false);
+            setIsScrapbookZoomOpen(true);
+          }}
+        />
+      )}
+
+      {/* Note Sticker Modal (Screenshot 2) */}
+      {isNoteStickerModalOpen && (
+        <NoteStickerModal
+          date={selectedDate}
+          onClose={() => setIsNoteStickerModalOpen(false)}
+        />
+      )}
+
+      {/* Scrapbook Day Zoom Modal (Voice Request) */}
+      {isScrapbookZoomOpen && (
+        <ScrapbookCellZoom
+          date={selectedDate}
+          onClose={() => setIsScrapbookZoomOpen(false)}
+          onOpenLifeTracker={() => {
+            setIsScrapbookZoomOpen(false);
+            setIsLifeTrackerOpen(true);
+          }}
+          onOpenNoteSticker={() => {
+            setIsScrapbookZoomOpen(false);
+            setIsNoteStickerModalOpen(true);
+          }}
+        />
+      )}
     </>
   );
 };

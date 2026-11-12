@@ -123,11 +123,17 @@ export function resolveDayInfo(
   let originalPoint: WorkPoint | null = null;
   let note: string | undefined = undefined;
   let tags: string[] | undefined = undefined;
+  let intimate = override?.intimate;
+  let activities = override?.activities;
+  let noteSticker = override?.noteSticker;
 
   if (override) {
     status = override.status;
     note = override.note;
     tags = override.tags;
+    intimate = override.intimate;
+    activities = override.activities;
+    noteSticker = override.noteSticker;
 
     if (override.status === 'day_off' || override.status === 'vacation' || override.status === 'sick') {
       actualPoint = null;
@@ -156,7 +162,10 @@ export function resolveDayInfo(
     override,
     stickers,
     note,
-    tags
+    tags,
+    intimate,
+    activities,
+    noteSticker
   };
 }
 
