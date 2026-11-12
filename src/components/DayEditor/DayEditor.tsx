@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   X,
   RefreshCw,
-  ZoomIn,
-  Heart,
-  Coffee,
-  Sparkles,
-  Smile,
-  Calendar,
-  Check
+  ZoomIn
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { formatFullDateRU } from '../../utils/dateUtils';
@@ -17,8 +11,6 @@ import { ScrapbookCellZoom } from '../ScrapbookCellZoom/ScrapbookCellZoom';
 import { JournalPageModal } from '../JournalPageModal/JournalPageModal';
 import { ACTIVITY_PRESETS } from '../../data/lifeTrackerData';
 import { triggerHaptic, playBubbleTap } from '../../services/soundEffects';
-
-const AVAILABLE_TAGS = ['Романтика', 'Отдых', 'Встреча', 'Настроение', 'Праздник', 'Планы'];
 
 export const DayEditor: React.FC = () => {
   const {
@@ -31,7 +23,6 @@ export const DayEditor: React.FC = () => {
     changeDayCycleSubsequent,
     createDaySwap,
     updateDayStatus,
-    updateDayNote,
     updateDayLifeDetails,
     resetDayToDefault
   } = useApp();
@@ -40,11 +31,6 @@ export const DayEditor: React.FC = () => {
   const [isLifeTrackerOpen, setIsLifeTrackerOpen] = useState(false);
   const [isScrapbookZoomOpen, setIsScrapbookZoomOpen] = useState(false);
   const [isJournalPageOpen, setIsJournalPageOpen] = useState(false);
-
-  // Local state for note and tags
-  const [noteText, setNoteText] = useState('');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [isSavedNote, setIsSavedNote] = useState(false);
 
   // Cycle change confirmation modal
   const [pendingCyclePointId, setPendingCyclePointId] = useState<string | null>(null);
@@ -57,31 +43,9 @@ export const DayEditor: React.FC = () => {
 
   const dayInfo = selectedDate ? getDayInfo(selectedDate) : null;
 
-  useEffect(() => {
-    if (dayInfo) {
-      setNoteText(dayInfo.note || '');
-      setSelectedTags(dayInfo.tags || []);
-    }
-  }, [selectedDate, dayInfo?.note, dayInfo?.tags]);
-
   if (!selectedDate || !dayInfo) return null;
 
   const dateFormatted = formatFullDateRU(selectedDate);
-
-  // Handle Note Save
-  const handleSaveNote = async () => {
-    await updateDayNote(selectedDate, noteText, selectedTags);
-    setIsSavedNote(true);
-    setTimeout(() => setIsSavedNote(false), 1500);
-  };
-
-  const handleToggleTag = (tag: string) => {
-    const updated = selectedTags.includes(tag)
-      ? selectedTags.filter((t) => t !== tag)
-      : [...selectedTags, tag];
-    setSelectedTags(updated);
-    updateDayNote(selectedDate, noteText, updated);
-  };
 
   const handleToggleActivity = async (actId: string) => {
     playBubbleTap(settings.soundEnabled !== false);
@@ -313,49 +277,6 @@ export const DayEditor: React.FC = () => {
                 <span>Увеличить окошко и свободно расставить значки</span>
               </button>
             </div>
-
-            {/* Quick Personal Note & Events */}
-            <div className="editor-section">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <label className="section-label">Быстрая заметка и теги</label>
-                {isSavedNote && (
-                  <span style={{ fontSize: '0.75rem', color: 'var(--accent-sage-dark)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Check size={12} /> Сохранено
-                  </span>
-                )}
-              </div>
-
-              {/* Tag Chips */}
-              <div className="tags-row">
-                {AVAILABLE_TAGS.map((tag) => {
-                  const isChecked = selectedTags.includes(tag);
-                  return (
-                    <button
-                      key={tag}
-                      className={`tag-chip ${isChecked ? 'active' : ''}`}
-                      onClick={() => handleToggleTag(tag)}
-                    >
-                      {tag === 'Романтика' && <Heart size={12} />}
-                      {tag === 'Отдых' && <Coffee size={12} />}
-                      {tag === 'Встреча' && <Sparkles size={12} />}
-                      {tag === 'Настроение' && <Smile size={12} />}
-                      {tag === 'Праздник' && <Sparkles size={12} />}
-                      {tag === 'Планы' && <Calendar size={12} />}
-                      <span>{tag}</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <textarea
-                className="note-textarea"
-                rows={2}
-                placeholder="Короткая заметка или мысль..."
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-                onBlur={handleSaveNote}
-              />
-            </div>
           </div>
 
           {/* Modal Footer */}
@@ -371,10 +292,7 @@ export const DayEditor: React.FC = () => {
             )}
             <button
               className="btn btn-primary"
-              onClick={() => {
-                handleSaveNote();
-                setSelectedDate(null);
-              }}
+              onClick={() => setSelectedDate(null)}
             >
               Готово
             </button>
