@@ -11,7 +11,9 @@ import {
   DayStatus,
   BackupData,
   IntimateEntry,
-  NoteStickerConfig
+  NoteStickerConfig,
+  JournalPageData,
+  JournalPageDecoration
 } from '../types';
 import {
   initializeDatabase,
@@ -82,6 +84,14 @@ interface AppContextType {
     date: string,
     transform: { x?: number; y?: number; rotation?: number }
   ) => Promise<void>;
+  updateJournalPage: (date: string, pageData: Partial<JournalPageData>) => Promise<void>;
+  addJournalDecoration: (date: string, stickerId: string) => Promise<void>;
+  updateJournalDecorationTransform: (
+    date: string,
+    decorId: string,
+    transform: { x?: number; y?: number; scale?: number; rotation?: number }
+  ) => Promise<void>;
+  removeJournalDecoration: (date: string, decorId: string) => Promise<void>;
   resetDayToDefault: (date: string) => Promise<void>;
 
   // Sticker actions
@@ -521,6 +531,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         intimate: data.intimate !== undefined ? data.intimate : existing?.intimate,
         activities: data.activities !== undefined ? data.activities : existing?.activities,
         noteSticker: data.noteSticker !== undefined ? data.noteSticker : existing?.noteSticker,
+        journalPage: existing?.journalPage,
         updatedAt: new Date().toISOString()
       };
 
@@ -569,6 +580,172 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     },
     [overrides]
+  );
+
+  // Update Journal Page (text, paperType, decorations)
+  const updateJournalPage = useCallback(
+    async (date: string, pageData: Partial<JournalPageData>) => {
+      const existing = overrides[date];
+      const currentJournal: JournalPageData = existing?.journalPage || {
+        paperType: 'lined',
+        title: '',
+        content: existing?.note || '',
+        decorations: [],
+        updatedAt: new Date().toISOString()
+      };
+
+      const updatedJournal: JournalPageData = {
+        ...currentJournal,
+        ...pageData,
+        updatedAt: new Date().toISOString()
+      };
+
+      const updated: DayOverride = {
+        date,
+        pointId: existing?.pointId,
+        status: existing?.status || 'work',
+        isSwap: existing?.isSwap,
+        originalPointId: existing?.originalPointId,
+        note: updatedJournal.content !== undefined ? updatedJournal.content : (existing?.note || ''),
+        tags: existing?.tags,
+        intimate: existing?.intimate,
+        activities: existing?.activities,
+        noteSticker: existing?.noteSticker,
+        journalPage: updatedJournal,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
+
+      playPaperRustle(settings.soundEnabled !== false);
+      triggerHaptic(8, settings.hapticsEnabled !== false);
+    },
+    [overrides, settings]
+  );
+
+  // Add decoration to journal page
+  const addJournalDecoration = useCallback(
+    async (date: string, stickerId: string) => {
+      const existing = overrides[date];
+      const currentJournal: JournalPageData = existing?.journalPage || {
+        paperType: 'lined',
+        title: '',
+        content: existing?.note || '',
+        decorations: [],
+        updatedAt: new Date().toISOString()
+      };
+
+      const newDecor: JournalPageDecoration = {
+        id: `decor_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        stickerId,
+        x: Math.round(Math.random() * 30 - 15),
+        y: Math.round(Math.random() * 30 - 15),
+        scale: 1,
+        rotation: Math.round(Math.random() * 16 - 8)
+      };
+
+      const updatedJournal: JournalPageData = {
+        ...currentJournal,
+        decorations: [...currentJournal.decorations, newDecor],
+        updatedAt: new Date().toISOString()
+      };
+
+      const updated: DayOverride = {
+        date,
+        pointId: existing?.pointId,
+        status: existing?.status || 'work',
+        isSwap: existing?.isSwap,
+        originalPointId: existing?.originalPointId,
+        note: existing?.note || '',
+        tags: existing?.tags,
+        intimate: existing?.intimate,
+        activities: existing?.activities,
+        noteSticker: existing?.noteSticker,
+        journalPage: updatedJournal,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
+
+      playStickerPop(settings.soundEnabled !== false);
+      triggerHaptic(10, settings.hapticsEnabled !== false);
+    },
+    [overrides, settings]
+  );
+
+  // Update decoration transform (x, y, scale, rotation)
+  const updateJournalDecorationTransform = useCallback(
+    async (
+      date: string,
+      decorId: string,
+      transform: { x?: number; y?: number; scale?: number; rotation?: number }
+    ) => {
+      const existing = overrides[date];
+      if (!existing || !existing.journalPage) return;
+
+      const updatedDecors = existing.journalPage.decorations.map((d) => {
+        if (d.id !== decorId) return d;
+        return {
+          ...d,
+          x: transform.x !== undefined ? transform.x : d.x,
+          y: transform.y !== undefined ? transform.y : d.y,
+          scale: transform.scale !== undefined ? transform.scale : d.scale,
+          rotation: transform.rotation !== undefined ? transform.rotation : d.rotation
+        };
+      });
+
+      const updatedJournal: JournalPageData = {
+        ...existing.journalPage,
+        decorations: updatedDecors,
+        updatedAt: new Date().toISOString()
+      };
+
+      const updated: DayOverride = {
+        ...existing,
+        journalPage: updatedJournal,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
+    },
+    [overrides]
+  );
+
+  // Remove decoration from journal page
+  const removeJournalDecoration = useCallback(
+    async (date: string, decorId: string) => {
+      const existing = overrides[date];
+      if (!existing || !existing.journalPage) return;
+
+      const updatedDecors = existing.journalPage.decorations.filter((d) => d.id !== decorId);
+      const updatedJournal: JournalPageData = {
+        ...existing.journalPage,
+        decorations: updatedDecors,
+        updatedAt: new Date().toISOString()
+      };
+
+      const updated: DayOverride = {
+        ...existing,
+        journalPage: updatedJournal,
+        updatedAt: new Date().toISOString()
+      };
+
+      await saveOverride(updated);
+      if (typeof window !== 'undefined') {
+        setOverrides((prev) => ({ ...prev, [date]: updated }));
+      }
+      playStickerPop(settings.soundEnabled !== false);
+    },
+    [overrides, settings]
   );
 
   // Reset Day to default
@@ -731,6 +908,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     updateDayNote,
     updateDayLifeDetails,
     updateNoteStickerTransform,
+    updateJournalPage,
+    addJournalDecoration,
+    updateJournalDecorationTransform,
+    removeJournalDecoration,
     resetDayToDefault,
     addStickerToDate,
     updateStickerTransform,

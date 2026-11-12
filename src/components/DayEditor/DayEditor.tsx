@@ -27,6 +27,7 @@ import { StickerPicker } from '../StickerPicker/StickerPicker';
 import { LifeTrackerModal } from '../LifeTrackerModal/LifeTrackerModal';
 import { NoteStickerModal } from '../NoteStickerModal/NoteStickerModal';
 import { ScrapbookCellZoom } from '../ScrapbookCellZoom/ScrapbookCellZoom';
+import { JournalPageModal } from '../JournalPageModal/JournalPageModal';
 import { ACTIVITY_MAP, INTIMATE_PRESETS } from '../../data/lifeTrackerData';
 import { triggerHaptic, playBubbleTap } from '../../services/soundEffects';
 
@@ -57,6 +58,7 @@ export const DayEditor: React.FC = () => {
   const [isLifeTrackerOpen, setIsLifeTrackerOpen] = useState(false);
   const [isNoteStickerModalOpen, setIsNoteStickerModalOpen] = useState(false);
   const [isScrapbookZoomOpen, setIsScrapbookZoomOpen] = useState(false);
+  const [isJournalPageOpen, setIsJournalPageOpen] = useState(false);
 
   // Local state for note and tags
   const [noteText, setNoteText] = useState('');
@@ -403,6 +405,30 @@ export const DayEditor: React.FC = () => {
                 </div>
                 <button className="btn btn-outline btn-sm">
                   {dayInfo.noteSticker?.text ? 'Изменить' : 'Приклеить'}
+                </button>
+              </div>
+
+              {/* Scrapbook Journal Page Card ("Как страничку в ежедневнике") */}
+              <div
+                className="scrapbook-shortcut-card journal-page-card"
+                onClick={() => {
+                  playBubbleTap(settings.soundEnabled !== false);
+                  setIsJournalPageOpen(true);
+                }}
+              >
+                <div className="shortcut-card-left">
+                  <span className="shortcut-card-icon">📖</span>
+                  <div>
+                    <div className="shortcut-card-title">Страничка в ежедневнике</div>
+                    <div className="shortcut-card-subtitle">
+                      {dayInfo.journalPage?.content || dayInfo.note
+                        ? `Оформлено заметок: "${(dayInfo.journalPage?.content || dayInfo.note || '').slice(0, 26)}..."`
+                        : 'Оформить как страничку ежедневника (сухоцветы, рисунки, мысли)'}
+                    </div>
+                  </div>
+                </div>
+                <button className="btn btn-outline btn-sm">
+                  {dayInfo.journalPage?.content || dayInfo.note ? 'Открыть' : 'Оформить'}
                 </button>
               </div>
 
@@ -884,6 +910,14 @@ export const DayEditor: React.FC = () => {
             setIsScrapbookZoomOpen(false);
             setIsNoteStickerModalOpen(true);
           }}
+        />
+      )}
+
+      {/* Scrapbook Journal Page Modal ("Красивая страничка в ежедневнике") */}
+      {isJournalPageOpen && (
+        <JournalPageModal
+          date={selectedDate}
+          onClose={() => setIsJournalPageOpen(false)}
         />
       )}
     </>

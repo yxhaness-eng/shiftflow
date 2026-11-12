@@ -95,6 +95,15 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
             </span>
           )}
 
+          {dayInfo.journalPage?.content && (
+            <span
+              className="cell-note-mini-pin journal-pin"
+              title={`Страничка ежедневника: ${dayInfo.journalPage.title || dayInfo.journalPage.content}`}
+            >
+              📖
+            </span>
+          )}
+
           {noteSticker?.text && (
             <span
               className={`cell-note-mini-pin pin-${noteSticker.style}`}

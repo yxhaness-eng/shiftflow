@@ -57,6 +57,31 @@ export interface NoteStickerConfig {
   rotation?: number;      // degrees (-30 .. 30)
 }
 
+export type JournalPaperType =
+  | 'lined'
+  | 'grid'
+  | 'kraft'
+  | 'lavender'
+  | 'sage_herbal'
+  | 'vintage';
+
+export interface JournalPageDecoration {
+  id: string;
+  stickerId: string;
+  x: number;              // percentage -45 .. 45
+  y: number;              // percentage -45 .. 45
+  scale: number;          // 0.5 .. 1.8
+  rotation: number;       // degrees -45 .. 45
+}
+
+export interface JournalPageData {
+  paperType: JournalPaperType;
+  title?: string;
+  content: string;
+  decorations: JournalPageDecoration[];
+  updatedAt: string;
+}
+
 export interface DayOverride {
   date: string;            // YYYY-MM-DD
   pointId?: string;        // Actual point for this day (if work)
@@ -68,6 +93,7 @@ export interface DayOverride {
   intimate?: IntimateEntry;
   activities?: string[];   // Multi-select activity & mood IDs or custom strings
   noteSticker?: NoteStickerConfig;
+  journalPage?: JournalPageData;
   updatedAt: string;
 }
 
@@ -148,5 +174,6 @@ export interface ResolvedDayInfo {
   intimate?: IntimateEntry;
   activities?: string[];
   noteSticker?: NoteStickerConfig;
+  journalPage?: JournalPageData;
 }
 
