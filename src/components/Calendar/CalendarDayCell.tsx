@@ -113,9 +113,13 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
 
       {/* Center Area: Mini Note Sticker, Activity Badges & Placed Stickers */}
       <div className="cell-stickers-container">
-        {/* Authentic Mini Paper Sticker with Paper Clip / Washi Tape (Photo 4) - no raw text preview */}
+        {/* Authentic Mini Paper Sticker with Paper Clip / Washi Tape (Photo 4) */}
         {hasNote && (() => {
-          const notePos = dayInfo.markerPositions?.['note'] || (noteSticker?.x !== undefined ? { x: noteSticker.x, y: noteSticker.y || 0 } : null);
+          const hasAnyCustomPos = Boolean(
+            dayInfo.markerPositions?.['note'] ||
+            activities?.some((actId) => Boolean(dayInfo.markerPositions?.[actId]))
+          );
+          const notePos = dayInfo.markerPositions?.['note'] || (noteSticker?.x !== undefined ? { x: noteSticker.x, y: noteSticker.y || 0 } : (hasAnyCustomPos ? { x: -20, y: -8 } : null));
           const rawScale = dayInfo.markerPositions?.['note']?.scale ?? 1.0;
           const noteScale = Math.min(1.2, Math.max(0.45, rawScale));
           const customStyle = notePos
@@ -134,7 +138,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
 
           return (
             <div
-              className={`cell-mini-note-card style-${noteStyle}`}
+              className={`cell-mini-note-card style-${noteStyle} ${activities && activities.length > 0 && !notePos ? 'with-activities' : ''}`}
               style={customStyle}
               title={noteTooltip}
               data-testid="cell-mini-note-sticker"
@@ -199,16 +203,32 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
           );
         })()}
 
-        {/* Activity Badges: custom positioned or in flow row */}
+        {/* Activity Badges: custom positioned or in non-overlapping flow row */}
         {activities && activities.length > 0 && (() => {
-          const hasAnyCustomPos = activities.some((actId) => Boolean(dayInfo.markerPositions?.[actId]));
+          const hasAnyCustomPos = Boolean(
+            dayInfo.markerPositions?.['note'] ||
+            activities.some((actId) => Boolean(dayInfo.markerPositions?.[actId]))
+          );
 
           if (hasAnyCustomPos) {
             return (
               <>
                 {activities.map((actId, idx) => {
                   const act = ACTIVITY_MAP[actId];
-                  const pos = dayInfo.markerPositions?.[actId] || { x: (idx - 1) * 22, y: 16 };
+                  // Non-overlapping fallback coordinates in quadrants
+                  const defaultPos: { x: number; y: number; scale?: number } = hasNote
+                    ? [
+                        { x: 20, y: -8, scale: 1.0 },
+                        { x: 20, y: 14, scale: 1.0 },
+                        { x: -20, y: 14, scale: 1.0 }
+                      ][idx % 3]
+                    : [
+                        { x: -20, y: 0, scale: 1.0 },
+                        { x: 0, y: 0, scale: 1.0 },
+                        { x: 20, y: 0, scale: 1.0 }
+                      ][idx % 3];
+
+                  const pos = dayInfo.markerPositions?.[actId] || defaultPos;
                   const scale = Math.min(1.25, Math.max(0.4, pos.scale ?? 1.0));
                   return (
                     <div
@@ -235,9 +255,14 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
             );
           }
 
+          // Flow layout: if note is present, show max 2 compact badges so they never crowd or clump
+          const maxVisible = hasNote ? 2 : 3;
+          const visibleActivities = activities.slice(0, maxVisible);
+          const hiddenCount = activities.length - maxVisible;
+
           return (
-            <div className="cell-activities-row">
-              {activities.slice(0, 3).map((actId) => {
+            <div className={`cell-activities-row ${hasNote ? 'compact' : ''}`}>
+              {visibleActivities.map((actId) => {
                 const act = ACTIVITY_MAP[actId];
                 return (
                   <div key={actId} className="cell-activity-mini-icon" title={act?.label || actId}>
@@ -249,19 +274,19 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
                   </div>
                 );
               })}
-              {activities.length > 3 && (
-                <span className="cell-more-activities">+{activities.length - 3}</span>
+              {hiddenCount > 0 && (
+                <span className="cell-more-activities">+{hiddenCount}</span>
               )}
             </div>
           );
         })()}
 
-        {/* Placed Stickers Preview */}
-        {stickers.slice(0, 2).map((stk) => (
+        {/* Placed Stickers Preview: clean max 1-2 bounded preview */}
+        {stickers.slice(0, 1).map((stk) => (
           <StickerElement key={stk.id} sticker={stk} />
         ))}
-        {stickers.length > 2 && (
-          <span className="more-stickers-badge">+{stickers.length - 2}</span>
+        {stickers.length > 1 && (
+          <span className="more-stickers-badge">+{stickers.length - 1}</span>
         )}
       </div>
 

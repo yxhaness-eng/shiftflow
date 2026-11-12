@@ -85,15 +85,23 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
       return markerPositions[markerId];
     }
     if (markerId === 'note') {
-      return { x: dayInfo.noteSticker?.x ?? 0, y: dayInfo.noteSticker?.y ?? -8 };
+      return { x: dayInfo.noteSticker?.x ?? (activities.length > 0 ? -20 : 0), y: dayInfo.noteSticker?.y ?? -8 };
     }
-    // Default staggered layout for activity badges if user hasn't moved them yet
+    // Default non-overlapping quadrant layout for activity badges if user hasn't moved them yet
+    if (hasNote) {
+      const presets = [
+        { x: 20, y: -8 },
+        { x: 20, y: 16 },
+        { x: -20, y: 16 }
+      ];
+      return presets[defaultIdx % presets.length];
+    }
     const cols = Math.min(3, Math.max(1, activities.length));
     const colIdx = defaultIdx % cols;
     const rowIdx = Math.floor(defaultIdx / cols);
-    const spacingX = cols > 1 ? 55 / (cols - 1) : 0;
-    const defX = cols > 1 ? -28 + colIdx * spacingX : 0;
-    const defY = 16 + rowIdx * 24;
+    const spacingX = cols > 1 ? 50 / (cols - 1) : 0;
+    const defX = cols > 1 ? -25 + colIdx * spacingX : 0;
+    const defY = 12 + rowIdx * 22;
     return { x: Math.round(defX), y: Math.round(defY) };
   };
 

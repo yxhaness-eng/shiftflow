@@ -12,18 +12,17 @@ fs.mkdirSync(notesOutDir, { recursive: true });
 fs.mkdirSync(lifeOutDir, { recursive: true });
 
 /**
- * Robust Die-Cut Sticker Extractor:
+ * Robust Die-Cut Sticker Extractor with Contour-Clean Edge Isolation:
  * 1. Takes image source and bounding box crop.
- * 2. Identifies background color and finds the main object via connected components.
- * 3. Erases stray corner fragments from neighboring stickers on the sheet.
- * 4. Flood-fills from all 4 boundaries into background pixels.
+ * 2. Flood-fills from 4 borders with adaptive background detection (lum >= 208 && diff <= 32).
+ * 3. Identifies main object component and strips stray neighboring sticker debris.
+ * 4. Applies 2-pass edge de-fringing (removes off-white compression noise artifacts).
  * 5. Applies 1px soft edge antialiasing.
  * 6. Tightly trims to visible silhouette with small transparent padding.
  * 7. Encodes as crisp WebP with alpha channel.
  */
 async function extractDieCutSticker(imgSource, crop, options = {}) {
   const {
-    isBgColor = (r, g, b) => (r >= 238 && g >= 238 && b >= 238),
     padding = 4,
     minComponentRatio = 0.4
   } = options;
@@ -34,18 +33,72 @@ async function extractDieCutSticker(imgSource, crop, options = {}) {
   const ch = raw.info.channels;
   const src = raw.data;
 
-  // 1. Identify non-background pixels
-  const isObj = new Uint8Array(w * h);
-  for (let i = 0; i < w * h; i++) {
-    const r = src[i * ch];
-    const g = src[i * ch + 1];
-    const b = src[i * ch + 2];
-    if (!isBgColor(r, g, b)) {
-      isObj[i] = 1;
+  // Background criteria: near white / cream
+  function isBgPixel(r, g, b) {
+    if (options.isBgColor) {
+      return options.isBgColor(r, g, b);
+    }
+    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+    const diff = Math.max(r, g, b) - Math.min(r, g, b);
+    return (lum >= 208 && diff <= 32) || (r >= 238 && g >= 238 && b >= 238);
+  }
+
+  // 1. Flood-fill from 4 borders into background
+  const isBg = new Uint8Array(w * h);
+  const q = new Int32Array(w * h);
+  let qHead = 0, qTail = 0;
+
+  for (let x = 0; x < w; x++) {
+    const t = x, b = (h - 1) * w + x;
+    if (isBgPixel(src[t * ch], src[t * ch + 1], src[t * ch + 2])) {
+      isBg[t] = 1;
+      q[qTail++] = t;
+    }
+    if (!isBg[b] && isBgPixel(src[b * ch], src[b * ch + 1], src[b * ch + 2])) {
+      isBg[b] = 1;
+      q[qTail++] = b;
+    }
+  }
+  for (let y = 0; y < h; y++) {
+    const l = y * w, r = y * w + (w - 1);
+    if (!isBg[l] && isBgPixel(src[l * ch], src[l * ch + 1], src[l * ch + 2])) {
+      isBg[l] = 1;
+      q[qTail++] = l;
+    }
+    if (!isBg[r] && isBgPixel(src[r * ch], src[r * ch + 1], src[r * ch + 2])) {
+      isBg[r] = 1;
+      q[qTail++] = r;
     }
   }
 
-  // 2. Find connected components of object pixels
+  while (qHead < qTail) {
+    const curr = q[qHead++];
+    const cx = curr % w;
+    const cy = (curr / w) | 0;
+
+    const neighbors = [
+      cx > 0 ? curr - 1 : -1,
+      cx < w - 1 ? curr + 1 : -1,
+      cy > 0 ? curr - w : -1,
+      cy < h - 1 ? curr + w : -1
+    ];
+    for (const n of neighbors) {
+      if (n !== -1 && !isBg[n]) {
+        const r = src[n * ch], g = src[n * ch + 1], b = src[n * ch + 2];
+        if (isBgPixel(r, g, b)) {
+          isBg[n] = 1;
+          q[qTail++] = n;
+        }
+      }
+    }
+  }
+
+  // 2. Identify object components (non-bg) and keep main component
+  const isObj = new Uint8Array(w * h);
+  for (let i = 0; i < w * h; i++) {
+    if (!isBg[i]) isObj[i] = 1;
+  }
+
   const labels = new Int32Array(w * h);
   let compId = 0;
   const compSizes = {};
@@ -55,11 +108,11 @@ async function extractDieCutSticker(imgSource, crop, options = {}) {
       if (isObj[idx] && labels[idx] === 0) {
         compId++;
         let size = 0;
-        const q = [idx];
+        const compQ = [idx];
         labels[idx] = compId;
         let head = 0;
-        while (head < q.length) {
-          const curr = q[head++];
+        while (head < compQ.length) {
+          const curr = compQ[head++];
           size++;
           const cx = curr % w;
           const cy = (curr / w) | 0;
@@ -72,7 +125,7 @@ async function extractDieCutSticker(imgSource, crop, options = {}) {
           for (const n of neighbors) {
             if (n !== -1 && isObj[n] && labels[n] === 0) {
               labels[n] = compId;
-              q.push(n);
+              compQ.push(n);
             }
           }
         }
@@ -81,7 +134,6 @@ async function extractDieCutSticker(imgSource, crop, options = {}) {
     }
   }
 
-  // Find the largest component (the main object)
   let maxComp = 0, maxSize = 0;
   for (const [id, size] of Object.entries(compSizes)) {
     if (size > maxSize) {
@@ -90,14 +142,11 @@ async function extractDieCutSticker(imgSource, crop, options = {}) {
     }
   }
 
-  // Keep the main component AND any significant internal components near the center
-  // Discard any small components that touch the outer boundary (stray neighboring sticker fragments)
   const allowedComponents = new Set([maxComp]);
   for (const [id, size] of Object.entries(compSizes)) {
     const numId = Number(id);
     if (numId === maxComp) continue;
 
-    // Check if this component touches the 4 boundaries of the crop
     let touchesBorder = false;
     for (let x = 0; x < w; x++) {
       if (labels[x] === numId || labels[(h - 1) * w + x] === numId) {
@@ -114,63 +163,46 @@ async function extractDieCutSticker(imgSource, crop, options = {}) {
       }
     }
 
-    // If it doesn't touch the border and is of reasonable size, it's an internal part of the object
     if (!touchesBorder && size >= 10) {
       allowedComponents.add(numId);
     }
   }
 
-  // Filter isObj
-  for (let i = 0; i < w * h; i++) {
-    if (!allowedComponents.has(labels[i])) {
-      isObj[i] = 0;
-    }
-  }
-
-  // 3. Flood-fill from borders into background
-  const isBg = new Uint8Array(w * h);
-  const q = [];
-  for (let x = 0; x < w; x++) {
-    if (!isObj[x]) { isBg[x] = 1; q.push(x); }
-    const b = (h - 1) * w + x;
-    if (!isObj[b] && !isBg[b]) { isBg[b] = 1; q.push(b); }
-  }
-  for (let y = 0; y < h; y++) {
-    const l = y * w;
-    if (!isObj[l] && !isBg[l]) { isBg[l] = 1; q.push(l); }
-    const r = y * w + (w - 1);
-    if (!isObj[r] && !isBg[r]) { isBg[r] = 1; q.push(r); }
-  }
-
-  let head = 0;
-  while (head < q.length) {
-    const curr = q[head++];
-    const cx = curr % w;
-    const cy = (curr / w) | 0;
-    const neighbors = [
-      cx > 0 ? curr - 1 : -1,
-      cx < w - 1 ? curr + 1 : -1,
-      cy > 0 ? curr - w : -1,
-      cy < h - 1 ? curr + w : -1
-    ];
-    for (const n of neighbors) {
-      if (n !== -1 && !isObj[n] && !isBg[n]) {
-        isBg[n] = 1;
-        q.push(n);
-      }
-    }
-  }
-
-  // 4. Construct RGBA buffer
+  // 3. Construct RGBA buffer
   const out = Buffer.alloc(w * h * 4);
   for (let i = 0; i < w * h; i++) {
     out[i * 4] = src[i * ch];
     out[i * 4 + 1] = src[i * ch + 1];
     out[i * 4 + 2] = src[i * ch + 2];
-    out[i * 4 + 3] = isBg[i] ? 0 : 255;
+    out[i * 4 + 3] = allowedComponents.has(labels[i]) ? 255 : 0;
   }
 
-  // 5. Feather boundary pixels touching transparent background
+  // 4. Edge de-fringing (2 passes): remove off-white compression noise touching transparency
+  for (let pass = 0; pass < 2; pass++) {
+    for (let y = 1; y < h - 1; y++) {
+      for (let x = 1; x < w - 1; x++) {
+        const idx = y * w + x;
+        if (out[idx * 4 + 3] > 0) {
+          const touchesZero = (
+            out[(idx - 1) * 4 + 3] === 0 ||
+            out[(idx + 1) * 4 + 3] === 0 ||
+            out[(idx - w) * 4 + 3] === 0 ||
+            out[(idx + w) * 4 + 3] === 0
+          );
+          if (touchesZero) {
+            const r = out[idx * 4], g = out[idx * 4 + 1], b = out[idx * 4 + 2];
+            const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+            const diff = Math.max(r, g, b) - Math.min(r, g, b);
+            if (lum >= 195 && diff <= 30) {
+              out[idx * 4 + 3] = 0; // Strip fringe pixel
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 5. Feather outer boundary pixels touching transparent background for smooth antialiasing
   for (let y = 1; y < h - 1; y++) {
     for (let x = 1; x < w - 1; x++) {
       const idx = y * w + x;
@@ -185,9 +217,10 @@ async function extractDieCutSticker(imgSource, crop, options = {}) {
           const r = out[idx * 4];
           const g = out[idx * 4 + 1];
           const b = out[idx * 4 + 2];
-          if (r > 220 && g > 220 && b > 220) {
+          const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+          if (lum > 220) {
             out[idx * 4 + 3] = 120;
-          } else if (r > 200 && g > 200 && b > 200) {
+          } else if (lum > 180) {
             out[idx * 4 + 3] = 200;
           }
         }
@@ -211,7 +244,6 @@ async function extractDieCutSticker(imgSource, crop, options = {}) {
   }
 
   if (count < 20) {
-    // Fallback: return full
     return sharp(out, { raw: { width: w, height: h, channels: 4 } })
       .webp({ quality: 95, lossless: true })
       .toBuffer();
@@ -502,15 +534,8 @@ async function rebuildAll() {
     console.log(`  ✓ Saved note template ${n.id}.webp`);
   }
 
-  // 7. LIFE STICKERS (16 items)
-  console.log('\n7. Life Stickers (16 items)...');
-  const lifeFiles = fs.readdirSync(lifeOutDir).filter(f => f.endsWith('.webp'));
-  for (const file of lifeFiles) {
-    const filePath = path.join(lifeOutDir, file);
-    const cutout = await processLifeSticker(filePath);
-    fs.writeFileSync(filePath, cutout);
-    console.log(`  ✓ Saved life sticker ${file}`);
-  }
+  // 7. Life badges are master circle badges managed by extract_all_17_badges.cjs
+  console.log('\n7. Life badges: master circular assets kept intact.');
 
   console.log('\n=== COMPLETE DIE-CUT STICKER REBUILD FINISHED ===');
 }
