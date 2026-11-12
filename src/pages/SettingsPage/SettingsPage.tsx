@@ -373,7 +373,7 @@ export const SettingsPage: React.FC = () => {
               onClick={() => playStickerPop(true)}
               title="Воспроизвести нежный хлопок наклеивания"
             >
-              🐱 Хлопок стикера
+              🌸 Хлопок стикера
             </button>
             <button
               className="btn btn-outline btn-sm"

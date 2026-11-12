@@ -509,7 +509,7 @@ export const DayEditor: React.FC = () => {
                     style={{ marginTop: '8px' }}
                     onClick={() => setIsStickerPickerOpen(true)}
                   >
-                    Выбрать милого котика
+                    Выбрать стикер для окошка
                   </button>
                 </div>
               ) : (

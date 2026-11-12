@@ -31,7 +31,7 @@ describe('ScrapbookCellZoom component', () => {
     expect(screen.getByText(/15 ноября 2026/i)).toBeDefined();
     expect(screen.getByText('Отметки дня')).toBeDefined();
     expect(screen.getByText('Стикер-заметка')).toBeDefined();
-    expect(screen.getByText('Добавить котика')).toBeDefined();
+    expect(screen.getByText('Добавить наклейку')).toBeDefined();
     expect(screen.getByText(/Перетаскивайте стикеры и заметку/i)).toBeDefined();
     expect(screen.getByText('Готово')).toBeDefined();
   });

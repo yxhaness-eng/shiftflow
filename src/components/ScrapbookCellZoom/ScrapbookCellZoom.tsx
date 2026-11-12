@@ -193,7 +193,7 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
             }}
           >
             <Plus size={14} />
-            <span>Добавить котика</span>
+            <span>Добавить наклейку</span>
           </button>
         </div>
 
