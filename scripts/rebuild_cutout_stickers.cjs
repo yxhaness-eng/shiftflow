@@ -12,125 +12,165 @@ fs.mkdirSync(notesOutDir, { recursive: true });
 fs.mkdirSync(lifeOutDir, { recursive: true });
 
 /**
- * Cutout function:
- * Takes an image buffer or file, flood-fills from all perimeter pixels to find background,
- * sets background pixels to alpha = 0, feathers edges smoothly,
- * trims transparent borders with padding, and writes as WebP.
+ * Robust Die-Cut Sticker Extractor:
+ * 1. Takes image source and bounding box crop.
+ * 2. Identifies background color and finds the main object via connected components.
+ * 3. Erases stray corner fragments from neighboring stickers on the sheet.
+ * 4. Flood-fills from all 4 boundaries into background pixels.
+ * 5. Applies 1px soft edge antialiasing.
+ * 6. Tightly trims to visible silhouette with small transparent padding.
+ * 7. Encodes as crisp WebP with alpha channel.
  */
-async function cutoutObject(imageBuffer, options = {}) {
+async function extractDieCutSticker(imgSource, crop, options = {}) {
   const {
-    isBgFn,
+    isBgColor = (r, g, b) => (r >= 238 && g >= 238 && b >= 238),
     padding = 4,
-    feather = 1,
-    minArea = 100
+    minComponentRatio = 0.4
   } = options;
 
-  const image = sharp(imageBuffer);
-  const { data, info } = await image.raw().toBuffer({ resolveWithObject: true });
-  const w = info.width;
-  const h = info.height;
-  const ch = info.channels;
+  const raw = await sharp(imgSource).extract(crop).raw().toBuffer({ resolveWithObject: true });
+  const w = raw.info.width;
+  const h = raw.info.height;
+  const ch = raw.info.channels;
+  const src = raw.data;
 
-  // Build RGBA buffer
-  const out = Buffer.alloc(w * h * 4);
+  // 1. Identify non-background pixels
+  const isObj = new Uint8Array(w * h);
   for (let i = 0; i < w * h; i++) {
-    out[i * 4] = data[i * ch];
-    out[i * 4 + 1] = data[i * ch + 1];
-    out[i * 4 + 2] = data[i * ch + 2];
-    out[i * 4 + 3] = ch === 4 ? data[i * 4 + 3] : 255;
+    const r = src[i * ch];
+    const g = src[i * ch + 1];
+    const b = src[i * ch + 2];
+    if (!isBgColor(r, g, b)) {
+      isObj[i] = 1;
+    }
   }
 
-  // Determine background function if not provided
-  let testBg = isBgFn;
-  if (!testBg) {
-    // Sample 4 corners and midpoints
-    const samplePts = [
-      [0, 0], [w - 1, 0], [0, h - 1], [w - 1, h - 1],
-      [Math.floor(w / 2), 0], [Math.floor(w / 2), h - 1],
-      [0, Math.floor(h / 2)], [w - 1, Math.floor(h / 2)]
-    ];
-    let bgR = 0, bgG = 0, bgB = 0, count = 0;
-    for (const [x, y] of samplePts) {
-      const idx = (y * w + x) * ch;
-      if (data[idx] > 210 && data[idx + 1] > 210 && data[idx + 2] > 210) {
-        bgR += data[idx];
-        bgG += data[idx + 1];
-        bgB += data[idx + 2];
-        count++;
+  // 2. Find connected components of object pixels
+  const labels = new Int32Array(w * h);
+  let compId = 0;
+  const compSizes = {};
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const idx = y * w + x;
+      if (isObj[idx] && labels[idx] === 0) {
+        compId++;
+        let size = 0;
+        const q = [idx];
+        labels[idx] = compId;
+        let head = 0;
+        while (head < q.length) {
+          const curr = q[head++];
+          size++;
+          const cx = curr % w;
+          const cy = (curr / w) | 0;
+          const neighbors = [
+            cx > 0 ? curr - 1 : -1,
+            cx < w - 1 ? curr + 1 : -1,
+            cy > 0 ? curr - w : -1,
+            cy < h - 1 ? curr + w : -1
+          ];
+          for (const n of neighbors) {
+            if (n !== -1 && isObj[n] && labels[n] === 0) {
+              labels[n] = compId;
+              q.push(n);
+            }
+          }
+        }
+        compSizes[compId] = size;
       }
     }
-    if (count === 0) {
-      bgR = 255; bgG = 255; bgB = 255;
-    } else {
-      bgR /= count; bgG /= count; bgB /= count;
-    }
-
-    testBg = (r, g, b, a) => {
-      if (a === 0) return true;
-      const dist = Math.sqrt((r - bgR)**2 + (g - bgG)**2 + (b - bgB)**2);
-      const isVeryLight = (r >= 240 && g >= 240 && b >= 240);
-      return dist < 28 || isVeryLight;
-    };
   }
 
-  // BFS Flood Fill from all 4 boundaries
-  const visited = new Uint8Array(w * h);
-  const queue = new Int32Array(w * h);
-  let qHead = 0, qTail = 0;
-
-  function checkAndEnqueue(x, y) {
-    const idx = y * w + x;
-    if (visited[idx]) return;
-    const r = out[idx * 4];
-    const g = out[idx * 4 + 1];
-    const b = out[idx * 4 + 2];
-    const a = out[idx * 4 + 3];
-    if (testBg(r, g, b, a)) {
-      visited[idx] = 1;
-      queue[qTail++] = idx;
+  // Find the largest component (the main object)
+  let maxComp = 0, maxSize = 0;
+  for (const [id, size] of Object.entries(compSizes)) {
+    if (size > maxSize) {
+      maxSize = size;
+      maxComp = Number(id);
     }
   }
 
+  // Keep the main component AND any significant internal components near the center
+  // Discard any small components that touch the outer boundary (stray neighboring sticker fragments)
+  const allowedComponents = new Set([maxComp]);
+  for (const [id, size] of Object.entries(compSizes)) {
+    const numId = Number(id);
+    if (numId === maxComp) continue;
+
+    // Check if this component touches the 4 boundaries of the crop
+    let touchesBorder = false;
+    for (let x = 0; x < w; x++) {
+      if (labels[x] === numId || labels[(h - 1) * w + x] === numId) {
+        touchesBorder = true;
+        break;
+      }
+    }
+    if (!touchesBorder) {
+      for (let y = 0; y < h; y++) {
+        if (labels[y * w] === numId || labels[y * w + (w - 1)] === numId) {
+          touchesBorder = true;
+          break;
+        }
+      }
+    }
+
+    // If it doesn't touch the border and is of reasonable size, it's an internal part of the object
+    if (!touchesBorder && size >= 10) {
+      allowedComponents.add(numId);
+    }
+  }
+
+  // Filter isObj
+  for (let i = 0; i < w * h; i++) {
+    if (!allowedComponents.has(labels[i])) {
+      isObj[i] = 0;
+    }
+  }
+
+  // 3. Flood-fill from borders into background
+  const isBg = new Uint8Array(w * h);
+  const q = [];
   for (let x = 0; x < w; x++) {
-    checkAndEnqueue(x, 0);
-    checkAndEnqueue(x, h - 1);
+    if (!isObj[x]) { isBg[x] = 1; q.push(x); }
+    const b = (h - 1) * w + x;
+    if (!isObj[b] && !isBg[b]) { isBg[b] = 1; q.push(b); }
   }
   for (let y = 0; y < h; y++) {
-    checkAndEnqueue(0, y);
-    checkAndEnqueue(w - 1, y);
+    const l = y * w;
+    if (!isObj[l] && !isBg[l]) { isBg[l] = 1; q.push(l); }
+    const r = y * w + (w - 1);
+    if (!isObj[r] && !isBg[r]) { isBg[r] = 1; q.push(r); }
   }
 
-  while (qHead < qTail) {
-    const curr = queue[qHead++];
+  let head = 0;
+  while (head < q.length) {
+    const curr = q[head++];
     const cx = curr % w;
     const cy = (curr / w) | 0;
-
-    out[curr * 4 + 3] = 0; // Transparent
-
     const neighbors = [
       cx > 0 ? curr - 1 : -1,
       cx < w - 1 ? curr + 1 : -1,
       cy > 0 ? curr - w : -1,
       cy < h - 1 ? curr + w : -1
     ];
-
     for (const n of neighbors) {
-      if (n !== -1 && !visited[n]) {
-        const nx = n % w;
-        const ny = (n / w) | 0;
-        const r = out[n * 4];
-        const g = out[n * 4 + 1];
-        const b = out[n * 4 + 2];
-        const a = out[n * 4 + 3];
-        if (testBg(r, g, b, a)) {
-          visited[n] = 1;
-          queue[qTail++] = n;
-        }
+      if (n !== -1 && !isObj[n] && !isBg[n]) {
+        isBg[n] = 1;
+        q.push(n);
       }
     }
   }
 
-  // Smooth edge antialiasing (feather)
+  // 4. Construct RGBA buffer
+  const out = Buffer.alloc(w * h * 4);
+  for (let i = 0; i < w * h; i++) {
+    out[i * 4] = src[i * ch];
+    out[i * 4 + 1] = src[i * ch + 1];
+    out[i * 4 + 2] = src[i * ch + 2];
+    out[i * 4 + 3] = isBg[i] ? 0 : 255;
+  }
+
+  // 5. Feather boundary pixels touching transparent background
   for (let y = 1; y < h - 1; y++) {
     for (let x = 1; x < w - 1; x++) {
       const idx = y * w + x;
@@ -145,10 +185,9 @@ async function cutoutObject(imageBuffer, options = {}) {
           const r = out[idx * 4];
           const g = out[idx * 4 + 1];
           const b = out[idx * 4 + 2];
-          // If close to white, make semi-transparent
-          if (r > 230 && g > 230 && b > 230) {
+          if (r > 220 && g > 220 && b > 220) {
             out[idx * 4 + 3] = 120;
-          } else if (r > 215 && g > 215 && b > 215) {
+          } else if (r > 200 && g > 200 && b > 200) {
             out[idx * 4 + 3] = 200;
           }
         }
@@ -156,13 +195,13 @@ async function cutoutObject(imageBuffer, options = {}) {
     }
   }
 
-  // Compute tight bounding box of visible pixels
-  let minX = w, maxX = 0, minY = h, maxY = 0, visibleCount = 0;
+  // 6. Tight bounding box of visible pixels
+  let minX = w, maxX = 0, minY = h, maxY = 0, count = 0;
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const a = out[(y * w + x) * 4 + 3];
-      if (a > 20) {
-        visibleCount++;
+      if (a > 30) {
+        count++;
         if (x < minX) minX = x;
         if (x > maxX) maxX = x;
         if (y < minY) minY = y;
@@ -171,14 +210,13 @@ async function cutoutObject(imageBuffer, options = {}) {
     }
   }
 
-  if (visibleCount < minArea) {
-    // Fallback if everything became transparent
+  if (count < 20) {
+    // Fallback: return full
     return sharp(out, { raw: { width: w, height: h, channels: 4 } })
-      .webp({ quality: 95 })
+      .webp({ quality: 95, lossless: true })
       .toBuffer();
   }
 
-  // Add padding
   minX = Math.max(0, minX - padding);
   maxX = Math.min(w - 1, maxX + padding);
   minY = Math.max(0, minY - padding);
@@ -187,7 +225,6 @@ async function cutoutObject(imageBuffer, options = {}) {
   const cropW = maxX - minX + 1;
   const cropH = maxY - minY + 1;
 
-  // Extract trimmed RGBA
   const trimmed = Buffer.alloc(cropW * cropH * 4);
   for (let y = 0; y < cropH; y++) {
     for (let x = 0; x < cropW; x++) {
@@ -205,11 +242,131 @@ async function cutoutObject(imageBuffer, options = {}) {
     .toBuffer();
 }
 
-async function rebuildAll() {
-  console.log('=== STARTING DIE-CUT STICKER PROCESSING ===');
+/**
+ * Process Life Stickers (16 items):
+ * Removes cream circle background, feathers edges, trims to object silhouette.
+ */
+async function processLifeSticker(imgPath) {
+  const fileBuffer = fs.readFileSync(imgPath);
+  const raw = await sharp(fileBuffer).raw().toBuffer({ resolveWithObject: true });
+  const w = raw.info.width, h = raw.info.height;
+  const data = raw.data;
+  const out = Buffer.from(data);
 
-  // 1. WATERCOLOR BOTANICALS (media_1794475770696_dcb7a4be.jpg - 735x951)
-  console.log('\n1. Processing Watercolor Botanicals (9 items)...');
+  // Background is cream: r>=210 && g>=195 && b>=175 && Math.abs(r-g)<=35 && r>=b
+  function isCreamBg(idx) {
+    const a = data[idx * 4 + 3];
+    if (a === 0) return true;
+    const r = data[idx * 4], g = data[idx * 4 + 1], b = data[idx * 4 + 2];
+    return (r >= 210 && g >= 195 && b >= 175 && Math.abs(r - g) <= 35 && r >= b);
+  }
+
+  const visited = new Uint8Array(w * h);
+  const queue = new Int32Array(w * h);
+  let qHead = 0, qTail = 0;
+
+  for (let x = 0; x < w; x++) {
+    if (isCreamBg(x)) { visited[x] = 1; queue[qTail++] = x; }
+    const b = (h - 1) * w + x;
+    if (isCreamBg(b) && !visited[b]) { visited[b] = 1; queue[qTail++] = b; }
+  }
+  for (let y = 0; y < h; y++) {
+    const l = y * w;
+    if (isCreamBg(l) && !visited[l]) { visited[l] = 1; queue[qTail++] = l; }
+    const r = y * w + (w - 1);
+    if (isCreamBg(r) && !visited[r]) { visited[r] = 1; queue[qTail++] = r; }
+  }
+
+  while (qHead < qTail) {
+    const curr = queue[qHead++];
+    const cx = curr % w;
+    const cy = (curr / w) | 0;
+    out[curr * 4 + 3] = 0; // Transparent
+
+    const neighbors = [
+      cx > 0 ? curr - 1 : -1,
+      cx < w - 1 ? curr + 1 : -1,
+      cy > 0 ? curr - w : -1,
+      cy < h - 1 ? curr + w : -1
+    ];
+    for (const n of neighbors) {
+      if (n !== -1 && !visited[n] && isCreamBg(n)) {
+        visited[n] = 1;
+        queue[qTail++] = n;
+      }
+    }
+  }
+
+  // Feather
+  for (let y = 1; y < h - 1; y++) {
+    for (let x = 1; x < w - 1; x++) {
+      const idx = y * w + x;
+      if (out[idx * 4 + 3] === 255) {
+        const touchesZero = (
+          out[(idx - 1) * 4 + 3] === 0 ||
+          out[(idx + 1) * 4 + 3] === 0 ||
+          out[(idx - w) * 4 + 3] === 0 ||
+          out[(idx + w) * 4 + 3] === 0
+        );
+        if (touchesZero) {
+          const r = out[idx * 4];
+          const g = out[idx * 4 + 1];
+          const b = out[idx * 4 + 2];
+          if (r > 200 && g > 190 && b > 170) {
+            out[idx * 4 + 3] = 140;
+          }
+        }
+      }
+    }
+  }
+
+  // Trim to visible content
+  let minX = w, maxX = 0, minY = h, maxY = 0, count = 0;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (out[(y * w + x) * 4 + 3] > 30) {
+        count++;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  if (count < 20) {
+    return sharp(out, { raw: { width: w, height: h, channels: 4 } }).webp({ quality: 95, lossless: true }).toBuffer();
+  }
+
+  const pad = 4;
+  minX = Math.max(0, minX - pad);
+  maxX = Math.min(w - 1, maxX + pad);
+  minY = Math.max(0, minY - pad);
+  maxY = Math.min(h - 1, maxY + pad);
+
+  const cropW = maxX - minX + 1;
+  const cropH = maxY - minY + 1;
+
+  const trimmed = Buffer.alloc(cropW * cropH * 4);
+  for (let y = 0; y < cropH; y++) {
+    for (let x = 0; x < cropW; x++) {
+      const srcIdx = ((minY + y) * w + (minX + x)) * 4;
+      const dstIdx = (y * cropW + x) * 4;
+      trimmed[dstIdx] = out[srcIdx];
+      trimmed[dstIdx + 1] = out[srcIdx + 1];
+      trimmed[dstIdx + 2] = out[srcIdx + 2];
+      trimmed[dstIdx + 3] = out[srcIdx + 3];
+    }
+  }
+
+  return sharp(trimmed, { raw: { width: cropW, height: cropH, channels: 4 } }).webp({ quality: 95, lossless: true }).toBuffer();
+}
+
+async function rebuildAll() {
+  console.log('=== STARTING DIE-CUT REBUILD WITH COMPONENT ISOLATION ===');
+
+  // 1. WATERCOLOR BOTANICALS (media_1794475770696_dcb7a4be.jpg)
+  console.log('\n1. Watercolor Botanicals (9 items)...');
   const botImg = path.join(userUploadedDir, 'media_1794475770696_dcb7a4be.jpg');
   const botCols = 3, botRows = 3;
   const colW = Math.floor(735 / botCols);
@@ -228,24 +385,21 @@ async function rebuildAll() {
       const width = colW - 20;
       const height = rowH - 20;
 
-      const rawCrop = await sharp(botImg).extract({ left, top, width, height }).toBuffer();
-      const cutout = await cutoutObject(rawCrop, {
-        isBgFn: (cr, cg, cb, ca) => {
-          // Off-white paper background in this sheet is ~248, 248, 246
+      const cutout = await extractDieCutSticker(botImg, { left, top, width, height }, {
+        isBgColor: (cr, cg, cb) => {
           const dist = Math.sqrt((cr - 248)**2 + (cg - 248)**2 + (cb - 246)**2);
-          return dist < 24 || (cr >= 242 && cg >= 242 && cb >= 240);
+          return dist < 26 || (cr >= 240 && cg >= 240 && cb >= 238);
         },
-        padding: 6
+        padding: 5
       });
 
-      const outPath = path.join(journalOutDir, `${botNames[idx]}.webp`);
-      fs.writeFileSync(outPath, cutout);
+      fs.writeFileSync(path.join(journalOutDir, `${botNames[idx]}.webp`), cutout);
       console.log(`  ✓ Saved ${botNames[idx]}.webp`);
     }
   }
 
-  // 2. DRIED PRESSED FLOWERS (media_1794475770700_8215d379.jpg - 682x1024)
-  console.log('\n2. Processing Dried Pressed Flowers (9 items)...');
+  // 2. DRIED FLOWERS (media_1794475770700_8215d379.jpg)
+  console.log('\n2. Dried Pressed Flowers (9 items)...');
   const flowerImg = path.join(userUploadedDir, 'media_1794475770700_8215d379.jpg');
   const flowerCrops = [
     { id: 'flower_daisy_chamomile', left: 390, top: 10, width: 130, height: 130 },
@@ -260,22 +414,16 @@ async function rebuildAll() {
   ];
 
   for (const f of flowerCrops) {
-    const rawCrop = await sharp(flowerImg).extract({ left: f.left, top: f.top, width: f.width, height: f.height }).toBuffer();
-    const cutout = await cutoutObject(rawCrop, {
-      isBgFn: (cr, cg, cb, ca) => {
-        // Pure white background ~254, 254, 254
-        return (cr >= 242 && cg >= 242 && cb >= 242);
-      },
-      padding: 6
+    const cutout = await extractDieCutSticker(flowerImg, { left: f.left, top: f.top, width: f.width, height: f.height }, {
+      isBgColor: (cr, cg, cb) => (cr >= 240 && cg >= 240 && cb >= 240),
+      padding: 5
     });
-
-    const outPath = path.join(journalOutDir, `${f.id}.webp`);
-    fs.writeFileSync(outPath, cutout);
+    fs.writeFileSync(path.join(journalOutDir, `${f.id}.webp`), cutout);
     console.log(`  ✓ Saved ${f.id}.webp`);
   }
 
-  // 3. VINTAGE TRAVEL ELEMENTS (media_1794475770718_e6b06aa0.jpg - 576x1024)
-  console.log('\n3. Processing Vintage Elements (6 items)...');
+  // 3. VINTAGE ELEMENTS (media_1794475770718_e6b06aa0.jpg)
+  console.log('\n3. Vintage Elements (6 items)...');
   const vintageImg = path.join(userUploadedDir, 'media_1794475770718_e6b06aa0.jpg');
   const vintageCrops = [
     { id: 'vintage_postage_stamp', left: 430, top: 120, width: 115, height: 155 },
@@ -287,24 +435,19 @@ async function rebuildAll() {
   ];
 
   for (const v of vintageCrops) {
-    const rawCrop = await sharp(vintageImg).extract({ left: v.left, top: v.top, width: v.width, height: v.height }).toBuffer();
-    const cutout = await cutoutObject(rawCrop, {
-      isBgFn: (cr, cg, cb, ca) => {
-        return (cr >= 242 && cg >= 242 && cb >= 242);
-      },
-      padding: 6
+    const cutout = await extractDieCutSticker(vintageImg, { left: v.left, top: v.top, width: v.width, height: v.height }, {
+      isBgColor: (cr, cg, cb) => (cr >= 240 && cg >= 240 && cb >= 240),
+      padding: 5
     });
-
-    const outPath = path.join(journalOutDir, `${v.id}.webp`);
-    fs.writeFileSync(outPath, cutout);
+    fs.writeFileSync(path.join(journalOutDir, `${v.id}.webp`), cutout);
     console.log(`  ✓ Saved ${v.id}.webp`);
   }
 
-  // 4. COZY AUTUMN ELEMENTS (media_1794475770716_167e3fd8.jpg - 723x1024)
-  console.log('\n4. Processing Cozy Autumn Elements (5 items)...');
+  // 4. COZY AUTUMN (media_1794475770716_167e3fd8.jpg)
+  console.log('\n4. Cozy Autumn Elements (5 items)...');
   const autumnImg = path.join(userUploadedDir, 'media_1794475770716_167e3fd8.jpg');
   const autumnCrops = [
-    { id: 'cozy_teddy_bear', left: 600, top: 728, width: 122, height: 152 },
+    { id: 'cozy_teddy_bear', left: 595, top: 728, width: 128, height: 155 },
     { id: 'cozy_camera', left: 355, top: 905, width: 140, height: 105 },
     { id: 'cozy_books_stack', left: 505, top: 855, width: 185, height: 165 },
     { id: 'cozy_tea_bag', left: 260, top: 740, width: 140, height: 120 },
@@ -312,44 +455,34 @@ async function rebuildAll() {
   ];
 
   for (const a of autumnCrops) {
-    const rawCrop = await sharp(autumnImg).extract({ left: a.left, top: a.top, width: a.width, height: a.height }).toBuffer();
-    const cutout = await cutoutObject(rawCrop, {
-      isBgFn: (cr, cg, cb, ca) => {
-        return (cr >= 240 && cg >= 240 && cb >= 240);
-      },
-      padding: 6
+    const cutout = await extractDieCutSticker(autumnImg, { left: a.left, top: a.top, width: a.width, height: a.height }, {
+      isBgColor: (cr, cg, cb) => (cr >= 238 && cg >= 238 && cb >= 238),
+      padding: 5
     });
-
-    const outPath = path.join(journalOutDir, `${a.id}.webp`);
-    fs.writeFileSync(outPath, cutout);
+    fs.writeFileSync(path.join(journalOutDir, `${a.id}.webp`), cutout);
     console.log(`  ✓ Saved ${a.id}.webp`);
   }
 
-  // 5. WASHI TAPES (media_1794474783377_805e4c60.jpg - 682x1024)
-  console.log('\n5. Processing Washi Tapes (3 items)...');
+  // 5. WASHI TAPES (media_1794474783377_805e4c60.jpg)
+  console.log('\n5. Washi Tapes (3 items)...');
   const sheetImg = path.join(userUploadedDir, 'media_1794474783377_805e4c60.jpg');
   const washiCrops = [
-    { id: 'washi_stripes', left: 472, top: 660, width: 195, height: 42 },
-    { id: 'washi_polka', left: 472, top: 720, width: 195, height: 42 },
-    { id: 'washi_hearts', left: 472, top: 785, width: 195, height: 42 }
+    { id: 'washi_stripes', left: 472, top: 652, width: 195, height: 35 },
+    { id: 'washi_polka', left: 472, top: 701, width: 195, height: 36 },
+    { id: 'washi_hearts', left: 472, top: 746, width: 195, height: 36 }
   ];
 
   for (const w of washiCrops) {
-    const rawCrop = await sharp(sheetImg).extract({ left: w.left, top: w.top, width: w.width, height: w.height }).toBuffer();
-    const cutout = await cutoutObject(rawCrop, {
-      isBgFn: (cr, cg, cb, ca) => {
-        return (cr >= 242 && cg >= 242 && cb >= 242);
-      },
-      padding: 4
+    const cutout = await extractDieCutSticker(sheetImg, { left: w.left, top: w.top, width: w.width, height: w.height }, {
+      isBgColor: (cr, cg, cb) => (cr >= 240 && cg >= 240 && cb >= 240),
+      padding: 3
     });
-
-    const outPath = path.join(journalOutDir, `${w.id}.webp`);
-    fs.writeFileSync(outPath, cutout);
+    fs.writeFileSync(path.join(journalOutDir, `${w.id}.webp`), cutout);
     console.log(`  ✓ Saved ${w.id}.webp`);
   }
 
   // 6. SCRAPBOOK NOTE TEMPLATES (media_1794474783377_805e4c60.jpg)
-  console.log('\n6. Processing Scrapbook Note Templates (7 items)...');
+  console.log('\n6. Scrapbook Note Templates (7 items)...');
   const noteCrops = [
     { id: 'lined-tape', left: 14, top: 4, width: 162, height: 165 },
     { id: 'grid-clip', left: 178, top: 5, width: 166, height: 165 },
@@ -361,42 +494,28 @@ async function rebuildAll() {
   ];
 
   for (const n of noteCrops) {
-    const rawCrop = await sharp(sheetImg).extract({ left: n.left, top: n.top, width: n.width, height: n.height }).toBuffer();
-    const cutout = await cutoutObject(rawCrop, {
-      isBgFn: (cr, cg, cb, ca) => {
-        return (cr >= 242 && cg >= 242 && cb >= 242);
-      },
+    const cutout = await extractDieCutSticker(sheetImg, { left: n.left, top: n.top, width: n.width, height: n.height }, {
+      isBgColor: (cr, cg, cb) => (cr >= 240 && cg >= 240 && cb >= 240),
       padding: 4
     });
-
-    const outPath = path.join(notesOutDir, `${n.id}.webp`);
-    fs.writeFileSync(outPath, cutout);
+    fs.writeFileSync(path.join(notesOutDir, `${n.id}.webp`), cutout);
     console.log(`  ✓ Saved note template ${n.id}.webp`);
   }
 
   // 7. LIFE STICKERS (16 items)
-  console.log('\n7. Processing Life Stickers (16 items)...');
+  console.log('\n7. Life Stickers (16 items)...');
   const lifeFiles = fs.readdirSync(lifeOutDir).filter(f => f.endsWith('.webp'));
   for (const file of lifeFiles) {
     const filePath = path.join(lifeOutDir, file);
-    const rawData = fs.readFileSync(filePath);
-    const cutout = await cutoutObject(rawData, {
-      isBgFn: (cr, cg, cb, ca) => {
-        if (ca === 0) return true;
-        // Cream background disk: light cream/tan
-        return (cr >= 215 && cg >= 200 && cb >= 180 && Math.abs(cr - cg) <= 30 && cr >= cb);
-      },
-      padding: 4
-    });
-
+    const cutout = await processLifeSticker(filePath);
     fs.writeFileSync(filePath, cutout);
     console.log(`  ✓ Saved life sticker ${file}`);
   }
 
-  console.log('\n=== ALL DIE-CUT STICKERS SUCCESSFULLY PROCESSED WITH TRANSPARENCY! ===');
+  console.log('\n=== COMPLETE DIE-CUT STICKER REBUILD FINISHED ===');
 }
 
 rebuildAll().catch(err => {
-  console.error('Error rebuilding stickers:', err);
+  console.error('Fatal error:', err);
   process.exit(1);
 });

@@ -190,7 +190,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
               return (
                 <div key={actId} className="cell-activity-mini-icon" title={act?.label || actId}>
                   {act?.iconImage ? (
-                    <img src={`./${act.iconImage}`} alt={act?.label || actId} />
+                    <img src={`./${act.iconImage}?v=cutout2`} alt={act?.label || actId} />
                   ) : (
                     <span>{act?.emoji || '🏷️'}</span>
                   )}

@@ -7,10 +7,11 @@ import './styles/components.css';
 // PWA Service Worker registration (handled by vite-plugin-pwa)
 import { registerSW } from 'virtual:pwa-register';
 
-registerSW({
+const updateSW = registerSW({
   immediate: true,
   onNeedRefresh() {
-    console.log('Новая версия ShiftFlow доступна.');
+    console.log('Новая версия ShiftFlow доступна. Применение обновления...');
+    updateSW(true);
   },
   onOfflineReady() {
     console.log('ShiftFlow готов к работе офлайн.');

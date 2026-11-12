@@ -347,15 +347,15 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
     }
   };
 
-  // Resolve sticker image by ID
+  // Resolve sticker image by ID with cache busting
   const resolveStickerImage = (stickerId: string): string => {
+    let p = '';
     if (JOURNAL_DECOR_MAP[stickerId]) {
-      return JOURNAL_DECOR_MAP[stickerId].imagePath;
+      p = JOURNAL_DECOR_MAP[stickerId].imagePath;
+    } else if (STICKERS_MAP[stickerId]) {
+      p = STICKERS_MAP[stickerId].imagePath;
     }
-    if (STICKERS_MAP[stickerId]) {
-      return STICKERS_MAP[stickerId].imagePath;
-    }
-    return '';
+    return p ? `./${p}?v=cutout2` : '';
   };
 
   return (
@@ -529,7 +529,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
                   onPointerUp={handlePointerUp}
                   onPointerCancel={handlePointerUp}
                 >
-                  <img src={`./${imgSrc}`} alt="Декор" draggable={false} />
+                  <img src={imgSrc} alt="Декор" draggable={false} />
                 </div>
               );
             })}
@@ -595,7 +595,7 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
                   onClick={() => handleAddDecor(item.id)}
                   title={`Приклеить: ${item.name}`}
                 >
-                  <img src={`./${item.imagePath}`} alt={item.name} />
+                  <img src={`./${item.imagePath}?v=cutout2`} alt={item.name} />
                   <span className="tray-item-name">{item.name}</span>
                 </button>
               ))}

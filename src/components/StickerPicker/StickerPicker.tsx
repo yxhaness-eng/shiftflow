@@ -183,7 +183,7 @@ export const StickerPicker: React.FC<StickerPickerProps> = ({
                   <Heart size={11} fill={isFav ? 'currentColor' : 'none'} />
                 </button>
                 <img
-                  src={`./${item.imagePath}`}
+                  src={`./${item.imagePath}?v=cutout2`}
                   alt={item.name}
                   loading="lazy"
                   style={{ width: '100%', height: '64px', objectFit: 'contain' }}

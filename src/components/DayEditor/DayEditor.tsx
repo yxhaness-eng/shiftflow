@@ -500,7 +500,7 @@ export const DayEditor: React.FC = () => {
                           onClick={() => setSelectedStickerIdToEdit(stk.id)}
                         >
                           <img
-                            src={`./${item?.imagePath || ''}`}
+                            src={item?.imagePath ? `./${item.imagePath}?v=cutout2` : ''}
                             alt={item?.name || 'Стикер'}
                             style={{ width: '42px', height: '42px', objectFit: 'contain' }}
                           />
@@ -572,7 +572,7 @@ export const DayEditor: React.FC = () => {
                                 title={`${item.name} (нажмите для выбора или перетаскивайте)`}
                               >
                                 <img
-                                  src={`./${item.imagePath}`}
+                                  src={`./${item.imagePath}?v=cutout2`}
                                   alt={item.name}
                                   draggable={false}
                                   className="preview-sticker-img"

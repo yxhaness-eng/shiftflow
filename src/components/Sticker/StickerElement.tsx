@@ -17,7 +17,7 @@ export const StickerElement: React.FC<StickerElementProps> = ({
   if (!item) return null;
 
   // Resolve base asset path (works cleanly with relative paths for GitHub/Cloudflare Pages)
-  const imageSrc = `./${item.imagePath}`;
+  const imageSrc = `./${item.imagePath}?v=cutout2`;
 
   const style: React.CSSProperties = {
     transform: `translate(${sticker.x}%, ${sticker.y}%) rotate(${sticker.rotation}deg) scale(${sticker.scale})`,

@@ -152,7 +152,7 @@ export const StickersPage: React.FC = () => {
               </button>
               <div className="sticker-img-container">
                 <img
-                  src={`./${item.imagePath}`}
+                  src={`./${item.imagePath}?v=cutout2`}
                   alt={item.name}
                   loading="lazy"
                   className="sticker-showcase-img"
@@ -203,7 +203,7 @@ export const StickersPage: React.FC = () => {
             <div className="modal-body" style={{ alignItems: 'center', textAlign: 'center', gap: '16px' }}>
               <div className="sticker-modal-preview">
                 <img
-                  src={`./${selectedSticker.imagePath}`}
+                  src={`./${selectedSticker.imagePath}?v=cutout2`}
                   alt={selectedSticker.name}
                   style={{ width: '140px', height: '140px', objectFit: 'contain' }}
                 />

@@ -284,10 +284,14 @@
   display: inline-block;
   user-select: none;
   transition: transform 0.15s ease;
+  background: transparent !important;
+  border: none !important;
 }
 
 .sticker-image {
   display: block;
+  background: transparent !important;
+  border: none !important;
 }
 
 /* Day Editor Sheet */
@@ -3413,6 +3417,8 @@ input:checked + .slider-round:before {
   touch-action: none;
   z-index: 10;
   pointer-events: auto;
+  background: transparent !important;
+  border: none !important;
 }
 
 .journal-page-placed-decor:active {
@@ -3430,7 +3436,14 @@ input:checked + .slider-round:before {
   max-height: 100%;
   object-fit: contain;
   pointer-events: none;
+  background: transparent !important;
+  border: none !important;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
+}
+
+/* Placed on notebook paper sheet: natural botanical pressed look */
+.journal-scrapbook-sheet .journal-page-placed-decor img {
+  mix-blend-mode: multiply;
 }
 
 /* Decor Controls Toolbar */

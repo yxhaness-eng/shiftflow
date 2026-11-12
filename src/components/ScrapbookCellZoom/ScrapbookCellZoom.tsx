@@ -297,7 +297,7 @@ export const ScrapbookCellZoom: React.FC<ScrapbookCellZoomProps> = ({
                 onPointerDown={(e) => handlePointerDown(e, 'sticker', stk.id, stk.x, stk.y)}
               >
                 <img
-                  src={`./${item?.imagePath || ''}`}
+                  src={item?.imagePath ? `./${item.imagePath}?v=cutout2` : ''}
                   alt={item?.name || 'Стикер'}
                   draggable={false}
                 />
