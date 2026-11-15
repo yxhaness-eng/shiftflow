@@ -229,24 +229,25 @@
   justify-content: center;
   flex: 1;
   position: relative;
-  min-height: 26px;
-  max-height: 30px;
+  min-height: 18px;
+  max-height: 22px;
   overflow: hidden;
   pointer-events: none;
   width: 100%;
-  padding: 0 2px;
+  padding: 0 1px;
   box-sizing: border-box;
+  gap: 2px;
 }
 
 .cell-stickers-container .sticker-placed {
-  max-width: 22px !important;
-  max-height: 22px !important;
+  max-width: 14px !important;
+  max-height: 14px !important;
   pointer-events: none;
 }
 
 .cell-stickers-container .sticker-image {
-  max-width: 22px !important;
-  max-height: 22px !important;
+  max-width: 14px !important;
+  max-height: 14px !important;
   width: auto !important;
   height: auto !important;
   object-fit: contain !important;
@@ -256,32 +257,40 @@
 .cell-sticker-wrapper {
   position: relative;
   display: inline-block;
-  margin: -2px;
+  margin: -1px;
 }
 
 .cell-sticker-wrapper .sticker-image {
-  width: 20px;
-  height: 20px;
-  max-width: 22px;
-  max-height: 22px;
+  width: 14px;
+  height: 14px;
+  max-width: 14px;
+  max-height: 14px;
   object-fit: contain;
 }
 
 @media (min-width: 640px) {
   .cell-sticker-wrapper .sticker-image {
-    width: 24px;
-    height: 24px;
+    width: 15px;
+    height: 15px;
+    max-width: 15px;
+    max-height: 15px;
   }
 }
 
 .more-stickers-badge {
-  font-size: 0.65rem;
+  font-size: 0.52rem;
   font-weight: 700;
   background-color: rgba(98, 84, 75, 0.12);
   color: var(--text-primary);
   border-radius: var(--radius-round);
-  padding: 1px 4px;
+  padding: 0 3px;
   margin-left: 2px;
+  height: 11px;
+  line-height: 11px;
+  min-width: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
@@ -483,13 +492,15 @@
   }
 
   .cell-stickers-container {
-    min-height: 26px !important;
-    max-height: 30px !important;
+    min-height: 16px !important;
+    max-height: 20px !important;
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
     overflow: hidden !important;
     box-sizing: border-box !important;
+    gap: 2px !important;
+    padding: 0 1px !important;
   }
 
   .cell-activities-row {
@@ -497,34 +508,63 @@
     max-width: 100% !important;
     box-sizing: border-box !important;
     overflow: hidden !important;
+    gap: 2px !important;
+    margin: 0 !important;
+  }
+
+  .cell-activities-row .cell-activity-mini-icon {
+    width: 12px !important;
+    height: 12px !important;
+    min-width: 12px !important;
+    min-height: 12px !important;
+    max-width: 12px !important;
+    max-height: 12px !important;
+    font-size: 0.52rem !important;
   }
 
   .cell-activities-row.compact .cell-activity-mini-icon {
-    width: 14px !important;
-    height: 14px !important;
-    min-width: 0 !important;
-    max-width: 14px !important;
-    max-height: 14px !important;
+    width: 10px !important;
+    height: 10px !important;
+    min-width: 10px !important;
+    min-height: 10px !important;
+    max-width: 10px !important;
+    max-height: 10px !important;
+    font-size: 0.46rem !important;
   }
 
   .cell-mini-note-card {
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 0 !important;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
     flex-shrink: 0 !important;
+    padding: 1.5px !important;
+    margin: 0 auto !important;
   }
 
   .cell-mini-note-card.with-activities {
-    width: 18px !important;
-    height: 18px !important;
-    min-width: 0 !important;
+    width: 13px !important;
+    height: 13px !important;
+    min-width: 13px !important;
+    min-height: 13px !important;
     flex-shrink: 0 !important;
+    padding: 1px !important;
+    margin: 0 !important;
   }
 
   .cell-sticker-wrapper .sticker-image {
-    width: 22px !important;
-    height: 22px !important;
+    width: 13px !important;
+    height: 13px !important;
     max-width: 100% !important;
+  }
+
+  .cell-more-activities {
+    font-size: 0.48rem !important;
+    padding: 0 1.5px !important;
+    height: 11px !important;
+    line-height: 11px !important;
+    min-width: 11px !important;
+    border-radius: 3px !important;
   }
 
   .cell-footer {
@@ -2250,45 +2290,48 @@ input:checked + .slider-round:before {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  margin-top: 2px;
+  gap: 2px;
+  margin-top: 0;
+  flex-shrink: 0;
+  max-width: 100%;
 }
 
 .cell-activities-row.compact {
-  gap: 2px;
+  gap: 1.5px;
   margin-top: 0;
 }
 
 .cell-activities-row.compact .cell-activity-mini-icon {
-  width: 15px;
-  height: 15px;
-  min-width: 15px;
-  min-height: 15px;
-  max-width: 15px;
-  max-height: 15px;
+  width: 11px;
+  height: 11px;
+  min-width: 11px;
+  min-height: 11px;
+  max-width: 11px;
+  max-height: 11px;
+  font-size: 0.48rem;
 }
 
 .cell-activity-mini-icon {
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-  min-height: 18px;
-  max-width: 22px;
-  max-height: 22px;
+  width: 13px;
+  height: 13px;
+  min-width: 13px;
+  min-height: 13px;
+  max-width: 13px;
+  max-height: 13px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.72rem;
+  font-size: 0.55rem;
   flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.18);
 }
 
 .cell-activity-mini-icon.custom-placed {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
 }
 
 .cell-activity-mini-icon img {
@@ -2299,30 +2342,36 @@ input:checked + .slider-round:before {
 }
 
 .cell-more-activities {
-  font-size: 0.62rem;
+  font-size: 0.50rem;
   font-weight: 700;
   color: var(--text-muted);
   background: var(--bg-secondary);
-  border-radius: 8px;
-  padding: 0 3px;
-  line-height: 1.2;
+  border-radius: 4px;
+  padding: 0 2px;
+  line-height: 11px;
+  height: 11px;
+  min-width: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-/* Authentic Mini Paper Sticker Note Badge (approximately 24-28px) */
+/* Authentic Mini Paper Sticker Note Badge (approximately 16px) */
 .cell-mini-note-card {
   position: relative;
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
-  min-height: 24px;
-  padding: 2px;
-  margin: 2px auto;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.08);
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  padding: 1.5px;
+  margin: 0 auto;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18), 0 1px 1px rgba(0, 0, 0, 0.08);
   transform: rotate(var(--mini-note-rot, -1.8deg));
   transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.18s ease;
   pointer-events: auto;
@@ -2333,17 +2382,17 @@ input:checked + .slider-round:before {
 }
 
 .cell-mini-note-card.with-activities {
-  width: 19px !important;
-  height: 19px !important;
-  min-width: 19px !important;
-  min-height: 19px !important;
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  min-height: 13px !important;
   margin: 0 !important;
   padding: 1px !important;
 }
 
 .cell-mini-note-card:hover {
   transform: rotate(0deg) scale(1.15);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
   z-index: 6;
 }
 
@@ -2402,10 +2451,10 @@ input:checked + .slider-round:before {
 /* Paper Clip Decor */
 .mini-note-clip-decor {
   position: absolute;
-  top: -8px;
-  left: 2px;
-  width: 9px;
-  height: 18px;
+  top: -5px;
+  left: 1px;
+  width: 6px;
+  height: 12px;
   z-index: 4;
   pointer-events: none;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.28));
@@ -2421,32 +2470,32 @@ input:checked + .slider-round:before {
 .mini-note-washi {
   position: absolute;
   background: rgba(206, 148, 120, 0.9);
-  height: 5px;
+  height: 3px;
   border-radius: 1px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.16);
   z-index: 4;
   pointer-events: none;
 }
 
 .washi-top-left {
-  top: -3px;
+  top: -2px;
   left: -2px;
-  width: 12px;
+  width: 8px;
   transform: rotate(-15deg);
 }
 
 .washi-top-right {
-  top: -3px;
+  top: -2px;
   right: -2px;
-  width: 12px;
+  width: 8px;
   transform: rotate(15deg);
 }
 
 .washi-craft-strip {
-  top: -3px;
+  top: -2px;
   left: 50%;
   transform: translateX(-50%) rotate(-3deg);
-  width: 18px;
+  width: 12px;
   background: rgba(186, 138, 108, 0.92);
 }
 
@@ -2454,10 +2503,10 @@ input:checked + .slider-round:before {
 .cell-mini-note-card.style-cloud::before {
   content: '';
   position: absolute;
-  top: -3px;
-  left: 6px;
-  width: 8px;
-  height: 6px;
+  top: -2px;
+  left: 4px;
+  width: 6px;
+  height: 4px;
   background: inherit;
   border-radius: 50%;
 }
@@ -2474,8 +2523,8 @@ input:checked + .slider-round:before {
 }
 
 .mini-spiral-hole {
-  width: 2.5px;
-  height: 2.5px;
+  width: 1.8px;
+  height: 1.8px;
   background: #555;
   border-radius: 50%;
 }
@@ -2483,10 +2532,10 @@ input:checked + .slider-round:before {
 /* Ribbon decor */
 .mini-note-ribbon {
   position: absolute;
-  top: -7px;
+  top: -5px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.6rem;
+  font-size: 0.45rem;
   line-height: 1;
   pointer-events: none;
 }
@@ -2494,30 +2543,30 @@ input:checked + .slider-round:before {
 /* Tag hole */
 .mini-note-tag-hole {
   position: absolute;
-  top: 2px;
+  top: 1.5px;
   left: 50%;
   transform: translateX(-50%);
-  width: 3.5px;
-  height: 3.5px;
+  width: 2.5px;
+  height: 2.5px;
   border-radius: 50%;
   background: #FFF;
-  border: 1px solid #888;
+  border: 0.5px solid #888;
 }
 
 /* Realistic tactile ruled lines inside the mini paper sticker badge */
 .mini-note-ruled-lines {
-  width: 14px;
+  width: 10px;
   display: flex;
   flex-direction: column;
-  gap: 2.5px;
-  margin-top: 2px;
+  gap: 1.5px;
+  margin-top: 1px;
   pointer-events: none;
 }
 
 .mini-rule-line {
-  height: 1.5px;
+  height: 1px;
   background: rgba(120, 145, 120, 0.5);
-  border-radius: 1px;
+  border-radius: 0.5px;
   width: 100%;
 }
 

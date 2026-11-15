@@ -193,9 +193,10 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
           const maxVisible = hasNote ? 2 : 3;
           const visibleActivities = activities.slice(0, maxVisible);
           const hiddenCount = activities.length - maxVisible;
+          const isCompact = hasNote || hiddenCount > 0;
 
           return (
-            <div className={`cell-activities-row ${hasNote ? 'compact' : ''}`}>
+            <div className={`cell-activities-row ${isCompact ? 'compact' : ''}`}>
               {visibleActivities.map((actId) => {
                 const act = ACTIVITY_MAP[actId];
                 return (
