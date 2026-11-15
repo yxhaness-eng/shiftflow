@@ -118,147 +118,77 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
       {/* Center Area: Mini Note Sticker, Activity Badges & Placed Stickers */}
       <div className="cell-stickers-container">
         {/* Authentic Mini Paper Sticker with Paper Clip / Washi Tape (Photo 4) */}
-        {hasNote && (() => {
-          const hasAnyCustomPos = Boolean(
-            dayInfo.markerPositions?.['note'] ||
-            activities?.some((actId) => Boolean(dayInfo.markerPositions?.[actId]))
-          );
-          const notePos = dayInfo.markerPositions?.['note'] || (noteSticker?.x !== undefined ? { x: noteSticker.x, y: noteSticker.y || 0 } : (hasAnyCustomPos ? { x: -20, y: -8 } : null));
-          const rawScale = dayInfo.markerPositions?.['note']?.scale ?? 1.0;
-          const noteScale = Math.min(1.2, Math.max(0.45, rawScale));
-          const customStyle = notePos
-            ? ({
-                '--mini-note-rot': `${noteRotation}deg`,
-                position: 'absolute',
-                left: `calc(50% + ${notePos.x}%)`,
-                top: `calc(50% + ${notePos.y}%)`,
-                transform: `translate(-50%, -50%) rotate(${noteRotation}deg) scale(${noteScale})`,
-                zIndex: 4
-              } as React.CSSProperties)
-            : ({
-                '--mini-note-rot': `${noteRotation}deg`,
-                transform: `rotate(${noteRotation}deg) scale(${noteScale})`
-              } as React.CSSProperties);
-
-          return (
-            <div
-              className={`cell-mini-note-card style-${noteStyle} ${activities && activities.length > 0 && !notePos ? 'with-activities' : ''}`}
-              style={customStyle}
-              title={noteTooltip}
-              data-testid="cell-mini-note-sticker"
-            >
-              {/* Paper clip decor (Photo 4, cells 3, 24) */}
-              {noteStyle === 'paper-clip' && (
-                <div className="mini-note-clip-decor" aria-hidden="true">
-                  <svg viewBox="0 0 14 26" fill="none" className="mini-clip-svg">
-                    <path
-                      d="M3.5 2.5v16a4 4 0 0 0 8 0v-13a2.5 2.5 0 0 0-5 0v12.5"
-                      stroke="#4E7C4B"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-              )}
-
-              {/* Washi tape decor (Photo 4, cell 14) */}
-              {noteStyle === 'washi-tape' && (
-                <>
-                  <div className="mini-note-washi washi-top-left" aria-hidden="true" />
-                  <div className="mini-note-washi washi-top-right" aria-hidden="true" />
-                </>
-              )}
-
-              {/* Dark craft washi strip (Photo 4, cell 14) */}
-              {noteStyle === 'dark-craft' && (
-                <div className="mini-note-washi washi-craft-strip" aria-hidden="true" />
-              )}
-
-              {/* Spiral pad holes */}
-              {noteStyle === 'spiral-pad' && (
-                <div className="mini-note-spirals" aria-hidden="true">
-                  <span className="mini-spiral-hole" />
-                  <span className="mini-spiral-hole" />
-                  <span className="mini-spiral-hole" />
-                  <span className="mini-spiral-hole" />
-                </div>
-              )}
-
-              {/* Ribbon card bow */}
-              {noteStyle === 'ribbon-card' && (
-                <div className="mini-note-ribbon" aria-hidden="true">
-                  🎀
-                </div>
-              )}
-
-              {/* Tag hole */}
-              {noteStyle === 'tag' && (
-                <div className="mini-note-tag-hole" aria-hidden="true" />
-              )}
-
-              {/* Realistic ruled lines placeholder - note text is shown via title tooltip */}
-              <div className="mini-note-ruled-lines" aria-hidden="true">
-                <span className="mini-rule-line" />
-                <span className="mini-rule-line" />
-                <span className="mini-rule-line" />
+        {hasNote && (
+          <div
+            className={`cell-mini-note-card style-${noteStyle} ${activities && activities.length > 0 ? 'with-activities' : ''}`}
+            style={{
+              '--mini-note-rot': `${noteRotation}deg`,
+              transform: `rotate(${noteRotation}deg)`
+            } as React.CSSProperties}
+            title={noteTooltip}
+            data-testid="cell-mini-note-sticker"
+          >
+            {/* Paper clip decor (Photo 4, cells 3, 24) */}
+            {noteStyle === 'paper-clip' && (
+              <div className="mini-note-clip-decor" aria-hidden="true">
+                <svg viewBox="0 0 14 26" fill="none" className="mini-clip-svg">
+                  <path
+                    d="M3.5 2.5v16a4 4 0 0 0 8 0v-13a2.5 2.5 0 0 0-5 0v12.5"
+                    stroke="#4E7C4B"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
-            </div>
-          );
-        })()}
+            )}
 
-        {/* Activity Badges: custom positioned or in non-overlapping flow row */}
-        {activities && activities.length > 0 && (() => {
-          const hasAnyCustomPos = Boolean(
-            dayInfo.markerPositions?.['note'] ||
-            activities.some((actId) => Boolean(dayInfo.markerPositions?.[actId]))
-          );
-
-          if (hasAnyCustomPos) {
-            return (
+            {/* Washi tape decor (Photo 4, cell 14) */}
+            {noteStyle === 'washi-tape' && (
               <>
-                {activities.map((actId, idx) => {
-                  const act = ACTIVITY_MAP[actId];
-                  // Non-overlapping fallback coordinates in quadrants
-                  const defaultPos: { x: number; y: number; scale?: number } = hasNote
-                    ? [
-                        { x: 20, y: -8, scale: 1.0 },
-                        { x: 20, y: 14, scale: 1.0 },
-                        { x: -20, y: 14, scale: 1.0 }
-                      ][idx % 3]
-                    : [
-                        { x: -20, y: 0, scale: 1.0 },
-                        { x: 0, y: 0, scale: 1.0 },
-                        { x: 20, y: 0, scale: 1.0 }
-                      ][idx % 3];
-
-                  const pos = dayInfo.markerPositions?.[actId] || defaultPos;
-                  const scale = Math.min(1.25, Math.max(0.4, pos.scale ?? 1.0));
-                  return (
-                    <div
-                      key={actId}
-                      className="cell-activity-mini-icon custom-placed"
-                      style={{
-                        position: 'absolute',
-                        left: `calc(50% + ${pos.x}%)`,
-                        top: `calc(50% + ${pos.y}%)`,
-                        transform: `translate(-50%, -50%) scale(${scale})`,
-                        zIndex: 5
-                      }}
-                      title={act?.label || actId}
-                    >
-                      {act?.iconImage ? (
-                        <img src={`./${act.iconImage}?v=circle`} alt={act?.label || actId} />
-                      ) : (
-                        <span>{act?.emoji || '🏷️'}</span>
-                      )}
-                    </div>
-                  );
-                })}
+                <div className="mini-note-washi washi-top-left" aria-hidden="true" />
+                <div className="mini-note-washi washi-top-right" aria-hidden="true" />
               </>
-            );
-          }
+            )}
 
+            {/* Dark craft washi strip (Photo 4, cell 14) */}
+            {noteStyle === 'dark-craft' && (
+              <div className="mini-note-washi washi-craft-strip" aria-hidden="true" />
+            )}
+
+            {/* Spiral pad holes */}
+            {noteStyle === 'spiral-pad' && (
+              <div className="mini-note-spirals" aria-hidden="true">
+                <span className="mini-spiral-hole" />
+                <span className="mini-spiral-hole" />
+                <span className="mini-spiral-hole" />
+                <span className="mini-spiral-hole" />
+              </div>
+            )}
+
+            {/* Ribbon card bow */}
+            {noteStyle === 'ribbon-card' && (
+              <div className="mini-note-ribbon" aria-hidden="true">
+                🎀
+              </div>
+            )}
+
+            {/* Tag hole */}
+            {noteStyle === 'tag' && (
+              <div className="mini-note-tag-hole" aria-hidden="true" />
+            )}
+
+            {/* Realistic ruled lines placeholder - note text is shown via title tooltip */}
+            <div className="mini-note-ruled-lines" aria-hidden="true">
+              <span className="mini-rule-line" />
+              <span className="mini-rule-line" />
+              <span className="mini-rule-line" />
+            </div>
+          </div>
+        )}
+
+        {/* Activity Badges: ALWAYS in neat, automatic horizontal flex row */}
+        {activities && activities.length > 0 && (() => {
           // Flow layout: if note is present, show max 2 compact badges so they never crowd or clump
           const maxVisible = hasNote ? 2 : 3;
           const visibleActivities = activities.slice(0, maxVisible);

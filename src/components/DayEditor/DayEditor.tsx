@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import {
   X,
-  RefreshCw,
-  ZoomIn
+  RefreshCw
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { formatFullDateRU } from '../../utils/dateUtils';
 import { LifeTrackerModal } from '../LifeTrackerModal/LifeTrackerModal';
-import { ScrapbookCellZoom } from '../ScrapbookCellZoom/ScrapbookCellZoom';
 import { JournalPageModal } from '../JournalPageModal/JournalPageModal';
 import { ACTIVITY_PRESETS } from '../../data/lifeTrackerData';
 import { triggerHaptic, playBubbleTap } from '../../services/soundEffects';
@@ -29,7 +27,6 @@ export const DayEditor: React.FC = () => {
 
   // Life Tracker & Scrapbook Journal modals
   const [isLifeTrackerOpen, setIsLifeTrackerOpen] = useState(false);
-  const [isScrapbookZoomOpen, setIsScrapbookZoomOpen] = useState(false);
   const [isJournalPageOpen, setIsJournalPageOpen] = useState(false);
 
   // Cycle change confirmation modal
@@ -264,18 +261,6 @@ export const DayEditor: React.FC = () => {
                   })}
                 </div>
               </div>
-
-              {/* Zoom & Free Drag Button */}
-              <button
-                className="btn-zoom-editor-trigger"
-                onClick={() => {
-                  playBubbleTap(settings.soundEnabled !== false);
-                  setIsScrapbookZoomOpen(true);
-                }}
-              >
-                <ZoomIn size={16} />
-                <span>Увеличить окошко и свободно расставить значки</span>
-              </button>
             </div>
           </div>
 
@@ -396,23 +381,6 @@ export const DayEditor: React.FC = () => {
           }}
           onOpenZoomCanvas={() => {
             setIsLifeTrackerOpen(false);
-            setIsScrapbookZoomOpen(true);
-          }}
-        />
-      )}
-
-      {/* Scrapbook Day Zoom Modal */}
-      {isScrapbookZoomOpen && (
-        <ScrapbookCellZoom
-          date={selectedDate}
-          onClose={() => setIsScrapbookZoomOpen(false)}
-          onOpenLifeTracker={() => {
-            setIsScrapbookZoomOpen(false);
-            setIsLifeTrackerOpen(true);
-          }}
-          onOpenNoteSticker={() => {
-            setIsScrapbookZoomOpen(false);
-            setIsJournalPageOpen(true);
           }}
         />
       )}

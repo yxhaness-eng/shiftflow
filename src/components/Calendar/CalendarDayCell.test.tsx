@@ -185,4 +185,32 @@ describe('CalendarDayCell component', () => {
     expect(cell?.classList.contains('other-month')).toBe(true);
     expect(container.querySelector('.day-number.today-badge')).toBeDefined();
   });
+
+  it('ignores markerPositions and strictly renders automatic flex row without custom-placed absolute styling', () => {
+    const dayInfo: ResolvedDayInfo = {
+      ...baseDayInfo,
+      note: 'План на день',
+      activities: ['date', 'workout'],
+      markerPositions: {
+        note: { x: -45, y: -20, scale: 1.5 },
+        date: { x: 30, y: 15, scale: 0.8 },
+        workout: { x: -10, y: 35, scale: 1.1 }
+      }
+    };
+
+    const { container } = render(
+      <CalendarDayCell dayInfo={dayInfo} onClick={vi.fn()} />
+    );
+
+    // Note card is rendered in normal flex flow with with-activities class
+    const noteCard = container.querySelector('.cell-mini-note-card');
+    expect(noteCard).toBeDefined();
+    expect(noteCard?.classList.contains('with-activities')).toBe(true);
+    expect((noteCard as HTMLElement)?.style.position).not.toBe('absolute');
+
+    // Activities are rendered in cell-activities-row, NOT with custom-placed
+    const activitiesRow = container.querySelector('.cell-activities-row');
+    expect(activitiesRow).toBeDefined();
+    expect(container.querySelector('.custom-placed')).toBeNull();
+  });
 });

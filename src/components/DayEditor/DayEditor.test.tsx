@@ -53,6 +53,10 @@ describe('Day Resolution and DayEditor Render', () => {
       screen.getByText(/Оформить мысли, выбрать стикер со скрепкой или скотчем/i)
     ).toBeDefined();
 
+    // Requirement 3: Manual drag trigger ("Оформление окошка" / btn-zoom-editor-trigger) is removed
+    expect(screen.queryByText(/Увеличить окошко/i)).toBeNull();
+    expect(document.querySelector('.btn-zoom-editor-trigger')).toBeNull();
+
     // Clicking unified card opens JournalPageModal
     const journalCard = screen.getByText('Заметка и страничка ежедневника').closest('.scrapbook-shortcut-card')!;
     fireEvent.click(journalCard);
