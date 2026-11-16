@@ -1,0 +1,366 @@
+[
+  {
+    "id": "botanical_sage_herb",
+    "name": "Шалфейная веточка",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_sage_herb.webp",
+    "description": "Ароматный шалфей для гербария"
+  },
+  {
+    "id": "botanical_terracotta_leaves",
+    "name": "Терракотовые листья",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_terracotta_leaves.webp",
+    "description": "Осенние тёплые терракотовые листочки"
+  },
+  {
+    "id": "botanical_green_daisy",
+    "name": "Полевые ромашки",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_green_daisy.webp",
+    "description": "Нежные акварельные полевые ромашки"
+  },
+  {
+    "id": "botanical_warm_twigs",
+    "name": "Тёплые веточки",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_warm_twigs.webp",
+    "description": "Уютные высушенные веточки"
+  },
+  {
+    "id": "botanical_dusty_wildflower",
+    "name": "Пыльный колосок",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_dusty_wildflower.webp",
+    "description": "Ботанический пыльно-розовый сухоцвет"
+  },
+  {
+    "id": "botanical_blush_branch",
+    "name": "Нежная ветвь",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_blush_branch.webp",
+    "description": "Изящная пастельная акварельная веточка"
+  },
+  {
+    "id": "botanical_taupe_dill",
+    "name": "Соцветие укропа",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_taupe_dill.webp",
+    "description": "Высушенное зонтичное соцветие"
+  },
+  {
+    "id": "botanical_olive_berries",
+    "name": "Оливковые ягоды",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_olive_berries.webp",
+    "description": "Оливковая ветвь с сочными ягодами"
+  },
+  {
+    "id": "botanical_forest_eucalyptus",
+    "name": "Лесной эвкалипт",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/botanical_forest_eucalyptus.webp",
+    "description": "Акварельный лесной эвкалипт"
+  },
+  {
+    "id": "flower_lavender_stem",
+    "name": "Сушёная лаванда",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_lavender_stem.webp",
+    "description": "Ароматная веточка сушёной лаванды"
+  },
+  {
+    "id": "flower_peony_blush",
+    "name": "Чайная роза",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_peony_blush.webp",
+    "description": "Прессованный бутон чайной розы"
+  },
+  {
+    "id": "flower_white_peony",
+    "name": "Белый пион",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_white_peony.webp",
+    "description": "Воздушный прессованный белый пион"
+  },
+  {
+    "id": "flower_purple_hydrangea",
+    "name": "Сиреневая гортензия",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_purple_hydrangea.webp",
+    "description": "Нежное соцветие сушёной сиреневой гортензии"
+  },
+  {
+    "id": "flower_daisy_chamomile",
+    "name": "Прессованная ромашка",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_daisy_chamomile.webp",
+    "description": "Аптечная ромашка для травяного гербария"
+  },
+  {
+    "id": "flower_pink_hydrangea",
+    "name": "Розовая гортензия",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_pink_hydrangea.webp",
+    "description": "Нежный розовый сухоцвет гортензии"
+  },
+  {
+    "id": "flower_eucalyptus_branch",
+    "name": "Листья эвкалипта",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_eucalyptus_branch.webp",
+    "description": "Сушёная ветка эвкалипта"
+  },
+  {
+    "id": "flower_cosmos_pink",
+    "name": "Розовая космея",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_cosmos_pink.webp",
+    "description": "Прессованный цветок розовой космеи"
+  },
+  {
+    "id": "flower_anemone_violet",
+    "name": "Фиолетовый анемон",
+    "category": "Гербарий и сухоцветы",
+    "imagePath": "stickers/journal/flower_anemone_violet.webp",
+    "description": "Изящный фиолетовый анемон"
+  },
+  {
+    "id": "cozy_teddy_bear",
+    "name": "Мишка Тедди",
+    "category": "Уютный скрапбук",
+    "imagePath": "stickers/journal/cozy_teddy_bear.webp",
+    "description": "Винтажный плюшевый мишка для душевного тепла"
+  },
+  {
+    "id": "cozy_camera",
+    "name": "Винтажная камера",
+    "category": "Уютный скрапбук",
+    "imagePath": "stickers/journal/cozy_camera.webp",
+    "description": "Ретро-фотоаппарат для памятных моментов"
+  },
+  {
+    "id": "cozy_books_stack",
+    "name": "Стопка книг",
+    "category": "Уютный скрапбук",
+    "imagePath": "stickers/journal/cozy_books_stack.webp",
+    "description": "Уютная стопка книг для вечернего чтения"
+  },
+  {
+    "id": "cozy_tea_bag",
+    "name": "Пакетик чая",
+    "category": "Уютный скрапбук",
+    "imagePath": "stickers/journal/cozy_tea_bag.webp",
+    "description": "Травяной чай для спокойного вечера"
+  },
+  {
+    "id": "cozy_pinecone",
+    "name": "Лесная шишка",
+    "category": "Уютный скрапбук",
+    "imagePath": "stickers/journal/cozy_pinecone.webp",
+    "description": "Природная сосновая шишка для осенней странички"
+  },
+  {
+    "id": "vintage_postage_stamp",
+    "name": "Почтовая марка",
+    "category": "Винтаж",
+    "imagePath": "stickers/journal/vintage_postage_stamp.webp",
+    "description": "Коллекционная винтажная почтовая марка"
+  },
+  {
+    "id": "vintage_wax_seal",
+    "name": "Сургучная печать",
+    "category": "Винтаж",
+    "imagePath": "stickers/journal/vintage_wax_seal.webp",
+    "description": "Благородная бордовая сургучная печать"
+  },
+  {
+    "id": "vintage_travel_ticket",
+    "name": "Билетик Admit One",
+    "category": "Винтаж",
+    "imagePath": "stickers/journal/vintage_travel_ticket.webp",
+    "description": "Винтажный входной билетик для путешествий"
+  },
+  {
+    "id": "vintage_olive_butterfly",
+    "name": "Оливковая бабочка",
+    "category": "Винтаж",
+    "imagePath": "stickers/journal/vintage_olive_butterfly.webp",
+    "description": "Шелковая ботаническая бабочка"
+  },
+  {
+    "id": "vintage_postcard",
+    "name": "Старинная открытка",
+    "category": "Винтаж",
+    "imagePath": "stickers/journal/vintage_postcard.webp",
+    "description": "Антикварная открытка с каллиграфией"
+  },
+  {
+    "id": "vintage_lantern",
+    "name": "Старинный фонарь",
+    "category": "Винтаж",
+    "imagePath": "stickers/journal/vintage_lantern.webp",
+    "description": "Винтажный фонарь с тёплым светом"
+  },
+  {
+    "id": "washi_stripes",
+    "name": "Скотч в полоску",
+    "category": "Васи-скотч и ленты",
+    "imagePath": "stickers/journal/washi_stripes.webp",
+    "description": "Винтажная декоративная клейкая лента в полоску"
+  },
+  {
+    "id": "washi_polka",
+    "name": "Скотч в горошек",
+    "category": "Васи-скотч и ленты",
+    "imagePath": "stickers/journal/washi_polka.webp",
+    "description": "Декоративный васи-скотч в крапинку"
+  },
+  {
+    "id": "washi_hearts",
+    "name": "Скотч с сердечками",
+    "category": "Васи-скотч и ленты",
+    "imagePath": "stickers/journal/washi_hearts.webp",
+    "description": "Уютная клейкая лента с сердечками"
+  },
+  {
+    "id": "washi_flower_tape",
+    "name": "Скотч с цветком",
+    "category": "Васи-скотч и ленты",
+    "imagePath": "stickers/notes/lined-tape.webp",
+    "description": "Полоска скотча с засушенным лепестком"
+  },
+  {
+    "id": "paper_clip_grid",
+    "name": "Скрепка на листке",
+    "category": "Васи-скотч и ленты",
+    "imagePath": "stickers/notes/grid-clip.webp",
+    "description": "Металлическая канцелярская скрепка на заметке"
+  },
+  {
+    "id": "ribbon_bow_card",
+    "name": "Лента с бантиком",
+    "category": "Васи-скотч и ленты",
+    "imagePath": "stickers/notes/ribbon-card.webp",
+    "description": "Элегантный шелковый бант на открытке"
+  },
+  {
+    "id": "binder_clip_craft",
+    "name": "Бумажный зажим",
+    "category": "Васи-скотч и ленты",
+    "imagePath": "stickers/notes/binder-grid.webp",
+    "description": "Металлический зажим для листов бумаги"
+  },
+  {
+    "id": "life_wine",
+    "name": "Бокалы вина",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/wine.webp",
+    "description": "Бокалы вина для свидания или душевного вечера"
+  },
+  {
+    "id": "life_food",
+    "name": "Кофе и сладости",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/food.webp",
+    "description": "Чашечка горячего кофе и вкусный десерт"
+  },
+  {
+    "id": "life_movie",
+    "name": "Кино и сериал",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/movie.webp",
+    "description": "Уютный вечер за просмотром любимого фильма"
+  },
+  {
+    "id": "life_trip",
+    "name": "Путешествие",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/trip.webp",
+    "description": "Поездка, прогулка на природе или путешествие"
+  },
+  {
+    "id": "life_gift",
+    "name": "Подарочек",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/gift.webp",
+    "description": "Приятный подарок, сюрприз и праздничное настроение"
+  },
+  {
+    "id": "life_star",
+    "name": "Супер-день",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/star.webp",
+    "description": "Золотая звёздочка — великолепный продуктивный день"
+  },
+  {
+    "id": "life_love",
+    "name": "Сердце любви",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/love.webp",
+    "description": "Любовь, романтика и самые нежные чувства"
+  },
+  {
+    "id": "life_beauty",
+    "name": "Бьюти и забота",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/beauty.webp",
+    "description": "Уход за собой, спа, масочки и расслабление"
+  },
+  {
+    "id": "life_cooking",
+    "name": "Домашняя кухня",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/cooking.webp",
+    "description": "Приготовление вкусных блюд и домашняя выпечка"
+  },
+  {
+    "id": "life_shopping",
+    "name": "Шопинг",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/shopping.webp",
+    "description": "Покупки для настроения, подарки и обновы"
+  },
+  {
+    "id": "life_sleep",
+    "name": "Сладкий сон",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/sleep.webp",
+    "description": "Полноценный сон, отдых и восстановление энергии"
+  },
+  {
+    "id": "life_chat",
+    "name": "Тёплые беседы",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/chat.webp",
+    "description": "Душевные разговоры, звонки и встречи с друзьями"
+  },
+  {
+    "id": "life_workout",
+    "name": "Тренировка",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/workout.webp",
+    "description": "Спорт, растяжка, йога и бодрость духа"
+  },
+  {
+    "id": "life_broom",
+    "name": "Уборка и порядок",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/broom.webp",
+    "description": "Наведение чистоты, уюта и расхламление"
+  },
+  {
+    "id": "life_laundry",
+    "name": "Свежесть и стирка",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/laundry.webp",
+    "description": "Домашний уют, чистота и свежее белье"
+  },
+  {
+    "id": "life_intimate",
+    "name": "Особый момент",
+    "category": "Жизнь и настроение",
+    "imagePath": "stickers/life/intimate.webp",
+    "description": "Романтический и страстный вечер для двоих"
+  }
+]
