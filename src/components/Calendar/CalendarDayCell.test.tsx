@@ -213,4 +213,50 @@ describe('CalendarDayCell component', () => {
     expect(activitiesRow).toBeDefined();
     expect(container.querySelector('.custom-placed')).toBeNull();
   });
+
+  it('renders note sticker in cell-header next to day number, keeping center area clean', () => {
+    const dayInfo: ResolvedDayInfo = {
+      ...baseDayInfo,
+      note: 'Секретик',
+      activities: ['workout', 'date']
+    };
+
+    const { container } = render(
+      <CalendarDayCell dayInfo={dayInfo} onClick={vi.fn()} />
+    );
+
+    const cellHeader = container.querySelector('.cell-header');
+    expect(cellHeader).not.toBeNull();
+
+    // Both day number and note sticker card are inside cell-header
+    const dayNumberSpan = cellHeader?.querySelector('.day-number');
+    const noteCard = cellHeader?.querySelector('.cell-mini-note-card');
+    expect(dayNumberSpan).not.toBeNull();
+    expect(noteCard).not.toBeNull();
+
+    // Center area (cell-stickers-container) holds activities, not noteCard
+    const centerArea = container.querySelector('.cell-stickers-container');
+    expect(centerArea?.querySelector('.cell-mini-note-card')).toBeNull();
+    expect(centerArea?.querySelector('.cell-activities-row')).not.toBeNull();
+  });
+
+  it('supports new note sticker styles: pushpin, washi-corner, torn-edge, clean-note', () => {
+    const dayInfoPushpin: ResolvedDayInfo = {
+      ...baseDayInfo,
+      noteSticker: {
+        style: 'pushpin',
+        text: 'Пин',
+        x: 0,
+        y: 0
+      }
+    };
+
+    const { container } = render(
+      <CalendarDayCell dayInfo={dayInfoPushpin} onClick={vi.fn()} />
+    );
+
+    const card = container.querySelector('.cell-mini-note-card.style-pushpin');
+    expect(card).not.toBeNull();
+    expect(container.querySelector('.mini-note-pin-decor')).not.toBeNull();
+  });
 });

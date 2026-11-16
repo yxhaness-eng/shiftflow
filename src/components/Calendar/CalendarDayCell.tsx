@@ -108,16 +108,13 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
         }
       }}
     >
-      {/* Cell Header: Day Number */}
+      {/* Cell Header: Day Number & Mini Note Sticker Icon (Photo/User Request) */}
       <div className="cell-header">
         <span className={`day-number ${isWeekend ? 'weekend-day' : ''} ${isToday ? 'today-badge' : ''}`}>
           {dayNumber}
         </span>
-      </div>
 
-      {/* Center Area: Mini Note Sticker, Activity Badges & Placed Stickers */}
-      <div className="cell-stickers-container">
-        {/* Authentic Mini Paper Sticker with Paper Clip / Washi Tape (Photo 4) */}
+        {/* Note sticker badge next to the date number */}
         {hasNote && (
           <div
             className={`cell-mini-note-card style-${noteStyle} ${activities && activities.length > 0 ? 'with-activities' : ''}`}
@@ -143,12 +140,21 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
               </div>
             )}
 
-            {/* Washi tape decor (Photo 4, cell 14) */}
-            {noteStyle === 'washi-tape' && (
-              <>
-                <div className="mini-note-washi washi-top-left" aria-hidden="true" />
-                <div className="mini-note-washi washi-top-right" aria-hidden="true" />
-              </>
+            {/* Pushpin decor (Voice: "с булавками") */}
+            {noteStyle === 'pushpin' && (
+              <div className="mini-note-pin-decor" aria-hidden="true">
+                <span className="mini-pin-dot" />
+              </div>
+            )}
+
+            {/* Corner washi tape (Voice: "со скотчем сбоку") */}
+            {noteStyle === 'washi-corner' && (
+              <div className="mini-note-washi washi-corner-strip" aria-hidden="true" />
+            )}
+
+            {/* Center washi tape (Voice: "со скотчем посередине") */}
+            {(noteStyle === 'washi-tape' || noteStyle === 'washi-center') && (
+              <div className="mini-note-washi washi-center-strip" aria-hidden="true" />
             )}
 
             {/* Dark craft washi strip (Photo 4, cell 14) */}
@@ -156,7 +162,7 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
               <div className="mini-note-washi washi-craft-strip" aria-hidden="true" />
             )}
 
-            {/* Spiral pad holes */}
+            {/* Spiral pad holes (Voice: "с дырочками сверху") */}
             {noteStyle === 'spiral-pad' && (
               <div className="mini-note-spirals" aria-hidden="true">
                 <span className="mini-spiral-hole" />
@@ -186,14 +192,16 @@ export const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
             </div>
           </div>
         )}
+      </div>
 
+      {/* Center Area: Activity Badges & Placed Stickers */}
+      <div className="cell-stickers-container">
         {/* Activity Badges: ALWAYS in neat, automatic horizontal flex row */}
         {activities && activities.length > 0 && (() => {
-          // Flow layout: if note is present, show max 2 compact badges so they never crowd or clump
-          const maxVisible = hasNote ? 2 : 3;
+          const maxVisible = 3;
           const visibleActivities = activities.slice(0, maxVisible);
           const hiddenCount = activities.length - maxVisible;
-          const isCompact = hasNote || hiddenCount > 0;
+          const isCompact = hiddenCount > 0;
 
           return (
             <div className={`cell-activities-row ${isCompact ? 'compact' : ''}`}>

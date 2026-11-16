@@ -182,8 +182,16 @@
 .cell-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 3px;
   width: 100%;
+  min-height: 20px;
+}
+
+.cell-header .cell-mini-note-card {
+  margin: 0 !important;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .day-number {
@@ -193,13 +201,14 @@
   color: var(--cal-cell-text);
   line-height: 1;
   width: auto;
-  min-width: 22px;
-  height: 22px;
+  min-width: 20px;
+  height: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-round);
   letter-spacing: 0.3px;
+  flex-shrink: 0;
 }
 
 .day-number.weekend-day:not(.other-month) {
@@ -207,12 +216,27 @@
 }
 
 .day-number.today-badge {
-  background-color: var(--cal-cell-today-border, var(--accent-lavender));
-  color: var(--cal-cell-today-number-color, #ffffff);
-  box-shadow: var(--shadow-soft);
+  background-color: rgba(184, 107, 120, 0.16) !important;
+  color: #7D2838 !important;
+  border: 1.5px solid var(--cal-cell-today-border, #C47A88) !important;
+  box-shadow: 0 1px 3px rgba(184, 107, 120, 0.18);
   font-size: 1.15rem;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  border-radius: 50%;
+  font-family: 'Caveat', cursive, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.day-number.today-badge.weekend-day {
+  background-color: rgba(217, 154, 164, 0.22) !important;
+  color: #8C2B3E !important;
+  border-color: #D99AA4 !important;
 }
 
 .note-indicator {
@@ -2409,9 +2433,77 @@ input:checked + .slider-round:before {
 }
 
 /* Style: Washi Tape (Craft paper with washi tape) */
-.cell-mini-note-card.style-washi-tape {
+.cell-mini-note-card.style-washi-tape,
+.cell-mini-note-card.style-washi-center {
   background-color: #F6EDE0;
   border: 1px solid #D8C7B0;
+}
+
+/* Style: Pushpin (Ivory note with golden pin) */
+.cell-mini-note-card.style-pushpin {
+  background-color: #FAF8F2;
+  border: 1px solid #DCD4C4;
+}
+
+.mini-note-pin-decor {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background: radial-gradient(circle at 35% 35%, #FDE08B, #D49A24 60%, #8A5B0B 100%);
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Style: Washi Corner */
+.cell-mini-note-card.style-washi-corner {
+  background-color: #F8F2E8;
+  border: 1px solid #D9CBBA;
+}
+
+.washi-corner-strip {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 7px;
+  height: 3px;
+  transform: rotate(35deg);
+  background: rgba(214, 168, 142, 0.95);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.washi-center-strip {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 3px;
+  background: rgba(210, 160, 130, 0.95);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Style: Torn Edge */
+.cell-mini-note-card.style-torn-edge {
+  background-color: #FAF3E8;
+  border: 1px solid #DFCFBA;
+  border-bottom: none;
+  clip-path: polygon(0 0, 100% 0, 100% 82%, 85% 100%, 70% 84%, 55% 100%, 40% 84%, 25% 100%, 10% 84%, 0 100%);
+}
+
+/* Style: Clean Note */
+.cell-mini-note-card.style-clean-note {
+  background-color: #FFFFFF;
+  border: 1px solid #D8D2C6;
+  border-radius: 2px;
 }
 
 /* Style: Dark Craft (Deep forest olive craft - Photo 4 cell 14) */
@@ -2969,8 +3061,25 @@ input:checked + .slider-round:before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='6' width='22' height='22' rx='2.5' fill='%23FFFDF9' stroke='%23D4C4B5' stroke-width='1.2'/%3E%3Cline x1='9' y1='13' x2='23' y2='13' stroke='%23E0D6CB' stroke-width='1'/%3E%3Cline x1='9' y1='17' x2='23' y2='17' stroke='%23E0D6CB' stroke-width='1'/%3E%3Cline x1='9' y1='21' x2='19' y2='21' stroke='%23E0D6CB' stroke-width='1'/%3E%3Cpath d='M13 2 v11 a3 3 0 0 0 6 0 V5 a2 2 0 0 0-4 0 v8' fill='none' stroke='%234E7C4B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
-.style-icon-washi-tape {
+.style-icon-pushpin {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='6' width='22' height='22' rx='2.5' fill='%23FFFDF9' stroke='%23D4C4B5' stroke-width='1.2'/%3E%3Cline x1='9' y1='13' x2='23' y2='13' stroke='%23E0D6CB' stroke-width='1'/%3E%3Cline x1='9' y1='17' x2='23' y2='17' stroke='%23E0D6CB' stroke-width='1'/%3E%3Ccircle cx='16' cy='5' r='3.5' fill='%23E5A630' stroke='%239E670B' stroke-width='1'/%3E%3Ccircle cx='14.5' cy='3.5' r='1' fill='%23FFF' opacity='0.8'/%3E%3C/svg%3E");
+}
+
+.style-icon-washi-tape,
+.style-icon-washi-center {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='7' width='22' height='21' rx='2.5' fill='%23FFFDF9' stroke='%23D4C4B5' stroke-width='1.2'/%3E%3Cline x1='9' y1='14' x2='23' y2='14' stroke='%23E0D6CB' stroke-width='1'/%3E%3Cline x1='9' y1='18' x2='23' y2='18' stroke='%23E0D6CB' stroke-width='1'/%3E%3Crect x='10' y='4' width='12' height='6' rx='1' fill='%23C78B6C' opacity='0.9' transform='rotate(-2 16 7)'/%3E%3C/svg%3E");
+}
+
+.style-icon-washi-corner {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='7' width='22' height='21' rx='2.5' fill='%23FFFDF9' stroke='%23D4C4B5' stroke-width='1.2'/%3E%3Cline x1='9' y1='14' x2='23' y2='14' stroke='%23E0D6CB' stroke-width='1'/%3E%3Cline x1='9' y1='18' x2='23' y2='18' stroke='%23E0D6CB' stroke-width='1'/%3E%3Cpolygon points='20,4 28,4 30,12 22,12' fill='%23C78B6C' opacity='0.9' transform='rotate(15 25 8)'/%3E%3C/svg%3E");
+}
+
+.style-icon-torn-edge {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='5,6 27,6 27,24 25,27 22,23 19,27 16,23 13,27 10,23 7,27 5,24' fill='%23F7EFE4' stroke='%23D4C4B5' stroke-width='1.2'/%3E%3Cline x1='9' y1='12' x2='23' y2='12' stroke='%23E0D6CB' stroke-width='1'/%3E%3Cline x1='9' y1='16' x2='23' y2='16' stroke='%23E0D6CB' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+.style-icon-clean-note {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='6' width='22' height='22' rx='1.5' fill='%23FFFFFF' stroke='%23CFC7BA' stroke-width='1.2'/%3E%3Cline x1='8' y1='12' x2='24' y2='12' stroke='%23E8DFD3' stroke-width='1'/%3E%3Cline x1='8' y1='16' x2='24' y2='16' stroke='%23E8DFD3' stroke-width='1'/%3E%3Cline x1='8' y1='20' x2='20' y2='20' stroke='%23E8DFD3' stroke-width='1'/%3E%3C/svg%3E");
 }
 
 .style-icon-spiral-pad {
@@ -3886,8 +3995,34 @@ input:checked + .slider-round:before {
   border-radius: 20px;
 }
 
-.journal-sheet-paper.note-paper-authentic.style-washi-tape {
+.journal-sheet-paper.note-paper-authentic.style-pushpin {
   border-radius: 20px;
+}
+
+.journal-sheet-paper.note-paper-authentic.style-washi-tape,
+.journal-sheet-paper.note-paper-authentic.style-washi-corner {
+  border-radius: 20px;
+}
+
+.journal-sheet-paper.note-paper-authentic.style-torn-edge {
+  border-radius: 16px 16px 0 0;
+  background-color: #FAF4EB;
+  border-color: #E2D3BE;
+  clip-path: polygon(
+    0% 0%, 100% 0%, 100% calc(100% - 10px),
+    97% 100%, 94% calc(100% - 8px), 91% 100%, 88% calc(100% - 6px), 85% 100%,
+    81% calc(100% - 9px), 77% 100%, 73% calc(100% - 7px), 69% 100%, 65% calc(100% - 8px),
+    61% 100%, 57% calc(100% - 6px), 53% 100%, 49% calc(100% - 9px), 45% 100%,
+    41% calc(100% - 7px), 37% 100%, 33% calc(100% - 8px), 29% 100%, 25% calc(100% - 6px),
+    21% 100%, 17% calc(100% - 9px), 13% 100%, 9% calc(100% - 7px), 5% 100%,
+    0% calc(100% - 8px)
+  );
+}
+
+.journal-sheet-paper.note-paper-authentic.style-clean-note {
+  border-radius: 14px;
+  background-color: #FFFFFF;
+  border: 1.5px solid #E2DCD2;
 }
 
 .journal-sheet-paper.note-paper-authentic.style-spiral-pad {
@@ -3940,6 +4075,25 @@ input:checked + .slider-round:before {
   display: block;
 }
 
+/* Pushpin Decor */
+.sheet-pushpin-decor {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+.sheet-pushpin-svg {
+  width: 28px !important;
+  height: 28px !important;
+  display: block;
+}
+
 /* Washi Tape Top Decor */
 .sheet-washi-tape-decor.washi-top {
   position: absolute;
@@ -3949,6 +4103,22 @@ input:checked + .slider-round:before {
   width: 86px;
   height: 20px;
   background: rgba(214, 168, 142, 0.9);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-left: 2px dashed rgba(255, 255, 255, 0.5);
+  border-right: 2px dashed rgba(255, 255, 255, 0.5);
+  z-index: 8;
+  pointer-events: none;
+  border-radius: 1px;
+}
+
+.sheet-washi-tape-decor.washi-corner {
+  position: absolute;
+  top: -8px;
+  right: 24px;
+  transform: rotate(32deg);
+  width: 72px;
+  height: 22px;
+  background: rgba(220, 178, 150, 0.88);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-left: 2px dashed rgba(255, 255, 255, 0.5);
   border-right: 2px dashed rgba(255, 255, 255, 0.5);

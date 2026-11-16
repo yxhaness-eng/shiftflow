@@ -14,7 +14,11 @@ export interface NoteStickerChoice {
 
 export const NOTE_STICKER_CHOICES: NoteStickerChoice[] = [
   { style: 'paper-clip', label: 'Со скрепкой', icon: '📎', desc: 'Белый листочек с металлической скрепкой' },
+  { style: 'pushpin', label: 'С булавкой', icon: '📍', desc: 'Бумажка с золотистой булавкой' },
   { style: 'washi-tape', label: 'Со скотчем', icon: '🏷️', desc: 'Крафтовый стикер с декоративным скотчем' },
+  { style: 'washi-corner', label: 'Скотч сбоку', icon: '🩹', desc: 'Листочек со скотчем на уголке' },
+  { style: 'torn-edge', label: 'Ободранная', icon: '✂️', desc: 'Крафтовый стикер с неровным рваным краем' },
+  { style: 'clean-note', label: 'Ровная бумажка', icon: '📄', desc: 'Минималистичный ровный белый листочек' },
   { style: 'spiral-pad', label: 'Блокнот', icon: '📓', desc: 'Страничка из спирального блокнота' },
   { style: 'cloud', label: 'Облачко', icon: '☁️', desc: 'Нежное облачко для мыслей и секретиков' },
   { style: 'ribbon-card', label: 'С бантиком', icon: '🎀', desc: 'Элегантная карточка с аккуратным бантиком' },
@@ -158,6 +162,19 @@ export const JournalPageModal: React.FC<JournalPageModalProps> = ({ date, onClos
                   />
                 </svg>
               </div>
+            )}
+
+            {selectedStyle === 'pushpin' && (
+              <div className="sheet-pushpin-decor" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" className="sheet-pushpin-svg">
+                  <circle cx="14" cy="14" r="10" fill="#E5A630" stroke="#8A5B0B" strokeWidth="1.5" />
+                  <circle cx="11" cy="11" r="3.5" fill="#FFF2B2" opacity="0.8" />
+                </svg>
+              </div>
+            )}
+
+            {selectedStyle === 'washi-corner' && (
+              <div className="sheet-washi-tape-decor washi-corner" aria-hidden="true" />
             )}
 
             {selectedStyle === 'washi-tape' && (

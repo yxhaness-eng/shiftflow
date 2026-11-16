@@ -54,7 +54,12 @@ export interface IntimateEntry {
 
 export type NoteStickerStyle =
   | 'paper-clip'
+  | 'pushpin'
   | 'washi-tape'
+  | 'washi-corner'
+  | 'washi-center'
+  | 'torn-edge'
+  | 'clean-note'
   | 'spiral-pad'
   | 'cloud'
   | 'ribbon-card'

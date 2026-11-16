@@ -862,23 +862,36 @@ select:focus {
 
 .calendar-cell.is-today,
 .calendar-day-cell.is-today {
-  background-color: var(--cal-cell-today-bg) !important;
-  border-color: var(--cal-cell-today-border);
-  box-shadow: inset 0 0 0 2px var(--cal-cell-today-border);
+  background-color: var(--cal-cell-today-bg, #FFFBF7) !important;
+  border: 1.5px solid var(--cal-cell-today-border, #C47A88) !important;
+  box-shadow: 0 0 0 1px rgba(196, 122, 136, 0.25), 0 2px 6px rgba(100, 30, 40, 0.08) !important;
   z-index: 2;
 }
 
 .calendar-cell .day-number.today-badge,
 .calendar-day-cell .day-number.today-badge {
-  background-color: var(--cal-cell-today-border);
-  color: var(--cal-cell-today-number-color);
-  width: 24px;
-  height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-round);
-  font-size: 1.15rem;
+  background-color: rgba(184, 107, 120, 0.16) !important;
+  color: #7D2838 !important;
+  border: 1.5px solid var(--cal-cell-today-border, #C47A88) !important;
+  box-shadow: 0 1px 3px rgba(184, 107, 120, 0.18) !important;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: var(--radius-round) !important;
+  font-size: 1.15rem !important;
+  font-family: 'Caveat', cursive, sans-serif !important;
+  font-weight: 700;
+}
+
+.calendar-cell .day-number.today-badge.weekend-day,
+.calendar-day-cell .day-number.today-badge.weekend-day {
+  background-color: rgba(217, 154, 164, 0.22) !important;
+  color: #8C2B3E !important;
+  border-color: #D99AA4 !important;
 }
 
 .month-header-card {
